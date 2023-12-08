@@ -47,4 +47,14 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Wreck\Wreck.csproj">
+      <Project>{0C59166C-2F02-46AE-821B-DA6891F84B76}</Project>
+      <Name>Wreck</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Wreck\Wreck.csproj">
+      <Project>{0C59166C-2F02-46AE-821B-DA6891F84B76}</Project>
+      <Name>Wreck</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

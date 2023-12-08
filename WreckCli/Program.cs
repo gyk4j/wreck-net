@@ -1,5 +1,6 @@
 ﻿
 using System;
+using Wreck;
 
 namespace WreckCli
 {
@@ -7,12 +8,7 @@ namespace WreckCli
 	{
 		public static void Main(string[] args)
 		{
-			Console.WriteLine("Hello World!");
-			
-			// TODO: Implement Functionality Here
-			
-			Console.Write("Press any key to continue . . . ");
-			Console.ReadKey(true);
+			MyClass clazz = new MyClass();
 		}
 	}
 }
