@@ -8,7 +8,7 @@ namespace Wreck
 	/// Class with program entry point.
 	/// </summary>
 	internal sealed class Program
-	{
+	{		
 		/// <summary>
 		/// Program entry point.
 		/// </summary>
