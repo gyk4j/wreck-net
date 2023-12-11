@@ -1,14 +1,40 @@
 ﻿
 using System;
-using Wreck;
+using System.IO;
 
-namespace WreckCli
+namespace Wreck
 {
 	class Program
 	{
+		private Logger logger;
+		private Wreck wreck;
+		
 		public static void Main(string[] args)
 		{
-			MyClass clazz = new MyClass();
+			Program wreck = new Program();
+			
+			string[] dirs = (args.Length > 0)? args: new string[]{ Directory.GetCurrentDirectory() };
+			wreck.Run(args);
+			Console.ReadLine();
+		}
+		
+		public Program()
+		{
+			logger = new Logger();
+			wreck = new Wreck(logger);
+		}
+		
+		public void Run(string[] args)
+		{
+			logger.Version();
+			
+			foreach(string p in args)
+			{
+				logger.CurrentPath(p);
+				wreck.Walk(p);
+			}
+			
+			logger.Statistics(wreck.GetStatistics());
 		}
 	}
 }

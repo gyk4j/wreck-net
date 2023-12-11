@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace WreckGui
+namespace Wreck
 {
 	/// <summary>
 	/// Class with program entry point.
