@@ -40,7 +40,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyClass.cs" />
+    <Compile Include="ILogger.cs" />
+    <Compile Include="Statistics.cs" />
+    <Compile Include="Wreck.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
 </Project>

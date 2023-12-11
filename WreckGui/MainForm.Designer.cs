@@ -1,5 +1,5 @@
 ﻿
-namespace WreckGui
+namespace Wreck
 {
 	partial class MainForm
 	{
