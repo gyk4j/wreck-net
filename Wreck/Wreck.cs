@@ -73,8 +73,8 @@ namespace Wreck
 			
 			stats.Count(dir);
 			
-			DateTime? creation = null, lastWrite = null, lastAccess = null;
-			Extract(dir, ref creation, ref lastWrite, ref lastAccess);
+			DateTime? creation, lastWrite, lastAccess;
+			Extract(dir, out creation, out lastWrite, out lastAccess);
 			Correct(dir, creation, lastWrite, lastAccess);
 		}
 		
@@ -90,8 +90,8 @@ namespace Wreck
 			logger.CurrentFile(file);
 			stats.Count(file);
 			
-			DateTime? creation = null, lastWrite = null, lastAccess = null;
-			Extract(file, ref creation, ref lastWrite, ref lastAccess);
+			DateTime? creation, lastWrite, lastAccess;
+			Extract(file, out creation, out lastWrite, out lastAccess);
 			Correct(file, creation, lastWrite, lastAccess);
 		}
 		
@@ -109,9 +109,9 @@ namespace Wreck
 		/// <param name="lastAccess">Metadata access time</param>
 		public void Extract(
 			FileSystemInfo fsi,
-			ref DateTime? creation,
-			ref DateTime? lastWrite,
-			ref DateTime? lastAccess)
+			out DateTime? creation,
+			out DateTime? lastWrite,
+			out DateTime? lastAccess)
 		{
 			// TODO: To be updated with real metadata extraction calls
 			creation = null;
