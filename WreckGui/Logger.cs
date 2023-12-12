@@ -81,6 +81,31 @@ namespace Wreck
 			Debug.Print("Skipped reparse point: {0}", f.Name);
 		}
 		
+		// For Corrector
+		public void CorrectedByLastWriteMetadata(FileSystemInfo fsi, DateTime lastWrite)
+		{
+			Debug.Print("WM: {0} : {1} -> {2}", fsi.Name, fsi.LastWriteTime, lastWrite);
+		}
+		
+		public void CorrectedByCreationMetadata(FileSystemInfo fsi, DateTime creation)
+		{
+			Debug.Print("CM: {0} : {1} -> {2}", fsi.Name, fsi.CreationTime, creation);
+		}
+		
+		public void CorrectedByLastAccessMetadata(FileSystemInfo fsi, DateTime lastAccess)
+		{
+			Debug.Print("AM: {0} : {1} -> {2}", fsi.Name, fsi.LastAccessTime, lastAccess);
+		}
+		
+		public void CorrectedByLastWriteTime(FileSystemInfo fsi)
+		{
+			if(fsi.CreationTime.CompareTo(fsi.LastWriteTime) > 0)
+				Debug.Print("AM: {0} : {1} -> {2}", fsi.Name, fsi.CreationTime, fsi.LastWriteTime);
+			
+			if(fsi.LastAccessTime.CompareTo(fsi.LastWriteTime) > 0)
+				Debug.Print("AM: {0} : {1} -> {2}", fsi.Name, fsi.LastAccessTime, fsi.LastWriteTime);
+		}
+		
 		public void Statistics(Statistics stats)
 		{
 			ToolStripItem lblDirectoriesCount = this.form.getStatusStrip().Items["lblDirectoriesCount"];

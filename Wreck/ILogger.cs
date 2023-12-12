@@ -16,6 +16,10 @@ namespace Wreck
 		void CurrentDirectory(DirectoryInfo d);
 		void SkipReparsePoint(DirectoryInfo d);
 		void SkipReparsePoint(FileInfo f);
+		void CorrectedByLastWriteMetadata(FileSystemInfo fsi, DateTime lastWrite);
+		void CorrectedByCreationMetadata(FileSystemInfo fsi, DateTime creation);
+		void CorrectedByLastAccessMetadata(FileSystemInfo fsi, DateTime lastAccess);
+		void CorrectedByLastWriteTime(FileSystemInfo fsi);
 		void Statistics(Statistics stats);
 	}
 	

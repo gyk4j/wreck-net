@@ -21,7 +21,7 @@ namespace Wreck
 		public Program()
 		{
 			logger = new Logger();
-			wreck = new Wreck(logger);
+			wreck = new Wreck(logger, new Previewer());
 		}
 		
 		public void Run(string[] args)
