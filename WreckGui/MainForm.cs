@@ -29,7 +29,7 @@ namespace Wreck
 			// TODO: Add constructor code after the InitializeComponent() call.
 			//
 			this.logger = new Logger(this);
-			this.wreck = new Wreck(logger);
+			this.wreck = new Wreck(logger, new Previewer());
 			logger.Version();
 			logger.Statistics(wreck.GetStatistics());
 			

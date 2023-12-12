@@ -35,10 +35,10 @@ namespace Wreck
 			this.lblDirectoriesCount = new System.Windows.Forms.ToolStripStatusLabel();
 			this.lblFilesCount = new System.Windows.Forms.ToolStripStatusLabel();
 			this.lblSkippedCount = new System.Windows.Forms.ToolStripStatusLabel();
-			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+			this.toolStrip = new System.Windows.Forms.ToolStrip();
 			this.btnRun = new System.Windows.Forms.ToolStripButton();
 			this.statusStrip.SuspendLayout();
-			this.toolStrip1.SuspendLayout();
+			this.toolStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// treeViewPaths
@@ -49,6 +49,7 @@ namespace Wreck
 			this.treeViewPaths.Name = "treeViewPaths";
 			this.treeViewPaths.Size = new System.Drawing.Size(469, 321);
 			this.treeViewPaths.TabIndex = 1;
+			
 			// 
 			// statusStrip
 			// 
@@ -89,15 +90,15 @@ namespace Wreck
 			this.lblSkippedCount.Name = "lblSkippedCount";
 			this.lblSkippedCount.Size = new System.Drawing.Size(4, 17);
 			// 
-			// toolStrip1
+			// toolStrip
 			// 
-			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 									this.btnRun});
-			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(469, 25);
-			this.toolStrip1.TabIndex = 3;
-			this.toolStrip1.Text = "toolStrip1";
+			this.toolStrip.Location = new System.Drawing.Point(0, 0);
+			this.toolStrip.Name = "toolStrip";
+			this.toolStrip.Size = new System.Drawing.Size(469, 25);
+			this.toolStrip.TabIndex = 3;
+			this.toolStrip.Text = "toolStrip";
 			// 
 			// btnRun
 			// 
@@ -113,20 +114,20 @@ namespace Wreck
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(469, 321);
-			this.Controls.Add(this.toolStrip1);
+			this.Controls.Add(this.toolStrip);
 			this.Controls.Add(this.statusStrip);
 			this.Controls.Add(this.treeViewPaths);
 			this.Name = "MainForm";
 			this.Text = "WreckGui";
 			this.statusStrip.ResumeLayout(false);
 			this.statusStrip.PerformLayout();
-			this.toolStrip1.ResumeLayout(false);
-			this.toolStrip1.PerformLayout();
+			this.toolStrip.ResumeLayout(false);
+			this.toolStrip.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ToolStrip toolStrip;
 		private System.Windows.Forms.ToolStripButton btnRun;
-		private System.Windows.Forms.ToolStrip toolStrip1;
 		private System.Windows.Forms.TreeView treeViewPaths;
 		private System.Windows.Forms.StatusStrip statusStrip;
 		private System.Windows.Forms.ToolStripStatusLabel lblSkippedCount;
