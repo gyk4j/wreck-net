@@ -11,7 +11,7 @@ jobs:
         configuration: [Release]
     runs-on: windows-2019
     env:
-      Base_Directory: D:/a/wreck-net/wreck-net
+      Base_Directory: D:\a\wreck-net\wreck-net
       Solution_Name: Wreck.sln
       Configuration: Release
       Wap_Project_Directory: bin
