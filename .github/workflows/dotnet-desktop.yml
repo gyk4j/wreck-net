@@ -29,7 +29,7 @@ jobs:
       - name: Build solution
         # run: msbuild $env:Base_Directory\$env:Solution_Name -t:rebuild -property:Configuration=$env:Configuration
         #run: msbuild $GITHUB_WORKSPACE\$env:Solution_Name /t:Rebuild /p:Configuration=$env:Configuration
-        run: pwd && ls -la
+        run: pwd && Get-ChildItem -Attributes Normal, Directory, Hidden
         env:
           Configuration: ${{ matrix.configuration }}
     
