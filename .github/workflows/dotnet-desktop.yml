@@ -1,0 +1,38 @@
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+    runs-on: windows-2019
+    env:
+      Solution_Name: Wreck.sln
+      Configuration: Release
+      Wap_Project_Directory: bin
+      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+      
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
+      
+      - name: Build solution
+        run: msbuild $env:Solution_Name -t:rebuild -property:Configuration=$env:Configuration
+        env:
+          Configuration: ${{ matrix.configuration }}
+    
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: wreck
+          path: ${{ env.Wap_Project_Directory }}\${{ env.Release }}
+          
