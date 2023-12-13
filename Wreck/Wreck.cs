@@ -95,7 +95,13 @@ namespace Wreck
 			
 			DateTime? creation, lastWrite, lastAccess;
 			Extract(file, out creation, out lastWrite, out lastAccess);
+			
+			// Backup and restore Read-Only attribute prior to updating any 
+			// timestamps.
+			bool readOnly = file.IsReadOnly;
+			file.IsReadOnly = false;
 			Correct(file, creation, lastWrite, lastAccess);
+			file.IsReadOnly = readOnly;
 		}
 		
 		/// <summary>
@@ -145,17 +151,52 @@ namespace Wreck
 			DateTime? lastWrite,
 			DateTime? lastAccess)
 		{			
-			if(corrector.ByLastWriteMetadata(fsi, lastWrite))
+			// Fix modification time.
+			try
+			{
+				if(corrector.ByLastWriteMetadata(fsi, lastWrite))
 					logger.CorrectedByLastWriteMetadata(fsi, (DateTime) lastWrite);
+			}
+			catch(UnauthorizedAccessException ex)
+			{
+				logger.UnauthorizedAccessException(ex);
+			}
 			
-			if(corrector.ByCreationMetadata(fsi, creation))
+			
+			// Fix creation time using specified time,
+			try
+			{
+				if(corrector.ByCreationMetadata(fsi, creation))
 					logger.CorrectedByCreationMetadata(fsi, (DateTime) creation);
+			}
+			catch(UnauthorizedAccessException ex)
+			{
+				logger.UnauthorizedAccessException(ex);
+			}
 			
-			if(corrector.ByLastAccessMetadata(fsi, lastAccess))
+			// Fix access time using specified time, or from modified time.
+			try
+			{
+				if(corrector.ByLastAccessMetadata(fsi, lastAccess))
 					logger.CorrectedByLastAccessMetadata(fsi, (DateTime) lastAccess);
+			}
+			catch(UnauthorizedAccessException ex)
+			{
+				logger.UnauthorizedAccessException(ex);
+			}
 			
-			if(corrector.ByLastWriteTime(fsi))
+			// Fix creation and last access time from modified time.
+			// Creation time will always be earlier than modification time.
+			// Last access time will always be earlier than modification time.
+			try
+			{
+				if(corrector.ByLastWriteTime(fsi))
 					logger.CorrectedByLastWriteTime(fsi);
+			}
+			catch(UnauthorizedAccessException ex)
+			{
+				logger.UnauthorizedAccessException(ex);
+			}
 		}
 		
 		/// <summary>
