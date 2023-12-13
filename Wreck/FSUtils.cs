@@ -89,5 +89,21 @@ namespace Wreck
 			if(expected.CompareTo(actual) < 0)
 				actual = new DateTime(expected.Ticks, DateTimeKind.Local);
 		}
+		
+		/// <summary>
+		/// Add or remove attributes from a file or directory.
+		/// </summary>
+		/// <param name="path">path of file or directory to update</param>
+		/// <param name="attributes">attributes to act on</param>
+		/// <param name="enable">To add (true) or remove (false) the attributes</param>
+		public static void SetAttribute(string path, FileAttributes attributes, bool enable)
+		{
+			FileAttributes current = File.GetAttributes(path);
+			FileAttributes attrs = enable ? 
+				current | attributes: 	// Enable attributes
+				current & ~attributes;	// Disable attributes
+				
+			File.SetAttributes(path, attrs);
+		}
 	}
 }

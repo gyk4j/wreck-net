@@ -4,7 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
 
-namespace Wreck
+namespace Wreck.Logging
 {
 	/// <summary>
 	/// Description of Logger.
@@ -116,6 +116,17 @@ namespace Wreck
 			
 			ToolStripItem lblSkippedCount = this.form.getStatusStrip().Items["lblSkippedCount"];
 			lblSkippedCount.Text = string.Format("Skipped: {0}", stats.Skipped);
+		}
+		
+		// For error reporting
+		public void UnauthorizedAccessException(UnauthorizedAccessException ex)
+		{
+			MessageBox.Show(
+				ex.ToString(),
+				"Unauthorized Access",
+				MessageBoxButtons.OK,
+				MessageBoxIcon.Error
+			);
 		}
 	}
 }

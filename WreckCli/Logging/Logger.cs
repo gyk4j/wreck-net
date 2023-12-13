@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace Wreck
+namespace Wreck.Logging
 {
 	/// <summary>
 	/// Description of Logger.
@@ -103,6 +103,12 @@ namespace Wreck
 			                  stats.Directories, 
 			                  stats.Files, 
 			                  stats.Skipped);
+		}
+		
+		// For error reporting
+		public void UnauthorizedAccessException(UnauthorizedAccessException ex)
+		{
+			Console.Error.WriteLine(ex.ToString());
 		}
 	}
 }

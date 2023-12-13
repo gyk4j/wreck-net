@@ -2,14 +2,14 @@
 using System;
 using System.IO;
 
-namespace Wreck
+namespace Wreck.Corrector
 {
 	/// <summary>
 	/// Description of Corrections.
 	/// </summary>
-	public class Corrector : ICorrector
+	public class Applicator : ICorrector
 	{
-		public bool ByCreationMetadata(FileSystemInfo fsi, DateTime? creation)
+		public bool ByCreationMetadata(FileSystemInfo fsi, DateTime? creation) 
 		{
 			bool done = false;
 

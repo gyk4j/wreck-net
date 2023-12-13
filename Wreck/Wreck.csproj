@@ -33,13 +33,17 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Corrector.cs" />
+    <Compile Include="Corrector\Applicator.cs" />
+    <Compile Include="Corrector\ICorrector.cs" />
+    <Compile Include="Corrector\Previewer.cs" />
     <Compile Include="FSUtils.cs" />
-    <Compile Include="ICorrector.cs" />
-    <Compile Include="ILogger.cs" />
-    <Compile Include="Previewer.cs" />
+    <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Statistics.cs" />
     <Compile Include="Wreck.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Corrector" />
+    <Folder Include="Logging" />
   </ItemGroup>
 </Project>
