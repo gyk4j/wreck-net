@@ -154,7 +154,7 @@ namespace Wreck
 			// Fix modification time.
 			try
 			{
-				if (lastWrite != null && fsi.LastWriteTime.CompareTo(lastWrite) > 0)
+				if (lastWrite != null && !fsi.LastWriteTime.Equals(lastWrite))
 				{
 					corrector.ByLastWriteMetadata(fsi, lastWrite);
 					logger.CorrectedByLastWriteMetadata(fsi, (DateTime) lastWrite);
@@ -169,7 +169,7 @@ namespace Wreck
 			// Fix creation time using specified time,
 			try
 			{
-				if (creation != null && fsi.CreationTime.CompareTo(creation) > 0)
+				if (creation != null && !fsi.CreationTime.Equals(creation))
 				{
 					corrector.ByCreationMetadata(fsi, creation);
 					logger.CorrectedByCreationMetadata(fsi, (DateTime) creation);
@@ -183,7 +183,7 @@ namespace Wreck
 			// Fix access time using specified time, or from modified time.
 			try
 			{
-				if (lastAccess != null && fsi.LastAccessTime.CompareTo(lastAccess) > 0)
+				if (lastAccess != null && !fsi.LastAccessTime.Equals(lastAccess))
 				{
 					corrector.ByLastAccessMetadata(fsi, lastAccess);
 					logger.CorrectedByLastAccessMetadata(fsi, (DateTime) lastAccess);
@@ -194,16 +194,31 @@ namespace Wreck
 				logger.UnauthorizedAccessException(ex);
 			}
 			
-			// Fix creation and last access time from modified time.
+			// Fix creation time from modified time.
 			// Creation time will always be earlier than modification time.
+			
+			try
+			{
+				if (fsi.CreationTime.CompareTo(fsi.LastWriteTime) > 0)
+				{
+					corrector.ByLastWriteTime(fsi, fsi.CreationTime);
+					logger.CorrectedByLastWriteTime(fsi, fsi.CreationTime);
+				}
+				
+			}
+			catch(UnauthorizedAccessException ex)
+			{
+				logger.UnauthorizedAccessException(ex);
+			}
+			
+			// Fix last access time from modified time.
 			// Last access time will always be earlier than modification time.
 			try
 			{
-				if (fsi.CreationTime.CompareTo(fsi.LastWriteTime) > 0 ||
-				   fsi.LastAccessTime.CompareTo(fsi.LastWriteTime) > 0)
+				if(fsi.LastAccessTime.CompareTo(fsi.LastWriteTime) > 0)
 				{
-					corrector.ByLastWriteTime(fsi);
-					logger.CorrectedByLastWriteTime(fsi);
+					corrector.ByLastWriteTime(fsi, fsi.LastAccessTime);
+					logger.CorrectedByLastWriteTime(fsi, fsi.LastAccessTime);
 				}
 			}
 			catch(UnauthorizedAccessException ex)

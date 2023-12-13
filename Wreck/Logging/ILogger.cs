@@ -19,7 +19,7 @@ namespace Wreck.Logging
 		void CorrectedByLastWriteMetadata(FileSystemInfo fsi, DateTime lastWrite);
 		void CorrectedByCreationMetadata(FileSystemInfo fsi, DateTime creation);
 		void CorrectedByLastAccessMetadata(FileSystemInfo fsi, DateTime lastAccess);
-		void CorrectedByLastWriteTime(FileSystemInfo fsi);
+		void CorrectedByLastWriteTime(FileSystemInfo fsi, DateTime creationOrLastAccess);
 		void Statistics(Statistics stats);
 		void UnauthorizedAccessException(UnauthorizedAccessException ex);
 	}

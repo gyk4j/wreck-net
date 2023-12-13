@@ -66,10 +66,12 @@ namespace Wreck.Logging
 			Console.WriteLine("        MA: {0}", FormatTimeSpan(fsi.LastAccessTime.Subtract(lastAccess)));
 		}
 		
-		public void CorrectedByLastWriteTime(FileSystemInfo fsi)
+		public void CorrectedByLastWriteTime(FileSystemInfo fsi, DateTime creationOrLastAccess)
 		{
-			Console.WriteLine("        LC: {0}", FormatTimeSpan(fsi.CreationTime.Subtract(fsi.LastWriteTime)));
-			Console.WriteLine("        LA: {0}", FormatTimeSpan(fsi.LastAccessTime.Subtract(fsi.LastWriteTime)));
+			if(creationOrLastAccess == fsi.CreationTime)
+				Console.WriteLine("        LC: {0}", FormatTimeSpan(fsi.CreationTime.Subtract(fsi.LastWriteTime)));
+			else if(creationOrLastAccess == fsi.LastAccessTime)
+				Console.WriteLine("        LA: {0}", FormatTimeSpan(fsi.LastAccessTime.Subtract(fsi.LastWriteTime)));
 		}
 		
 		private string FormatTimeSpan(TimeSpan ts)
