@@ -99,11 +99,8 @@ namespace Wreck.Logging
 		
 		public void CorrectedByLastWriteTime(FileSystemInfo fsi)
 		{
-			if(fsi.CreationTime.CompareTo(fsi.LastWriteTime) > 0)
-				Debug.Print("AM: {0} : {1} -> {2}", fsi.Name, fsi.CreationTime, fsi.LastWriteTime);
-			
-			if(fsi.LastAccessTime.CompareTo(fsi.LastWriteTime) > 0)
-				Debug.Print("AM: {0} : {1} -> {2}", fsi.Name, fsi.LastAccessTime, fsi.LastWriteTime);
+			Debug.Print("AM: {0} : {1} -> {2}", fsi.Name, fsi.CreationTime, fsi.LastWriteTime);
+			Debug.Print("AM: {0} : {1} -> {2}", fsi.Name, fsi.LastAccessTime, fsi.LastWriteTime);
 		}
 		
 		public void Statistics(Statistics stats)

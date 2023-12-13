@@ -154,8 +154,11 @@ namespace Wreck
 			// Fix modification time.
 			try
 			{
-				if(corrector.ByLastWriteMetadata(fsi, lastWrite))
+				if (lastWrite != null && fsi.LastWriteTime.CompareTo(lastWrite) > 0)
+				{
+					corrector.ByLastWriteMetadata(fsi, lastWrite);
 					logger.CorrectedByLastWriteMetadata(fsi, (DateTime) lastWrite);
+				}					
 			}
 			catch(UnauthorizedAccessException ex)
 			{
@@ -166,8 +169,11 @@ namespace Wreck
 			// Fix creation time using specified time,
 			try
 			{
-				if(corrector.ByCreationMetadata(fsi, creation))
+				if (creation != null && fsi.CreationTime.CompareTo(creation) > 0)
+				{
+					corrector.ByCreationMetadata(fsi, creation);
 					logger.CorrectedByCreationMetadata(fsi, (DateTime) creation);
+				}
 			}
 			catch(UnauthorizedAccessException ex)
 			{
@@ -177,8 +183,11 @@ namespace Wreck
 			// Fix access time using specified time, or from modified time.
 			try
 			{
-				if(corrector.ByLastAccessMetadata(fsi, lastAccess))
+				if (lastAccess != null && fsi.LastAccessTime.CompareTo(lastAccess) > 0)
+				{
+					corrector.ByLastAccessMetadata(fsi, lastAccess);
 					logger.CorrectedByLastAccessMetadata(fsi, (DateTime) lastAccess);
+				}
 			}
 			catch(UnauthorizedAccessException ex)
 			{
@@ -190,8 +199,12 @@ namespace Wreck
 			// Last access time will always be earlier than modification time.
 			try
 			{
-				if(corrector.ByLastWriteTime(fsi))
+				if (fsi.CreationTime.CompareTo(fsi.LastWriteTime) > 0 ||
+				   fsi.LastAccessTime.CompareTo(fsi.LastWriteTime) > 0)
+				{
+					corrector.ByLastWriteTime(fsi);
 					logger.CorrectedByLastWriteTime(fsi);
+				}
 			}
 			catch(UnauthorizedAccessException ex)
 			{
