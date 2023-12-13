@@ -68,11 +68,8 @@ namespace Wreck.Logging
 		
 		public void CorrectedByLastWriteTime(FileSystemInfo fsi)
 		{
-			if(fsi.CreationTime.CompareTo(fsi.LastWriteTime) > 0)
-				Console.WriteLine("        LC: {0}", FormatTimeSpan(fsi.CreationTime.Subtract(fsi.LastWriteTime)));
-			
-			if(fsi.LastAccessTime.CompareTo(fsi.LastWriteTime) > 0)
-				Console.WriteLine("        LA: {0}", FormatTimeSpan(fsi.LastAccessTime.Subtract(fsi.LastWriteTime)));
+			Console.WriteLine("        LC: {0}", FormatTimeSpan(fsi.CreationTime.Subtract(fsi.LastWriteTime)));
+			Console.WriteLine("        LA: {0}", FormatTimeSpan(fsi.LastAccessTime.Subtract(fsi.LastWriteTime)));
 		}
 		
 		private string FormatTimeSpan(TimeSpan ts)

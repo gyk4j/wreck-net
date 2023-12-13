@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.IO;
+using System.Diagnostics;
 
 namespace Wreck.Corrector
 {
@@ -9,52 +10,24 @@ namespace Wreck.Corrector
 	/// </summary>
 	public class Previewer : ICorrector
 	{
-		public bool ByCreationMetadata(FileSystemInfo fsi, DateTime? creation)
+		public void ByCreationMetadata(FileSystemInfo fsi, DateTime? creation)
 		{
-			bool done = false;
-
-			if (creation != null && fsi.CreationTime.CompareTo(creation) > 0) {
-				done = true;
-			}
-
-			return done;
+			Debug.Print("MC: {0}", fsi.Name);
 		}
 
-		public bool ByLastWriteMetadata(FileSystemInfo fsi, DateTime? lastWrite)
+		public void ByLastWriteMetadata(FileSystemInfo fsi, DateTime? lastWrite)
 		{
-			bool done = false;
-
-			if (lastWrite != null && fsi.LastWriteTime.CompareTo(lastWrite) > 0) {
-				done = true;
-			}
-
-			return done;
+			Debug.Print("MW: {0}", fsi.Name);
 		}
 
-		public bool ByLastAccessMetadata(FileSystemInfo fsi, DateTime? lastAccess)
+		public void ByLastAccessMetadata(FileSystemInfo fsi, DateTime? lastAccess)
 		{
-			bool done = false;
-
-			if (lastAccess != null && fsi.LastAccessTime.CompareTo(lastAccess) > 0) {
-				done = true;
-			}
-
-			return done;
+			Debug.Print("MA: {0}", fsi.Name);
 		}
 
-		public bool ByLastWriteTime(FileSystemInfo fsi)
+		public void ByLastWriteTime(FileSystemInfo fsi)
 		{
-			bool done = false;
-
-			if (fsi.CreationTime.CompareTo(fsi.LastWriteTime) > 0) {
-				done = true;
-			}
-
-			if (fsi.LastAccessTime.CompareTo(fsi.LastWriteTime) > 0) {
-				done = true;
-			}
-
-			return done;
+			Debug.Print("LW: {0}", fsi.Name);
 		}
 	}
 }
