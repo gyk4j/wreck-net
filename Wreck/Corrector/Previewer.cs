@@ -25,7 +25,7 @@ namespace Wreck.Corrector
 			Debug.Print("MA: {0}", fsi.Name);
 		}
 
-		public void ByLastWriteTime(FileSystemInfo fsi)
+		public void ByLastWriteTime(FileSystemInfo fsi, DateTime creationOrLastAccess)
 		{
 			Debug.Print("LW: {0}", fsi.Name);
 		}

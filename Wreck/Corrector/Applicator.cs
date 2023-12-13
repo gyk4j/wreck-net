@@ -24,10 +24,14 @@ namespace Wreck.Corrector
 			fsi.LastAccessTime = (DateTime) lastAccess;
 		}
 
-		public void ByLastWriteTime(FileSystemInfo fsi)
+		public void ByLastWriteTime(FileSystemInfo fsi, DateTime creationOrLastAccess)
 		{
-			fsi.CreationTime = fsi.LastWriteTime;
-			fsi.LastAccessTime = fsi.LastWriteTime;
+			if(creationOrLastAccess == fsi.CreationTime)
+				fsi.CreationTime = fsi.LastWriteTime;
+			else if(creationOrLastAccess == fsi.LastAccessTime)
+				fsi.LastAccessTime = fsi.LastWriteTime;
+			else
+				Console.Error.WriteLine("Error: Unknown attribute");
 		}
 	}
 }

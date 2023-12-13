@@ -84,23 +84,25 @@ namespace Wreck.Logging
 		// For Corrector
 		public void CorrectedByLastWriteMetadata(FileSystemInfo fsi, DateTime lastWrite)
 		{
-			Debug.Print("WM: {0} : {1} -> {2}", fsi.Name, fsi.LastWriteTime, lastWrite);
+			Debug.Print("MW: {0} : {1} -> {2}", fsi.Name, fsi.LastWriteTime, lastWrite);
 		}
 		
 		public void CorrectedByCreationMetadata(FileSystemInfo fsi, DateTime creation)
 		{
-			Debug.Print("CM: {0} : {1} -> {2}", fsi.Name, fsi.CreationTime, creation);
+			Debug.Print("MC: {0} : {1} -> {2}", fsi.Name, fsi.CreationTime, creation);
 		}
 		
 		public void CorrectedByLastAccessMetadata(FileSystemInfo fsi, DateTime lastAccess)
 		{
-			Debug.Print("AM: {0} : {1} -> {2}", fsi.Name, fsi.LastAccessTime, lastAccess);
+			Debug.Print("MA: {0} : {1} -> {2}", fsi.Name, fsi.LastAccessTime, lastAccess);
 		}
 		
-		public void CorrectedByLastWriteTime(FileSystemInfo fsi)
+		public void CorrectedByLastWriteTime(FileSystemInfo fsi, DateTime creationOrLastAccess)
 		{
-			Debug.Print("AM: {0} : {1} -> {2}", fsi.Name, fsi.CreationTime, fsi.LastWriteTime);
-			Debug.Print("AM: {0} : {1} -> {2}", fsi.Name, fsi.LastAccessTime, fsi.LastWriteTime);
+			if(creationOrLastAccess == fsi.CreationTime)
+				Debug.Print("LC: {0} : {1} -> {2}", fsi.Name, fsi.CreationTime, fsi.LastWriteTime);
+			else if(creationOrLastAccess == fsi.LastAccessTime)
+				Debug.Print("LA: {0} : {1} -> {2}", fsi.Name, fsi.LastAccessTime, fsi.LastWriteTime);
 		}
 		
 		public void Statistics(Statistics stats)
