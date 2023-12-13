@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace Wreck
+namespace Wreck.Logging
 {
 	/// <summary>
 	/// Description of ILogger.
@@ -21,6 +21,7 @@ namespace Wreck
 		void CorrectedByLastAccessMetadata(FileSystemInfo fsi, DateTime lastAccess);
 		void CorrectedByLastWriteTime(FileSystemInfo fsi);
 		void Statistics(Statistics stats);
+		void UnauthorizedAccessException(UnauthorizedAccessException ex);
 	}
 	
 }

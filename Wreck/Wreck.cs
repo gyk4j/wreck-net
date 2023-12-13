@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+using Wreck.Corrector;
+using Wreck.Logging;
+
 namespace Wreck
 {
 	/// <summary>
@@ -114,9 +117,10 @@ namespace Wreck
 			out DateTime? lastAccess)
 		{
 			// TODO: To be updated with real metadata extraction calls
-			creation = null;
-			lastWrite = fsi.LastWriteTime;
-			lastAccess = null;
+			DateTime test = new DateTime(2023, 6, 15, 12, 0, 0);
+			creation = test;
+			lastWrite = test;
+			lastAccess = test;
 		}
 		
 		/// <summary>
@@ -141,23 +145,17 @@ namespace Wreck
 			DateTime? lastWrite,
 			DateTime? lastAccess)
 		{			
-			// Fix modification time.
 			if(corrector.ByLastWriteMetadata(fsi, lastWrite))
-				logger.CorrectedByLastWriteMetadata(fsi, (DateTime) lastWrite);
+					logger.CorrectedByLastWriteMetadata(fsi, (DateTime) lastWrite);
 			
-			// Fix creation time using specified time,
 			if(corrector.ByCreationMetadata(fsi, creation))
-				logger.CorrectedByCreationMetadata(fsi, (DateTime) creation);
+					logger.CorrectedByCreationMetadata(fsi, (DateTime) creation);
 			
-			// Fix access time using specified time, or from modified time.
 			if(corrector.ByLastAccessMetadata(fsi, lastAccess))
-				logger.CorrectedByLastAccessMetadata(fsi, (DateTime) lastAccess);
+					logger.CorrectedByLastAccessMetadata(fsi, (DateTime) lastAccess);
 			
-			// Fix creation and last access time from modified time.
-			// Creation time will always be earlier than modification time.
-			// Last access time will always be earlier than modification time.
 			if(corrector.ByLastWriteTime(fsi))
-				logger.CorrectedByLastWriteTime(fsi);
+					logger.CorrectedByLastWriteTime(fsi);
 		}
 		
 		/// <summary>

@@ -1,6 +1,9 @@
 ﻿
 using System;
 using System.IO;
+using Wreck.Corrector;
+
+using Wreck.Logging;
 
 namespace Wreck
 {
@@ -21,7 +24,7 @@ namespace Wreck
 		public Program()
 		{
 			logger = new Logger();
-			wreck = new Wreck(logger, new Previewer());
+			wreck = new Wreck(logger, new Applicator());
 		}
 		
 		public void Run(string[] args)

@@ -46,7 +46,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Logger.cs" />
+    <Compile Include="Logging\Logger.cs" />
     <Compile Include="MainForm.cs" />
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -62,5 +62,6 @@
       <Project>{0C59166C-2F02-46AE-821B-DA6891F84B76}</Project>
       <Name>Wreck</Name>
     </ProjectReference>
+    <Folder Include="Logging" />
   </ItemGroup>
 </Project>

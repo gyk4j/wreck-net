@@ -6,6 +6,9 @@ using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
 
+using Wreck.Corrector;
+using Wreck.Logging;
+
 namespace Wreck
 {
 	/// <summary>
