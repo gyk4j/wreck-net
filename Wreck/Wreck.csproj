@@ -48,6 +48,7 @@
     <Compile Include="Parser\MediaInfoDLL.cs" />
     <Compile Include="Parser\MediaInfoParser.cs" />
     <Compile Include="Statistics.cs" />
+    <Compile Include="Test.cs" />
     <Compile Include="Wreck.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
