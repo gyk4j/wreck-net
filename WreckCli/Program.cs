@@ -17,18 +17,7 @@ namespace Wreck
 		
 		public static void Main(string[] args)
 		{
-			MediaInfoParser mip = new MediaInfoParser();
-			//mip.TestMediaInfoLoad();
-			string[] parameters = { "Copyright", "Title" };
-			Dictionary<string, string> info = mip.ExampleWithStream(
-				@"C:\Users\Public\Videos\Sample Videos\Wildlife.wmv",
-				parameters
-			);
-			IDictionaryEnumerator e = info.GetEnumerator();
-			while(e.MoveNext())
-			{
-				Console.WriteLine(e.Key + " : " + e.Value); 
-			}
+			TestExifTool();
 			
 			/*
 			Program wreck = new Program();
@@ -56,6 +45,60 @@ namespace Wreck
 			}
 			
 			logger.Statistics(wreck.GetStatistics());
+		}
+		
+		private static void Dump(Dictionary<string, string> metadata)
+		{
+			IDictionaryEnumerator e = metadata.GetEnumerator();
+			while(e.MoveNext())
+			{
+				Console.WriteLine(e.Key + " : " + e.Value); 
+			}
+		}
+		
+		public static void TestMediaInfo()
+		{
+			MediaInfoParser mip = new MediaInfoParser();
+			//mip.TestMediaInfoLoad();
+			string[] parameters = { "Copyright", "Title" };
+			Dictionary<string, string> info = mip.ExampleWithStream(
+				@"C:\Users\Public\Videos\Sample Videos\Wildlife.wmv",
+				parameters
+			);
+			Dump(info);
+		}
+		
+		public static void TestExifTool()
+		{
+			ExifToolWrapper.ExifTool et = new ExifToolWrapper.ExifTool();
+			
+			Dictionary<string, string> properties = new Dictionary<string, string>();
+			
+			// Repeat as many times as necessary in a loop.
+			string[] docs =
+			{
+				@"C:\test\wd-spectools-word-sample-04.doc",
+				@"C:\test\exploring-microsoft-office-word-2010.ppt"
+			};
+			
+			IEnumerator e = docs.GetEnumerator();
+			while( e.MoveNext() && (e.Current != null) )
+			{
+				string path = (string) e.Current;
+				
+				Console.WriteLine("--- {0} ---", path);
+				
+				// Extract the metadata.
+				et.GetProperties(path, properties);
+				
+				// Use the extracted metadata.
+				Dump(properties);
+				
+				// Prepare for next document
+				properties.Clear();
+			}
+			
+			et.Dispose(); // Always stop the ExifTool process.
 		}
 	}
 }
