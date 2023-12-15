@@ -49,7 +49,7 @@ using System.IO;
 
 namespace ExifToolWrapper
 {
-    public class ExifTool : IDisposable
+    class ExifTool : IDisposable
     {
         const string c_exeName = "exiftool.exe";
         const string c_arguments = @"-stay_open 1 -@ - -common_args -charset UTF8 -G1 -args";
