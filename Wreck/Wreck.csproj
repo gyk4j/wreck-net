@@ -30,6 +30,9 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
+    <Reference Include="SevenZipSharp">
+      <HintPath>..\Dependencies\SevenZipSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
@@ -39,6 +42,7 @@
     <Compile Include="FSUtils.cs" />
     <Compile Include="Logging\TextFormatter.cs" />
     <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Parser\SevenZipParser.cs" />
     <Compile Include="Parser\ExifToolWrapper.cs" />
     <Compile Include="Parser\MediaInfoDLL.cs" />
     <Compile Include="Parser\MediaInfoParser.cs" />
