@@ -17,7 +17,8 @@ namespace Wreck
 		
 		public static void Main(string[] args)
 		{
-			TestExifTool();
+			//TestExifTool();
+			Test7Zip();
 			
 			/*
 			Program wreck = new Program();
@@ -100,6 +101,14 @@ namespace Wreck
 			}
 			
 			et.Dispose(); // Always stop the ExifTool process.
+		}
+		
+		public static void Test7Zip()
+		{
+			SevenZipParser szp = new SevenZipParser();
+			szp.GetVersion();
+			szp.GetFeatures();
+			szp.List(@"C:\Users\USER\Downloads\Fedora-Workstation-Live-x86_64-38-1.6.iso");
 		}
 	}
 }
