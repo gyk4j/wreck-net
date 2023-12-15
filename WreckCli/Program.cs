@@ -17,8 +17,8 @@ namespace Wreck
 		
 		public static void Main(string[] args)
 		{
-			//TestExifTool();
-			Test7Zip();
+			TestExifTool();
+			//Test7Zip();
 			
 			/*
 			Program wreck = new Program();
@@ -70,9 +70,7 @@ namespace Wreck
 		}
 		
 		public static void TestExifTool()
-		{
-			ExifToolWrapper.ExifTool et = new ExifToolWrapper.ExifTool();
-			
+		{			
 			Dictionary<string, string> properties = new Dictionary<string, string>();
 			
 			// Repeat as many times as necessary in a loop.
@@ -83,24 +81,28 @@ namespace Wreck
 				@"C:\test\tests-example.xls"
 			};
 			
-			IEnumerator e = docs.GetEnumerator();
-			while( e.MoveNext() && (e.Current != null) )
+			// If not enclosed in _using_ block, we need to remember to call 
+			// Dispose() manually to ensure Exif Tool process is not left 
+			// running.
+			using(ExifToolParser etp = new ExifToolParser())
 			{
-				string path = (string) e.Current;
-				
-				Console.WriteLine(Environment.NewLine + "   --- {0} ---" + Environment.NewLine, path);
-				
-				// Extract the metadata.
-				et.GetProperties(path, properties);
-				
-				// Use the extracted metadata.
-				Dump(properties);
-				
-				// Prepare for next document
-				properties.Clear();
-			}
-			
-			et.Dispose(); // Always stop the ExifTool process.
+				IEnumerator e = docs.GetEnumerator();
+				while( e.MoveNext() && (e.Current != null) )
+				{
+					string path = (string) e.Current;
+					
+					Console.WriteLine(Environment.NewLine + "   --- {0} ---" + Environment.NewLine, path);
+					
+					// Extract the metadata.
+					etp.Get(path, properties);
+					
+					// Use the extracted metadata.
+					Dump(properties);
+					
+					// Prepare for next document
+					properties.Clear();
+				}
+			}			
 		}
 		
 		public static void Test7Zip()
