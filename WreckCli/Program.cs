@@ -78,7 +78,8 @@ namespace Wreck
 			string[] docs =
 			{
 				@"C:\test\wd-spectools-word-sample-04.doc",
-				@"C:\test\exploring-microsoft-office-word-2010.ppt"
+				@"C:\test\exploring-microsoft-office-word-2010.ppt",
+				@"C:\test\tests-example.xls"
 			};
 			
 			IEnumerator e = docs.GetEnumerator();
@@ -86,7 +87,7 @@ namespace Wreck
 			{
 				string path = (string) e.Current;
 				
-				Console.WriteLine("--- {0} ---", path);
+				Console.WriteLine(Environment.NewLine + "   --- {0} ---" + Environment.NewLine, path);
 				
 				// Extract the metadata.
 				et.GetProperties(path, properties);
