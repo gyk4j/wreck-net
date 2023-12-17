@@ -28,6 +28,6 @@ Differences include:
 
 - Different GUI
 - Java-based Apache Tika library for metadata extraction is *NOT* integrated to reduce bloat
-- 7-Zip is also *NOT INCLUDED* to parse through large archive and disc image files 
+- ~~7-Zip is also *NOT INCLUDED* to parse through large archive and disc image files~~ (Correction: 7-Zip support re-added on 15 Dec 2023) 
 - A complete redesign based on .NET Framework API with no regard for maintaining resemblence to original Java version
  
