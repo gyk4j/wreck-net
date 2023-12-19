@@ -12,7 +12,6 @@ namespace Wreck
 	class Program
 	{
 		private Logger logger;
-		private Wreck wreck;
 		
 		public static void Main(string[] args)
 		{			
@@ -27,26 +26,26 @@ namespace Wreck
 		public Program()
 		{
 			logger = new Logger();
-			wreck = new Wreck(logger, new Applicator());
 		}
 		
 		public void Run(string[] args)
 		{
 			logger.Version();
 			
-			Test.TestMediaInfo();
-			Test.TestExifTool();
-			Test.Test7Zip();
+//			Test.TestMediaInfo();
+//			Test.TestExifTool();
+//			Test.Test7Zip();
 			
-			/*
-			foreach(string p in args)
+			using(Wreck wreck = new Wreck(logger, new Previewer()))
 			{
-				logger.CurrentPath(p);
-				wreck.Walk(p);
-			}
-			*/
-			
-			logger.Statistics(wreck.GetStatistics());
+				foreach(string p in args)
+				{
+					logger.CurrentPath(p);
+					wreck.Walk(p);
+				}
+				
+				logger.Statistics(wreck.GetStatistics());
+			}	
 		}
 	}
 }

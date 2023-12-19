@@ -1,17 +1,19 @@
 ﻿
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
 using Wreck.Corrector;
 using Wreck.Logging;
+using Wreck.Parser;
 
 namespace Wreck
 {
 	/// <summary>
 	/// Description of Wreck.
 	/// </summary>
-	public class Wreck
+	public class Wreck : IDisposable
 	{
 		public const string NAME = "WRECK.NET";
 		public const string VERSION = "1.00a";
@@ -19,14 +21,32 @@ namespace Wreck
 		private ILogger logger;
 		
 		private Statistics stats;
-		
+		public enum FileInfoTools {
+			ExifTool,
+			MediaInfo,
+			SevenZip
+		};
+		private Dictionary<FileInfoTools, IFileDateable> parsers;
 		private ICorrector corrector;
 		
 		public Wreck(ILogger logger, ICorrector corrector)
 		{
 			this.logger = logger;
 			this.stats = new Statistics();
+			
+			this.parsers = new Dictionary<FileInfoTools, IFileDateable>();
+			this.parsers.Add(FileInfoTools.ExifTool, new ExifToolParser());
+			this.parsers.Add(FileInfoTools.MediaInfo, new MediaInfoParser());
+			this.parsers.Add(FileInfoTools.SevenZip, new SevenZipParser());
+			
 			this.corrector = corrector;
+		}
+		
+		public void Dispose()
+		{
+			ExifToolParser etp = (ExifToolParser) this.parsers[FileInfoTools.ExifTool];
+			etp.Dispose();
+			GC.SuppressFinalize(this);
 		}
 		
 		public Statistics GetStatistics()
@@ -94,14 +114,24 @@ namespace Wreck
 			stats.Count(file);
 			
 			DateTime? creation, lastWrite, lastAccess;
-			Extract(file, out creation, out lastWrite, out lastAccess);
-			
-			// Backup and restore Read-Only attribute prior to updating any 
-			// timestamps.
-			bool readOnly = file.IsReadOnly;
-			file.IsReadOnly = false;
-			Correct(file, creation, lastWrite, lastAccess);
-			file.IsReadOnly = readOnly;
+			IEnumerator<IFileDateable> e = this.parsers.Values.GetEnumerator();
+			while(e.MoveNext())
+			{
+				IFileDateable parser = e.Current;
+				parser.GetDateTimes(file, out creation, out lastWrite, out lastAccess);
+				
+				if(creation != null || lastWrite != null || lastAccess != null)
+				{
+					// Backup and restore Read-Only attribute prior to updating any 
+					// timestamps.
+					bool readOnly = file.IsReadOnly;
+					file.IsReadOnly = false;
+					Correct(file, creation, lastWrite, lastAccess);
+					file.IsReadOnly = readOnly;
+				}
+				
+				creation = lastWrite = lastAccess = null;
+			}
 		}
 		
 		/// <summary>
@@ -123,7 +153,7 @@ namespace Wreck
 			out DateTime? lastAccess)
 		{
 			// TODO: To be updated with real metadata extraction calls
-			DateTime test = new DateTime(2023, 6, 15, 12, 0, 0);
+			DateTime test = new DateTime(2024, 7, 2, 12, 0, 0);
 			creation = test;
 			lastWrite = test;
 			lastAccess = test;
@@ -154,10 +184,10 @@ namespace Wreck
 			// Fix modification time.
 			try
 			{
-				if (lastWrite != null && !fsi.LastWriteTime.Equals(lastWrite))
+				if (lastWrite.HasValue && !fsi.LastWriteTime.Equals(lastWrite.Value))
 				{
-					corrector.ByLastWriteMetadata(fsi, lastWrite);
-					logger.CorrectedByLastWriteMetadata(fsi, (DateTime) lastWrite);
+					corrector.ByLastWriteMetadata(fsi, lastWrite.Value);
+					logger.CorrectedByLastWriteMetadata(fsi, lastWrite.Value);
 				}					
 			}
 			catch(UnauthorizedAccessException ex)
@@ -169,10 +199,10 @@ namespace Wreck
 			// Fix creation time using specified time,
 			try
 			{
-				if (creation != null && !fsi.CreationTime.Equals(creation))
+				if (creation.HasValue && !fsi.CreationTime.Equals(creation.Value))
 				{
-					corrector.ByCreationMetadata(fsi, creation);
-					logger.CorrectedByCreationMetadata(fsi, (DateTime) creation);
+					corrector.ByCreationMetadata(fsi, creation.Value);
+					logger.CorrectedByCreationMetadata(fsi, creation.Value);
 				}
 			}
 			catch(UnauthorizedAccessException ex)
@@ -183,10 +213,10 @@ namespace Wreck
 			// Fix access time using specified time, or from modified time.
 			try
 			{
-				if (lastAccess != null && !fsi.LastAccessTime.Equals(lastAccess))
+				if (lastAccess.HasValue && !fsi.LastAccessTime.Equals(lastAccess.Value))
 				{
-					corrector.ByLastAccessMetadata(fsi, lastAccess);
-					logger.CorrectedByLastAccessMetadata(fsi, (DateTime) lastAccess);
+					corrector.ByLastAccessMetadata(fsi, lastAccess.Value);
+					logger.CorrectedByLastAccessMetadata(fsi, lastAccess.Value);
 				}
 			}
 			catch(UnauthorizedAccessException ex)
@@ -196,7 +226,7 @@ namespace Wreck
 			
 			// Fix creation time from modified time.
 			// Creation time will always be earlier than modification time.
-			
+			/*
 			try
 			{
 				if (fsi.CreationTime.CompareTo(fsi.LastWriteTime) > 0)
@@ -210,9 +240,10 @@ namespace Wreck
 			{
 				logger.UnauthorizedAccessException(ex);
 			}
-			
+			*/
 			// Fix last access time from modified time.
 			// Last access time will always be earlier than modification time.
+			/*
 			try
 			{
 				if(fsi.LastAccessTime.CompareTo(fsi.LastWriteTime) > 0)
@@ -225,6 +256,7 @@ namespace Wreck
 			{
 				logger.UnauthorizedAccessException(ex);
 			}
+			*/
 		}
 		
 		/// <summary>
