@@ -3,14 +3,15 @@ using System;
 using System.Diagnostics;
 
 using SevenZip;
+using System.IO;
 
 namespace Wreck.Parser
 {
 	/// <summary>
 	/// Description of Class1.
 	/// </summary>
-	public class SevenZipParser
-	{
+	public class SevenZipParser : IFileDateable
+	{		
 		public void GetVersion()
 		{
 			FileVersionInfo libraryVersion = SevenZipExtractor.GetLibraryVersion();
@@ -45,6 +46,17 @@ namespace Wreck.Parser
 					}
 				}
 			}
+		}
+		
+		public void GetDateTimes(
+			FileInfo fi, 
+			out DateTime? creationTime, 
+			out DateTime? lastWriteTime, 
+			out DateTime? lastAccessTime)
+		{
+			creationTime = null;
+			lastWriteTime = null;
+			lastAccessTime = null;
 		}
 	}
 }

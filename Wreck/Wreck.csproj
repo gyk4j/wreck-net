@@ -8,6 +8,7 @@
     <AssemblyName>Wreck</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SourceAnalysisOverrideSettingsFile>C:\Users\USER\AppData\Roaming\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -43,6 +44,7 @@
     <Compile Include="Logging\TextFormatter.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Parser\ExifToolParser.cs" />
+    <Compile Include="Parser\IFileDateable.cs" />
     <Compile Include="Parser\SevenZipParser.cs" />
     <Compile Include="Parser\ExifToolWrapper.cs" />
     <Compile Include="Parser\MediaInfoDLL.cs" />
