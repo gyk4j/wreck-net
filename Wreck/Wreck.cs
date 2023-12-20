@@ -35,8 +35,8 @@ namespace Wreck
 			this.stats = new Statistics();
 			
 			this.parsers = new Dictionary<FileInfoTools, IFileDateable>();
-			this.parsers.Add(FileInfoTools.ExifTool, new ExifToolParser());
-			this.parsers.Add(FileInfoTools.MediaInfo, new MediaInfoParser());
+//			this.parsers.Add(FileInfoTools.ExifTool, new ExifToolParser());
+//			this.parsers.Add(FileInfoTools.MediaInfo, new MediaInfoParser());
 			this.parsers.Add(FileInfoTools.SevenZip, new SevenZipParser());
 			
 			this.corrector = corrector;
@@ -44,8 +44,12 @@ namespace Wreck
 		
 		public void Dispose()
 		{
-			ExifToolParser etp = (ExifToolParser) this.parsers[FileInfoTools.ExifTool];
-			etp.Dispose();
+			IFileDateable exifToolParser; 
+			if(this.parsers.TryGetValue(FileInfoTools.ExifTool, out exifToolParser))
+			{
+				((ExifToolParser) exifToolParser).Dispose();
+			}
+			
 			GC.SuppressFinalize(this);
 		}
 		
@@ -96,9 +100,9 @@ namespace Wreck
 			
 			stats.Count(dir);
 			
-			DateTime? creation, lastWrite, lastAccess;
-			Extract(dir, out creation, out lastWrite, out lastAccess);
-			Correct(dir, creation, lastWrite, lastAccess);
+//			DateTime? creation, lastWrite, lastAccess;
+//			Extract(dir, out creation, out lastWrite, out lastAccess);
+//			Correct(dir, creation, lastWrite, lastAccess);
 		}
 		
 		public void RetrieveFile(FileInfo file)
@@ -120,7 +124,7 @@ namespace Wreck
 				IFileDateable parser = e.Current;
 				parser.GetDateTimes(file, out creation, out lastWrite, out lastAccess);
 				
-				if(creation != null || lastWrite != null || lastAccess != null)
+				if(creation.HasValue || lastWrite.HasValue || lastAccess.HasValue)
 				{
 					// Backup and restore Read-Only attribute prior to updating any 
 					// timestamps.
@@ -153,7 +157,7 @@ namespace Wreck
 			out DateTime? lastAccess)
 		{
 			// TODO: To be updated with real metadata extraction calls
-			DateTime test = new DateTime(2024, 7, 2, 12, 0, 0);
+			DateTime test = new DateTime(1980, 1, 1, 0, 0, 0);
 			creation = test;
 			lastWrite = test;
 			lastAccess = test;
