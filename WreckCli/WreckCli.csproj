@@ -9,7 +9,7 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <SourceAnalysisOverrideSettingsFile>C:\Users\USER\AppData\Roaming\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
-    <StartArguments>C:\temp\Public\Documents</StartArguments>
+    <StartArguments>C:\Users\USER\Downloads\Wireless@SGx_V3.0.3.1001.msi</StartArguments>
     <StartupObject>Wreck.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x86' ">

@@ -20,7 +20,7 @@ namespace Wreck
 			string[] dirs = (args.Length > 0)? args: new string[]{ Directory.GetCurrentDirectory() };
 			app.Run(args);
 			
-//			Console.ReadLine();
+			Console.ReadLine();
 		}
 		
 		public Program()
