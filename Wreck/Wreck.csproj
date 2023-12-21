@@ -53,10 +53,14 @@
     <Compile Include="Test.cs" />
     <Compile Include="Wreck.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="x86\7z.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Corrector" />
     <Folder Include="Logging" />
+    <Folder Include="x86" />
     <Folder Include="Parser" />
   </ItemGroup>
 </Project>

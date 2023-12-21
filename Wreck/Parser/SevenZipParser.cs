@@ -26,10 +26,11 @@ namespace Wreck.Parser
 			"arj",
 			"cab",
 			"chm", "chw", "chi", "chq",
-			//"msi", "msp", "doc", "xls", "ppt",
+			"msi", "msp", "doc", "xls", "ppt",
 			"cpio",
 			"cramfs",
 			"dmg",
+			"exe", "dll",
 			"ext", "ext2", "ext3", "ext4", "img",
 			"fat", "img",
 			"hfs", "hfsx",
@@ -44,7 +45,7 @@ namespace Wreck.Parser
 			"nsis",
 			"ntfs", "img",
 			"mbr",
-			"rar", "r00",
+			"rar", "r00", "cbr",
 			"rpm",
 			"ppmd",
 			"qcow", "qcow2", "qcow2c",
@@ -73,25 +74,56 @@ namespace Wreck.Parser
 			Console.WriteLine("Features: {0}{2}{1}", ((uint)features).ToString("X6"), features, Environment.NewLine);
 		}
 		
+		private static SevenZipExtractor GetExtractor(FileInfo fi)
+		{			
+			string password = PasswordProvider.GetPassword(fi);
+			
+			SevenZipExtractor sze = null;
+			
+			try
+			{
+				sze = string.IsNullOrEmpty(password)?
+					new SevenZipExtractor(fi.FullName):
+					new SevenZipExtractor(fi.FullName, password);
+			}
+			catch(ArgumentException ex)
+			{
+				Console.WriteLine(ex.Message);
+				throw new ArgumentException(ex.Message, ex);
+			}
+			
+			return sze;
+		}
+		
 		private void Enumerate(FileInfo fi, IArchiveEntryEnumerator e)
 		{
-			if(Array.IndexOf(SUPPORTED_FORMATS, fi.Extension.Remove(0, 1).ToLower()) < 0)
+			string ext = (fi.Extension.StartsWith("."))? fi.Extension.Remove(0, 1).ToLower() : string.Empty;
+			if(string.IsNullOrEmpty(ext) || Array.IndexOf(SUPPORTED_FORMATS, ext) < 0)
 			{
 				Debug.Print("Skipped unsupported format: {0} ", fi.FullName);
 				return;
 			}
 			
-			string password = PasswordProvider.GetPassword(fi);
-			
-			using (SevenZipExtractor sze = password.Equals(string.Empty)?
-			       new SevenZipExtractor(fi.FullName):
-			       new SevenZipExtractor(fi.FullName, password))
+			try
 			{
-				for (int i = 0; i < sze.ArchiveFileData.Count; i++)
+				using (SevenZipExtractor sze = GetExtractor(fi))
 				{
-					ArchiveFileInfo afi = sze.ArchiveFileData[i];
-					e.OnArchiveFileInfo(afi);
+					for (int i = 0; i < sze.ArchiveFileData.Count; i++)
+					{
+						ArchiveFileInfo afi = sze.ArchiveFileData[i];
+						e.OnArchiveFileInfo(afi);
+					}
+					
+					Debug.Print("OK {0}", fi.FullName);
 				}
+			}
+			catch(ArgumentException ex)
+			{
+				Debug.Print("{0}: {1}", fi.FullName, ex.Message);
+			}
+			catch(SevenZipArchiveException ex)
+			{
+				Debug.Print("{0}: {1}", fi.FullName, ex.Message);
 			}
 		}
 		
@@ -172,7 +204,7 @@ namespace Wreck.Parser
 			set
 			{
 				earliest = (!earliest.HasValue || value.Value.CompareTo(earliest.Value) < 0)?
-					value: earliest.Value;
+					value.Value: earliest.Value;
 			}
 		}
 		
@@ -186,7 +218,7 @@ namespace Wreck.Parser
 			set
 			{
 				latest = (!latest.HasValue || value.Value.CompareTo(latest.Value) > 0)?
-					value: latest.Value;
+					value.Value: latest.Value;
 			}
 		}
 		
@@ -206,6 +238,8 @@ namespace Wreck.Parser
 			// blank/empty, and 7-Zip will return current date time during
 			// runtime.
 			
+			Debug.Print(">>> {0} {1}", afi.LastWriteTime, afi.FileName);
+			
 			TimeSpan diff = DateTime.Now - afi.LastWriteTime;
 			if(diff.Minutes >= 1)
 			{
@@ -224,7 +258,7 @@ namespace Wreck.Parser
 				
 				// LastAccessTime never seems to provide anything except current
 				// date time. So it is ignored.
-			}	
+			}
 		}
 	}
 	
@@ -238,7 +272,10 @@ namespace Wreck.Parser
 		public static string GetPassword(string path)
 		{
 			Debug.Print("Password for {0}", path);
-			return string.Empty;
+			if(path.Equals(@"C:\temp\Public\Downloads\rar_sample\testfile.rar5.locked.rar"))
+				return "password";
+			else
+				return string.Empty;
 		}
 	}
 }
