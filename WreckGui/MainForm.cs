@@ -8,6 +8,8 @@ using System.Diagnostics;
 
 using Wreck.Corrector;
 using Wreck.Logging;
+using log4net;
+using log4net.Config;
 
 namespace Wreck
 {
@@ -16,6 +18,9 @@ namespace Wreck
 	/// </summary>
 	public partial class MainForm : Form
 	{
+		private const string LOG4NET_XML = "log4net.xml";
+		
+		private static readonly ILog log = LogManager.GetLogger(typeof(MainForm));
 		private Logger logger;
 		private Wreck wreck;
 		
@@ -31,6 +36,10 @@ namespace Wreck
 			//
 			// TODO: Add constructor code after the InitializeComponent() call.
 			//
+			//BasicConfigurator.Configure();
+			XmlConfigurator.Configure(new System.IO.FileInfo(LOG4NET_XML));
+			log.Debug("Initializing MainForm");
+			
 			this.logger = new Logger(this);
 			this.wreck = new Wreck(logger, new Previewer());
 			logger.Version();
@@ -41,6 +50,8 @@ namespace Wreck
             this.rootNode.Text = "rootNode";
             this.treeViewPaths.Nodes.Add(this.rootNode);
             this.rootNode.ExpandAll();
+            
+            log.Debug("Initialized MainForm");
 		}
 		
 		public void Run(string[] args)
@@ -56,6 +67,8 @@ namespace Wreck
 		
 		void BtnRunClick(object sender, EventArgs e)
 		{
+			log.Debug("Run clicked");
+			
 			string[] args = Environment.GetCommandLineArgs();			
 			string[] dirs; 
 			
