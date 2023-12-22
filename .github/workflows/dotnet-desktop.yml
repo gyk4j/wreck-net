@@ -29,7 +29,7 @@ jobs:
         # run: msbuild $env:Base_Directory\$env:Solution_Name -t:rebuild -property:Configuration=$env:Configuration
         run: |
           cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\"
-          msbuild Wreck.sln -t:Rebuild -p:Configuration=Release -p:Platform=x86 -p:TargetFrameworkVersion=v2.0
+          msbuild $Env:GITHUB_WORKSPACE\Wreck.sln -t:Rebuild -p:Configuration=Release -p:Platform=x86 -p:TargetFrameworkVersion=v2.0
         #run: pwd && ls
         env:
           Configuration: ${{ matrix.configuration }}
