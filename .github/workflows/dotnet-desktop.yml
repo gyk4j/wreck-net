@@ -1,3 +1,5 @@
+name: .NET CI with MSBuild
+
 on:
   workflow_dispatch:
   push:
