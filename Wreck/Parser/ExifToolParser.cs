@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Diagnostics;
 
+using log4net;
+using log4net.Config;
+
 using ExifToolWrapper;
 
 namespace Wreck.Parser
@@ -14,6 +17,8 @@ namespace Wreck.Parser
 	/// </summary>
 	public class ExifToolParser : IFileDateable, IDisposable
 	{
+		private static readonly ILog log = LogManager.GetLogger(typeof(ExifToolParser));
+		
 		private ExifTool exifTool;
 		
 		public ExifToolParser()
@@ -23,13 +28,13 @@ namespace Wreck.Parser
 		
 		~ExifToolParser()
 		{
-			Debug.Print("Called ~ExifToolParser");
+			log.DebugFormat("Called ~ExifToolParser");
 			Dispose();
 		}
 		
 		public void Dispose()
 		{
-			Debug.Print("Called ExifToolParser.Dispose()");
+			log.DebugFormat("Called ExifToolParser.Dispose()");
 			exifTool.Dispose(); // Always stop the ExifTool process.
 			GC.SuppressFinalize(this);
 		}
@@ -80,7 +85,7 @@ namespace Wreck.Parser
 						default:
 							break;
 					}
-//					Debug.Print("exiftool: {0}: {1} = {2}", fi.Name, entry.Key, entry.Value);
+//					log.DebugFormat("exiftool: {0}: {1} = {2}", fi.Name, entry.Key, entry.Value);
 				}
 			}
 			

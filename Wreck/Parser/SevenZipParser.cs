@@ -2,6 +2,9 @@
 using System;
 using System.Diagnostics;
 
+using log4net;
+using log4net.Config;
+
 using SevenZip;
 using System.IO;
 
@@ -12,6 +15,8 @@ namespace Wreck.Parser
 	/// </summary>
 	public class SevenZipParser : IFileDateable
 	{
+		private static readonly ILog log = LogManager.GetLogger(typeof(SevenZipParser));
+		
 		public static readonly string[] SUPPORTED_FORMATS =
 		{
 			"7z",
@@ -100,7 +105,7 @@ namespace Wreck.Parser
 			string ext = (fi.Extension.StartsWith("."))? fi.Extension.Remove(0, 1).ToLower() : string.Empty;
 			if(string.IsNullOrEmpty(ext) || Array.IndexOf(SUPPORTED_FORMATS, ext) < 0)
 			{
-				Debug.Print("Skipped unsupported format: {0} ", fi.FullName);
+				log.DebugFormat("Skipped unsupported format: {0} ", fi.FullName);
 				return;
 			}
 			
@@ -114,16 +119,16 @@ namespace Wreck.Parser
 						e.OnArchiveFileInfo(afi);
 					}
 					
-					Debug.Print("OK {0}", fi.FullName);
+					log.DebugFormat("OK {0}", fi.FullName);
 				}
 			}
 			catch(ArgumentException ex)
 			{
-				Debug.Print("{0}: {1}", fi.FullName, ex.Message);
+				log.DebugFormat("{0}: {1}", fi.FullName, ex.Message);
 			}
 			catch(SevenZipArchiveException ex)
 			{
-				Debug.Print("{0}: {1}", fi.FullName, ex.Message);
+				log.DebugFormat("{0}: {1}", fi.FullName, ex.Message);
 			}
 		}
 		
@@ -149,10 +154,10 @@ namespace Wreck.Parser
 			
 			if(afid.Earliest.HasValue || afid.Latest.HasValue)
 			{
-				Debug.Print(
+				log.DebugFormat(
 					"[SevenZipParser] Earliest = {0}",
 					afid.Earliest.HasValue? afid.Earliest.Value.ToString(): "?");
-				Debug.Print(
+				log.DebugFormat(
 					"[SevenZipParser] Latest = {0}",
 					afid.Latest.HasValue? afid.Latest.Value.ToString(): "?");
 			}
@@ -185,6 +190,8 @@ namespace Wreck.Parser
 	
 	class ArchiveFileInfoDater : IArchiveEntryEnumerator
 	{
+		private static readonly ILog log = LogManager.GetLogger(typeof(ArchiveFileInfoDater));
+		
 		private DateTime? earliest;
 		private DateTime? latest;
 		
@@ -225,7 +232,7 @@ namespace Wreck.Parser
 		public void OnArchiveFileInfo(ArchiveFileInfo afi)
 		{
 			/*
-			Debug.Print("{0} {1} {2} {3}",
+			log.DebugFormat("{0} {1} {2} {3}",
 			            afi.CreationTime,
 			            afi.LastWriteTime,
 			            afi.LastAccessTime,
@@ -238,7 +245,7 @@ namespace Wreck.Parser
 			// blank/empty, and 7-Zip will return current date time during
 			// runtime.
 			
-			Debug.Print(">>> {0} {1}", afi.LastWriteTime, afi.FileName);
+			log.DebugFormat(">>> {0} {1}", afi.LastWriteTime, afi.FileName);
 			
 			TimeSpan diff = DateTime.Now - afi.LastWriteTime;
 			if(diff.Minutes >= 1)
@@ -264,6 +271,8 @@ namespace Wreck.Parser
 	
 	class PasswordProvider
 	{
+		private static readonly ILog log = LogManager.GetLogger(typeof(PasswordProvider));
+		
 		public static string GetPassword(FileInfo fi)
 		{
 			return GetPassword(fi.FullName);
@@ -271,7 +280,7 @@ namespace Wreck.Parser
 		
 		public static string GetPassword(string path)
 		{
-			Debug.Print("Password for {0}", path);
+			log.DebugFormat("Password for {0}", path);
 			if(path.Equals(@"C:\temp\Public\Downloads\rar_sample\testfile.rar5.locked.rar"))
 				return "password";
 			else
