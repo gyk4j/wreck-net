@@ -49,7 +49,6 @@ namespace Wreck
 			this.treeViewPaths.Name = "treeViewPaths";
 			this.treeViewPaths.Size = new System.Drawing.Size(469, 321);
 			this.treeViewPaths.TabIndex = 1;
-			
 			// 
 			// statusStrip
 			// 
@@ -68,7 +67,7 @@ namespace Wreck
 			this.lblDirectoriesCount.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
 									| System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
 									| System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-			this.lblDirectoriesCount.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
+			this.lblDirectoriesCount.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
 			this.lblDirectoriesCount.Name = "lblDirectoriesCount";
 			this.lblDirectoriesCount.Size = new System.Drawing.Size(4, 17);
 			// 
@@ -77,7 +76,7 @@ namespace Wreck
 			this.lblFilesCount.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
 									| System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
 									| System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-			this.lblFilesCount.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
+			this.lblFilesCount.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
 			this.lblFilesCount.Name = "lblFilesCount";
 			this.lblFilesCount.Size = new System.Drawing.Size(4, 17);
 			// 
@@ -86,7 +85,7 @@ namespace Wreck
 			this.lblSkippedCount.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
 									| System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
 									| System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
-			this.lblSkippedCount.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
+			this.lblSkippedCount.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
 			this.lblSkippedCount.Name = "lblSkippedCount";
 			this.lblSkippedCount.Size = new System.Drawing.Size(4, 17);
 			// 

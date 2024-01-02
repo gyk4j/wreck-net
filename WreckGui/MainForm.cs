@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -26,17 +27,11 @@ namespace Wreck
 		private Wreck wreck;
 		
 		private TreeNode rootNode;
-		/*
 		private TreeNode pathNode;
 		private TreeNode dirNode;
 		private TreeNode fileNode;
-		*/
 		
-		private Thread workerThread = null;
-		
-		// Declare a delegate used to communicate with the UI thread
-		private delegate void UpdateStatusDelegate();
-		private UpdateStatusDelegate updateStatusDelegate = null;
+		BackgroundWorker backgroundWorker = null;
 		
 		public MainForm()
 		{
@@ -63,8 +58,7 @@ namespace Wreck
 			this.treeViewPaths.Nodes.Add(this.rootNode);
 			this.rootNode.ExpandAll();
 			
-			// Initialise the delegate
-			this.updateStatusDelegate = new UpdateStatusDelegate(this.UpdateStatus);
+			backgroundWorker = new BackgroundWorker(); 
 			
 			log.Debug("Initialized MainForm");
 		}
@@ -84,15 +78,17 @@ namespace Wreck
 		{
 			log.Debug("Run clicked");
 			
-			// Initialise and start worker thread
-			this.workerThread = new Thread(new ThreadStart(this.BackgroundWorker));
-			this.workerThread.Start();
-			
-			this.treeViewPaths.ExpandAll();
+			backgroundWorker.DoWork += new DoWorkEventHandler(DoWork);
+			backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(ProgressChanged);
+			backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(RunWorkerCompleted);
+			backgroundWorker.WorkerReportsProgress = true;
+			backgroundWorker.WorkerSupportsCancellation = false;
+			backgroundWorker.RunWorkerAsync();
 		}
 		
-		private void BackgroundWorker()
+		void DoWork(object sender, DoWorkEventArgs e)
 		{
+			log.Debug("DoWork");
 			string[] args = Environment.GetCommandLineArgs();
 			string[] dirs;
 			
@@ -112,9 +108,16 @@ namespace Wreck
 			this.Run(dirs);
 		}
 		
-		private void UpdateStatus()
+		void ProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
-			log.Debug("*");
+			log.DebugFormat("Progress: {0} %", e.ProgressPercentage);
+			log.DebugFormat("Total items processed: {0}", e.UserState);
+		}
+		
+		void RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			log.Debug("RunWorkerCompleted");
+			this.treeViewPaths.ExpandAll();
 		}
 		
 		public void Version()
@@ -135,6 +138,7 @@ namespace Wreck
 		public void CurrentPath(string p)
 		{
 			log.DebugFormat("{0}", p);
+			// TODO: To update TreeView 
 			/*
 			pathNode = new TreeNode();
 			pathNode.Name = p;
@@ -147,6 +151,7 @@ namespace Wreck
 		public void CurrentFile(FileInfo f)
 		{
 			log.DebugFormat("    - {0}", f.Name);
+			// TODO: To update TreeView
 			/*
 			fileNode = new TreeNode();
 			fileNode.Name = f.FullName;
@@ -159,6 +164,7 @@ namespace Wreck
 		public void CurrentDirectory(DirectoryInfo d)
 		{
 			log.DebugFormat("  - {0}", d.FullName);
+			// TODO: To update TreeView
 			/*
 			dirNode = new TreeNode();
 			dirNode.Name = d.FullName;
