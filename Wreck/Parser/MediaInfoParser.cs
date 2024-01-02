@@ -4,6 +4,10 @@ using System.IO;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Diagnostics;
+
+using log4net;
+using log4net.Config;
+
 using MediaInfoLib;
 
 namespace Wreck.Parser
@@ -13,6 +17,8 @@ namespace Wreck.Parser
 	/// </summary>
 	public class MediaInfoParser : IFileDateable
 	{
+		private static readonly ILog log = LogManager.GetLogger(typeof(MediaInfoParser));
+		
 		public void TestMediaInfoLoad()
 		{
 			//Test if version of DLL is compatible : 3rd argument is "version of DLL tested;Your application name;Your application version"
@@ -161,7 +167,7 @@ namespace Wreck.Parser
 				}
 				catch(FormatException)
 				{
-					Debug.Print("{0} in unexpected format.", encodedDate);
+					log.DebugFormat("{0} in unexpected format.", encodedDate);
 				}
 				
 			}

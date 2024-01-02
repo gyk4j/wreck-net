@@ -1,15 +1,16 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
-using System.IO;
 using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Threading;
+using System.Windows.Forms;
 
-using Wreck.Corrector;
-using Wreck.Logging;
 using log4net;
 using log4net.Config;
+using Wreck.Corrector;
+using Wreck.Logging;
 
 namespace Wreck
 {
@@ -25,6 +26,17 @@ namespace Wreck
 		private Wreck wreck;
 		
 		private TreeNode rootNode;
+		/*
+		private TreeNode pathNode;
+		private TreeNode dirNode;
+		private TreeNode fileNode;
+		*/
+		
+		private Thread workerThread = null;
+		
+		// Declare a delegate used to communicate with the UI thread
+		private delegate void UpdateStatusDelegate();
+		private UpdateStatusDelegate updateStatusDelegate = null;
 		
 		public MainForm()
 		{
@@ -46,16 +58,19 @@ namespace Wreck
 			logger.Statistics(wreck.GetStatistics());
 			
 			this.rootNode = new TreeNode();
-            this.rootNode.Name = "rootNode";
-            this.rootNode.Text = "rootNode";
-            this.treeViewPaths.Nodes.Add(this.rootNode);
-            this.rootNode.ExpandAll();
-            
-            log.Debug("Initialized MainForm");
+			this.rootNode.Name = "rootNode";
+			this.rootNode.Text = "rootNode";
+			this.treeViewPaths.Nodes.Add(this.rootNode);
+			this.rootNode.ExpandAll();
+			
+			// Initialise the delegate
+			this.updateStatusDelegate = new UpdateStatusDelegate(this.UpdateStatus);
+			
+			log.Debug("Initialized MainForm");
 		}
 		
 		public void Run(string[] args)
-		{			
+		{
 			foreach(string p in args)
 			{
 				logger.CurrentPath(p);
@@ -69,8 +84,17 @@ namespace Wreck
 		{
 			log.Debug("Run clicked");
 			
-			string[] args = Environment.GetCommandLineArgs();			
-			string[] dirs; 
+			// Initialise and start worker thread
+			this.workerThread = new Thread(new ThreadStart(this.BackgroundWorker));
+			this.workerThread.Start();
+			
+			this.treeViewPaths.ExpandAll();
+		}
+		
+		private void BackgroundWorker()
+		{
+			string[] args = Environment.GetCommandLineArgs();
+			string[] dirs;
 			
 			if(args.Length > 1)
 			{
@@ -85,25 +109,120 @@ namespace Wreck
 				};
 			}
 			
-			
 			this.Run(dirs);
+		}
+		
+		private void UpdateStatus()
+		{
+			log.Debug("*");
+		}
+		
+		public void Version()
+		{
+			this.Text = String.Format("{0} v{1}", Wreck.NAME, Wreck.VERSION);
+		}
+		
+		public void UnknownPathType(string path)
+		{
+			MessageBox.Show(
+				string.Format("UnknownPathType: {0}", path),
+				"Unknown Path Type",
+				MessageBoxButtons.OK,
+				MessageBoxIcon.Error
+			);
+		}
+		
+		public void CurrentPath(string p)
+		{
+			log.DebugFormat("{0}", p);
+			/*
+			pathNode = new TreeNode();
+			pathNode.Name = p;
+			pathNode.Text = p;
 			
-			this.treeViewPaths.ExpandAll();
+			rootNode.Nodes.Add(pathNode);
+			*/
 		}
 		
-		public StatusStrip getStatusStrip()
+		public void CurrentFile(FileInfo f)
 		{
-			return this.statusStrip;
+			log.DebugFormat("    - {0}", f.Name);
+			/*
+			fileNode = new TreeNode();
+			fileNode.Name = f.FullName;
+			fileNode.Text = f.Name;
+			
+			dirNode.Nodes.Add(fileNode);
+			*/
 		}
 		
-		public TreeView getTreeView()
+		public void CurrentDirectory(DirectoryInfo d)
 		{
-			return this.treeViewPaths;
+			log.DebugFormat("  - {0}", d.FullName);
+			/*
+			dirNode = new TreeNode();
+			dirNode.Name = d.FullName;
+			dirNode.Text = d.FullName;
+			
+			pathNode.Nodes.Add(dirNode);
+			*/
 		}
 		
-		public TreeNode getRootNode()
+		public void SkipReparsePoint(DirectoryInfo d)
 		{
-			return this.rootNode;
+			log.DebugFormat("Skipped reparse point: {0}", d.Name);
+		}
+		
+		public void SkipReparsePoint(FileInfo f)
+		{
+			log.DebugFormat("Skipped reparse point: {0}", f.Name);
+		}
+		
+		// For Corrector
+		public void CorrectedByLastWriteMetadata(FileSystemInfo fsi, DateTime lastWrite)
+		{
+			log.DebugFormat("MW: {0} : {1} -> {2}", fsi.Name, fsi.LastWriteTime, lastWrite);
+		}
+		
+		public void CorrectedByCreationMetadata(FileSystemInfo fsi, DateTime creation)
+		{
+			log.DebugFormat("MC: {0} : {1} -> {2}", fsi.Name, fsi.CreationTime, creation);
+		}
+		
+		public void CorrectedByLastAccessMetadata(FileSystemInfo fsi, DateTime lastAccess)
+		{
+			log.DebugFormat("MA: {0} : {1} -> {2}", fsi.Name, fsi.LastAccessTime, lastAccess);
+		}
+		
+		public void CorrectedByLastWriteTime(FileSystemInfo fsi, DateTime creationOrLastAccess)
+		{
+			if(creationOrLastAccess == fsi.CreationTime)
+				log.DebugFormat("LC: {0} : {1} -> {2}", fsi.Name, fsi.CreationTime, fsi.LastWriteTime);
+			else if(creationOrLastAccess == fsi.LastAccessTime)
+				log.DebugFormat("LA: {0} : {1} -> {2}", fsi.Name, fsi.LastAccessTime, fsi.LastWriteTime);
+		}
+		
+		public void Statistics(Statistics stats)
+		{
+			ToolStripItem lblDirectoriesCount = statusStrip.Items["lblDirectoriesCount"];
+			lblDirectoriesCount.Text = string.Format("Directories: {0}", stats.Directories);
+			
+			ToolStripItem lblFilesCount = statusStrip.Items["lblFilesCount"];
+			lblFilesCount.Text = string.Format("Files: {0}", stats.Files);
+			
+			ToolStripItem lblSkippedCount = statusStrip.Items["lblSkippedCount"];
+			lblSkippedCount.Text = string.Format("Skipped: {0}", stats.Skipped);
+		}
+		
+		// For error reporting
+		public void UnauthorizedAccessException(UnauthorizedAccessException ex)
+		{
+			MessageBox.Show(
+				ex.ToString(),
+				"Unauthorized Access",
+				MessageBoxButtons.OK,
+				MessageBoxIcon.Error
+			);
 		}
 	}
 }
