@@ -40,16 +40,19 @@ namespace Wreck.Logging
 		
 		public void CurrentPath(string p)
 		{
+			log.DebugFormat("P {0}", p);
 			form.CurrentPath(p);
 		}
 		
 		public void CurrentFile(FileInfo f)
 		{
+			log.DebugFormat("F     - {0}", f.Name);
 			form.CurrentFile(f);
 		}
 		
 		public void CurrentDirectory(DirectoryInfo d)
 		{
+			log.DebugFormat("D   - {0}", d.FullName);
 			form.CurrentDirectory(d);
 		}
 		
