@@ -31,7 +31,34 @@ namespace Wreck
 		private TreeNode dirNode;
 		private TreeNode fileNode;
 		
-		BackgroundWorker backgroundWorker = null;
+		private BackgroundWorker backgroundWorker = null;
+		
+		private static readonly string ICON_START = "start.Icon";
+		private static readonly string ICON_FOLDER = "folder.Icon";
+		private static readonly string ICON_FILE = "file.Icon";
+		
+		static ImageList _imageList;
+		public static ImageList ImageList
+		{
+			get
+			{
+				if (_imageList == null)
+				{
+					System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+					_imageList = new ImageList();
+					
+					Icon startIcon = (Icon) resources.GetObject(ICON_START);
+					_imageList.Images.Add(ICON_START, startIcon);
+					
+					Icon folderIcon = (Icon) resources.GetObject(ICON_FOLDER);
+					_imageList.Images.Add(ICON_FOLDER, folderIcon);
+					
+					Icon fileIcon = (Icon) resources.GetObject(ICON_FILE);
+					_imageList.Images.Add(ICON_FILE, fileIcon);
+				}
+				return _imageList;
+			}
+		}
 		
 		public MainForm()
 		{
@@ -52,6 +79,7 @@ namespace Wreck
 			logger.Version();
 			logger.Statistics(wreck.GetStatistics());
 			
+			this.treeViewPaths.ImageList = MainForm.ImageList;
 			this.rootNode = new TreeNode();
 			this.rootNode.Name = "rootNode";
 			this.rootNode.Text = "rootNode";
@@ -123,8 +151,18 @@ namespace Wreck
 					pathNode.Name = p;
 					pathNode.Text = p;
 					
+					pathNode.ImageKey = ICON_START;
+					pathNode.SelectedImageKey = ICON_START;
+					
 					if(rootNode != null)
+					{
 						rootNode.Nodes.Add(pathNode);
+						
+						if(Directory.Exists(p))
+							dirNode = pathNode;
+						else if(File.Exists(p))
+							fileNode = pathNode;
+					}
 					else
 						log.Error("rootNode is null");
 					break;
@@ -132,30 +170,45 @@ namespace Wreck
 					FileInfo fi = (FileInfo) e.UserState;
 					log.InfoFormat("F: {0}", fi.Name);
 					
-					fileNode = new TreeNode();
-					fileNode.Name = fi.FullName;
-					fileNode.Text = fi.Name;
+					// If file is not a top-level starting path
+					if(!pathNode.Name.Equals(fi.FullName))
+					{
+						fileNode = new TreeNode();
+						fileNode.Name = fi.FullName;
+						fileNode.Text = fi.Name;
+						fileNode.ImageKey = ICON_FILE;
+						fileNode.SelectedImageKey = ICON_FILE;
+						
+						if(dirNode != null)
+							dirNode.Nodes.Add(fileNode);
+						else
+							log.Error("dirNode is null");
+					}
 					
-					if(dirNode != null)
-						dirNode.Nodes.Add(fileNode);
-					else
-						log.Error("dirNode is null");
 					break;
 				case "DirectoryInfo":
 					DirectoryInfo di = (DirectoryInfo) e.UserState;
 					log.InfoFormat("D: {0}", di.FullName);
 					
-					dirNode = new TreeNode();
-					dirNode.
-					dirNode.Name = di.FullName;
-					dirNode.Text = di.Name;
+					// If directory is not a top-level starting path
+					// i.e. directory is a sub-directory
+					if(!pathNode.Name.Equals(di.FullName))
+					{
+						dirNode = new TreeNode();
+						dirNode.Name = di.FullName;
+						dirNode.Text = di.FullName.Replace(pathNode.Name, "");
+						dirNode.ImageKey = ICON_FOLDER;
+						dirNode.SelectedImageKey = ICON_FOLDER;
+						
+						if(pathNode != null)
+							pathNode.Nodes.Add(dirNode);
+						else
+							log.Error("pathNode is null");
+					}
 					
-					if(pathNode != null)
-						pathNode.Nodes.Add(dirNode);
-					else
-						log.Error("pathNode is null");
 					break;
 				default:
+					Debug.Assert(false);
 					log.WarnFormat("{0}: {1}", e.UserState.GetType().FullName, e.UserState.ToString());
 					break;
 			}
