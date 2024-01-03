@@ -76,14 +76,15 @@ namespace Wreck
 		
 		void BtnRunClick(object sender, EventArgs e)
 		{
-			log.Debug("Run clicked");
-			
-			backgroundWorker.DoWork += new DoWorkEventHandler(DoWork);
-			backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(ProgressChanged);
-			backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(RunWorkerCompleted);
-			backgroundWorker.WorkerReportsProgress = true;
-			backgroundWorker.WorkerSupportsCancellation = false;
-			backgroundWorker.RunWorkerAsync();
+			if(!backgroundWorker.IsBusy)
+			{
+				backgroundWorker.DoWork += new DoWorkEventHandler(DoWork);
+				backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(ProgressChanged);
+				backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(RunWorkerCompleted);
+				backgroundWorker.WorkerReportsProgress = true;
+				backgroundWorker.WorkerSupportsCancellation = false;
+				backgroundWorker.RunWorkerAsync();
+			}	
 		}
 		
 		void DoWork(object sender, DoWorkEventArgs e)
@@ -110,8 +111,55 @@ namespace Wreck
 		
 		void ProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
-			log.DebugFormat("Progress: {0} %", e.ProgressPercentage);
-			log.DebugFormat("Total items processed: {0}", e.UserState);
+			//log.DebugFormat("Progress: {0} %", e.ProgressPercentage);
+			
+			switch(e.UserState.GetType().Name)
+			{
+				case "String":
+					string p = (string) e.UserState;
+					log.InfoFormat("P: {0}", p);
+					
+					pathNode = new TreeNode();
+					pathNode.Name = p;
+					pathNode.Text = p;
+					
+					if(rootNode != null)
+						rootNode.Nodes.Add(pathNode);
+					else
+						log.Error("rootNode is null");
+					break;
+				case "FileInfo":
+					FileInfo fi = (FileInfo) e.UserState;
+					log.InfoFormat("F: {0}", fi.Name);
+					
+					fileNode = new TreeNode();
+					fileNode.Name = fi.FullName;
+					fileNode.Text = fi.Name;
+					
+					if(dirNode != null)
+						dirNode.Nodes.Add(fileNode);
+					else
+						log.Error("dirNode is null");
+					break;
+				case "DirectoryInfo":
+					DirectoryInfo di = (DirectoryInfo) e.UserState;
+					log.InfoFormat("D: {0}", di.FullName);
+					
+					dirNode = new TreeNode();
+					dirNode.
+					dirNode.Name = di.FullName;
+					dirNode.Text = di.Name;
+					
+					if(pathNode != null)
+						pathNode.Nodes.Add(dirNode);
+					else
+						log.Error("pathNode is null");
+					break;
+				default:
+					log.WarnFormat("{0}: {1}", e.UserState.GetType().FullName, e.UserState.ToString());
+					break;
+			}
+			
 		}
 		
 		void RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -137,51 +185,30 @@ namespace Wreck
 		
 		public void CurrentPath(string p)
 		{
-			log.DebugFormat("{0}", p);
-			// TODO: To update TreeView 
-			/*
-			pathNode = new TreeNode();
-			pathNode.Name = p;
-			pathNode.Text = p;
-			
-			rootNode.Nodes.Add(pathNode);
-			*/
+			if(backgroundWorker != null)
+				backgroundWorker.ReportProgress(0, p);
 		}
 		
 		public void CurrentFile(FileInfo f)
 		{
-			log.DebugFormat("    - {0}", f.Name);
-			// TODO: To update TreeView
-			/*
-			fileNode = new TreeNode();
-			fileNode.Name = f.FullName;
-			fileNode.Text = f.Name;
-			
-			dirNode.Nodes.Add(fileNode);
-			*/
+			if(backgroundWorker != null)
+				backgroundWorker.ReportProgress(0, f);
 		}
 		
 		public void CurrentDirectory(DirectoryInfo d)
 		{
-			log.DebugFormat("  - {0}", d.FullName);
-			// TODO: To update TreeView
-			/*
-			dirNode = new TreeNode();
-			dirNode.Name = d.FullName;
-			dirNode.Text = d.FullName;
-			
-			pathNode.Nodes.Add(dirNode);
-			*/
+			if(backgroundWorker != null)
+				backgroundWorker.ReportProgress(0, d);
 		}
 		
 		public void SkipReparsePoint(DirectoryInfo d)
 		{
-			log.DebugFormat("Skipped reparse point: {0}", d.Name);
+			log.WarnFormat("Skipped reparse point: {0}", d.Name);
 		}
 		
 		public void SkipReparsePoint(FileInfo f)
 		{
-			log.DebugFormat("Skipped reparse point: {0}", f.Name);
+			log.WarnFormat("Skipped reparse point: {0}", f.Name);
 		}
 		
 		// For Corrector
