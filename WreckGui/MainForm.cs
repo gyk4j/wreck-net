@@ -33,10 +33,16 @@ namespace Wreck
 		
 		private BackgroundWorker backgroundWorker = null;
 		
-		private static readonly string ICON_START = "start.Icon";
-		private static readonly string ICON_FOLDER = "folder.Icon";
-		private static readonly string ICON_FILE = "file.Icon";
+		// Based on the index assigned by imageList in Design mode.
+		private enum Icon
+		{
+			Folder,
+			File,
+			Start,
+			App
+		}
 		
+		/*
 		static ImageList _imageList;
 		public static ImageList ImageList
 		{
@@ -59,7 +65,7 @@ namespace Wreck
 				return _imageList;
 			}
 		}
-		
+		*/		
 		public MainForm()
 		{
 			//
@@ -79,10 +85,12 @@ namespace Wreck
 			logger.Version();
 			logger.Statistics(wreck.GetStatistics());
 			
-			this.treeViewPaths.ImageList = MainForm.ImageList;
+			this.treeViewPaths.ImageList = this.imageList;
 			this.rootNode = new TreeNode();
 			this.rootNode.Name = "rootNode";
-			this.rootNode.Text = "rootNode";
+			this.rootNode.Text = string.Format("{0} v{1}", Wreck.NAME, Wreck.VERSION);
+			this.rootNode.ImageIndex = (int) Icon.App;
+			this.rootNode.SelectedImageIndex = (int) Icon.App;
 			this.treeViewPaths.Nodes.Add(this.rootNode);
 			this.rootNode.ExpandAll();
 			
@@ -152,8 +160,8 @@ namespace Wreck
 					pathNode.Name = p;
 					pathNode.Text = p;
 					
-					pathNode.ImageKey = ICON_START;
-					pathNode.SelectedImageKey = ICON_START;
+					pathNode.ImageIndex = (int) Icon.Start;
+					pathNode.SelectedImageIndex = (int) Icon.Start;
 					
 					if(rootNode != null)
 					{
@@ -178,8 +186,8 @@ namespace Wreck
 						fileNode = new TreeNode();
 						fileNode.Name = fi.FullName;
 						fileNode.Text = fi.Name;
-						fileNode.ImageKey = ICON_FILE;
-						fileNode.SelectedImageKey = ICON_FILE;
+						fileNode.ImageIndex = (int) Icon.File;
+						fileNode.SelectedImageIndex = (int) Icon.File;
 						
 						if(dirNode != null)
 							dirNode.Nodes.Add(fileNode);
@@ -200,8 +208,8 @@ namespace Wreck
 						dirNode = new TreeNode();
 						dirNode.Name = di.FullName;
 						dirNode.Text = di.FullName.Replace(pathNode.Name, "");
-						dirNode.ImageKey = ICON_FOLDER;
-						dirNode.SelectedImageKey = ICON_FOLDER;
+						dirNode.ImageIndex = (int) Icon.Folder;
+						dirNode.SelectedImageIndex = (int) Icon.Folder;
 						
 						if(pathNode != null)
 							pathNode.Nodes.Add(dirNode);
