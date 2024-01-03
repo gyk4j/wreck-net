@@ -145,7 +145,8 @@ namespace Wreck
 			{
 				case "String":
 					string p = (string) e.UserState;
-					log.InfoFormat("P: {0}", p);
+					//log.InfoFormat("P: {0}", p);
+					SetCurrentFile(p);
 					
 					pathNode = new TreeNode();
 					pathNode.Name = p;
@@ -168,7 +169,8 @@ namespace Wreck
 					break;
 				case "FileInfo":
 					FileInfo fi = (FileInfo) e.UserState;
-					log.InfoFormat("F: {0}", fi.Name);
+					//log.InfoFormat("F: {0}", fi.Name);
+					SetCurrentFile(fi.Name);
 					
 					// If file is not a top-level starting path
 					if(!pathNode.Name.Equals(fi.FullName))
@@ -188,7 +190,8 @@ namespace Wreck
 					break;
 				case "DirectoryInfo":
 					DirectoryInfo di = (DirectoryInfo) e.UserState;
-					log.InfoFormat("D: {0}", di.FullName);
+					//log.InfoFormat("D: {0}", di.FullName);
+					SetCurrentFile(di.Name);
 					
 					// If directory is not a top-level starting path
 					// i.e. directory is a sub-directory
@@ -212,12 +215,13 @@ namespace Wreck
 					log.WarnFormat("{0}: {1}", e.UserState.GetType().FullName, e.UserState.ToString());
 					break;
 			}
-			
+			this.treeViewPaths.ExpandAll();
 		}
 		
 		void RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
-			log.Debug("RunWorkerCompleted");
+			//log.Debug("RunWorkerCompleted");
+			SetCurrentFile(string.Empty);
 			this.treeViewPaths.ExpandAll();
 		}
 		
@@ -298,6 +302,12 @@ namespace Wreck
 			
 			ToolStripItem lblSkippedCount = statusStrip.Items["lblSkippedCount"];
 			lblSkippedCount.Text = string.Format("Skipped: {0}", stats.Skipped);
+		}
+		
+		public void SetCurrentFile(string p)
+		{
+			ToolStripItem lblCurrentFile = statusStrip.Items["lblCurrentFile"];
+			lblCurrentFile.Text = p;
 		}
 		
 		// For error reporting

@@ -32,6 +32,7 @@ namespace Wreck
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.treeViewPaths = new System.Windows.Forms.TreeView();
 			this.statusStrip = new System.Windows.Forms.StatusStrip();
+			this.lblCurrentFile = new System.Windows.Forms.ToolStripStatusLabel();
 			this.lblDirectoriesCount = new System.Windows.Forms.ToolStripStatusLabel();
 			this.lblFilesCount = new System.Windows.Forms.ToolStripStatusLabel();
 			this.lblSkippedCount = new System.Windows.Forms.ToolStripStatusLabel();
@@ -55,7 +56,8 @@ namespace Wreck
 			this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 									this.lblDirectoriesCount,
 									this.lblFilesCount,
-									this.lblSkippedCount});
+									this.lblSkippedCount,
+			                        this.lblCurrentFile});
 			this.statusStrip.Location = new System.Drawing.Point(0, 299);
 			this.statusStrip.Name = "statusStrip";
 			this.statusStrip.Size = new System.Drawing.Size(469, 22);
@@ -88,6 +90,15 @@ namespace Wreck
 			this.lblSkippedCount.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
 			this.lblSkippedCount.Name = "lblSkippedCount";
 			this.lblSkippedCount.Size = new System.Drawing.Size(4, 17);
+			// 
+			// lblCurrentFile
+			// 
+			this.lblCurrentFile.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.None;
+			this.lblCurrentFile.BorderStyle = System.Windows.Forms.Border3DStyle.Flat;
+			this.lblCurrentFile.Name = "lblCurrentFile";
+			this.lblCurrentFile.Size = new System.Drawing.Size(4, 17);
+			this.lblCurrentFile.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.lblCurrentFile.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// toolStrip
 			// 
@@ -132,5 +143,6 @@ namespace Wreck
 		private System.Windows.Forms.ToolStripStatusLabel lblSkippedCount;
 		private System.Windows.Forms.ToolStripStatusLabel lblFilesCount;
 		private System.Windows.Forms.ToolStripStatusLabel lblDirectoriesCount;
+		private System.Windows.Forms.ToolStripStatusLabel lblCurrentFile;
 	}
 }
