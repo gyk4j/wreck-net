@@ -64,6 +64,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\app.ico" />
+    <None Include="Resources\app_idle.ico" />
+    <None Include="Resources\app_running.ico" />
     <None Include="Resources\file.ico" />
     <None Include="Resources\folder.ico" />
     <None Include="Resources\start.ico" />
