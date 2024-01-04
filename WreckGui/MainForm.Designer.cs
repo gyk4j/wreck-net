@@ -127,6 +127,8 @@ namespace Wreck
 			this.imageList.Images.SetKeyName(1, "file.ico");
 			this.imageList.Images.SetKeyName(2, "start.ico");
 			this.imageList.Images.SetKeyName(3, "app.ico");
+			this.imageList.Images.SetKeyName(4, "app_idle.ico");
+			this.imageList.Images.SetKeyName(5, "app_running.ico");
 			// 
 			// MainForm
 			// 

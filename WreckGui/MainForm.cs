@@ -39,8 +39,13 @@ namespace Wreck
 			Folder,
 			File,
 			Start,
-			App
+			App,
+			AppIdle,
+			AppRunning
 		}
+		
+		private static readonly string APP_STATE_IDLE = "Idle";
+		private static readonly string APP_STATE_RUNNING = "Running";
 			
 		public MainForm()
 		{
@@ -64,11 +69,8 @@ namespace Wreck
 			this.treeViewPaths.ImageList = this.imageList;
 			this.rootNode = new TreeNode();
 			this.rootNode.Name = "rootNode";
-			this.rootNode.Text = string.Format("{0} v{1}", Wreck.NAME, Wreck.VERSION);
-			this.rootNode.ImageIndex = (int) TreeViewIcon.App;
-			this.rootNode.SelectedImageIndex = (int) TreeViewIcon.App;
+			SetAppState(false);
 			this.treeViewPaths.Nodes.Add(this.rootNode);
-			this.rootNode.ExpandAll();
 			
 			backgroundWorker = new BackgroundWorker(); 
 			
@@ -96,6 +98,7 @@ namespace Wreck
 				backgroundWorker.WorkerReportsProgress = true;
 				backgroundWorker.WorkerSupportsCancellation = false;
 				backgroundWorker.RunWorkerAsync();
+				SetAppState(true);
 			}	
 		}
 		
@@ -199,13 +202,14 @@ namespace Wreck
 					log.WarnFormat("{0}: {1}", e.UserState.GetType().FullName, e.UserState.ToString());
 					break;
 			}
-			this.treeViewPaths.ExpandAll();
+			
 		}
 		
 		void RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			//log.Debug("RunWorkerCompleted");
 			SetCurrentFile(string.Empty);
+			SetAppState(false);
 			this.treeViewPaths.ExpandAll();
 		}
 		
@@ -292,6 +296,22 @@ namespace Wreck
 		{
 			ToolStripItem lblCurrentFile = statusStrip.Items["lblCurrentFile"];
 			lblCurrentFile.Text = p;
+		}
+		
+		private void SetAppState(bool running)
+		{
+			string text = running ? APP_STATE_RUNNING : APP_STATE_IDLE;
+			int icon = running ? 
+				(int) TreeViewIcon.AppRunning : 
+				(int) TreeViewIcon.AppIdle;
+			
+			Debug.Assert(this.rootNode != null);
+			
+			this.rootNode.Text = text;
+			this.rootNode.ImageIndex = icon;
+			this.rootNode.SelectedImageIndex = icon;
+			
+			btnRun.Enabled = !running;
 		}
 		
 		// For error reporting
