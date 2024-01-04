@@ -34,38 +34,14 @@ namespace Wreck
 		private BackgroundWorker backgroundWorker = null;
 		
 		// Based on the index assigned by imageList in Design mode.
-		private enum Icon
+		private enum TreeViewIcon
 		{
 			Folder,
 			File,
 			Start,
 			App
 		}
-		
-		/*
-		static ImageList _imageList;
-		public static ImageList ImageList
-		{
-			get
-			{
-				if (_imageList == null)
-				{
-					System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-					_imageList = new ImageList();
-					
-					Icon startIcon = (Icon) resources.GetObject(ICON_START);
-					_imageList.Images.Add(ICON_START, startIcon);
-					
-					Icon folderIcon = (Icon) resources.GetObject(ICON_FOLDER);
-					_imageList.Images.Add(ICON_FOLDER, folderIcon);
-					
-					Icon fileIcon = (Icon) resources.GetObject(ICON_FILE);
-					_imageList.Images.Add(ICON_FILE, fileIcon);
-				}
-				return _imageList;
-			}
-		}
-		*/		
+			
 		public MainForm()
 		{
 			//
@@ -89,8 +65,8 @@ namespace Wreck
 			this.rootNode = new TreeNode();
 			this.rootNode.Name = "rootNode";
 			this.rootNode.Text = string.Format("{0} v{1}", Wreck.NAME, Wreck.VERSION);
-			this.rootNode.ImageIndex = (int) Icon.App;
-			this.rootNode.SelectedImageIndex = (int) Icon.App;
+			this.rootNode.ImageIndex = (int) TreeViewIcon.App;
+			this.rootNode.SelectedImageIndex = (int) TreeViewIcon.App;
 			this.treeViewPaths.Nodes.Add(this.rootNode);
 			this.rootNode.ExpandAll();
 			
@@ -160,8 +136,8 @@ namespace Wreck
 					pathNode.Name = p;
 					pathNode.Text = p;
 					
-					pathNode.ImageIndex = (int) Icon.Start;
-					pathNode.SelectedImageIndex = (int) Icon.Start;
+					pathNode.ImageIndex = (int) TreeViewIcon.Start;
+					pathNode.SelectedImageIndex = (int) TreeViewIcon.Start;
 					
 					if(rootNode != null)
 					{
@@ -186,8 +162,8 @@ namespace Wreck
 						fileNode = new TreeNode();
 						fileNode.Name = fi.FullName;
 						fileNode.Text = fi.Name;
-						fileNode.ImageIndex = (int) Icon.File;
-						fileNode.SelectedImageIndex = (int) Icon.File;
+						fileNode.ImageIndex = (int) TreeViewIcon.File;
+						fileNode.SelectedImageIndex = (int) TreeViewIcon.File;
 						
 						if(dirNode != null)
 							dirNode.Nodes.Add(fileNode);
@@ -208,8 +184,8 @@ namespace Wreck
 						dirNode = new TreeNode();
 						dirNode.Name = di.FullName;
 						dirNode.Text = di.FullName.Replace(pathNode.Name, "");
-						dirNode.ImageIndex = (int) Icon.Folder;
-						dirNode.SelectedImageIndex = (int) Icon.Folder;
+						dirNode.ImageIndex = (int) TreeViewIcon.Folder;
+						dirNode.SelectedImageIndex = (int) TreeViewIcon.Folder;
 						
 						if(pathNode != null)
 							pathNode.Nodes.Add(dirNode);
