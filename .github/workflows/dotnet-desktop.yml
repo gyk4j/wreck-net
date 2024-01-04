@@ -31,7 +31,7 @@ jobs:
         # run: msbuild $env:Base_Directory\$env:Solution_Name -t:rebuild -property:Configuration=$env:Configuration
         run: |
           pwd
-          C:\Windows\Microsoft.NET\Framework\v3.5\MSBuild.exe $Env:GITHUB_WORKSPACE\Wreck.sln -t:Rebuild -p:Configuration=Release -p:Platform=x86 -p:TargetFrameworkVersion=v2.0
+          C:\Windows\Microsoft.NET\Framework\v3.5\MSBuild.exe Wreck.sln -t:Rebuild -p:Configuration=Release -p:Platform=x86 -p:TargetFrameworkVersion=v2.0
         env:
           Configuration: ${{ matrix.configuration }}
     
@@ -40,8 +40,8 @@ jobs:
         with:
           name: wreck
           path: |
-            $Env:GITHUB_WORKSPACE\Wreck\bin\Release
-            $Env:GITHUB_WORKSPACE\WreckCli\bin\Release
-            $Env:GITHUB_WORKSPACE\WreckGui\bin\Release
+            Wreck\bin\Release
+            WreckCli\bin\Release
+            WreckGui\bin\Release
             
           
