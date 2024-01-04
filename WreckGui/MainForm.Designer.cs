@@ -50,7 +50,7 @@ namespace Wreck
 			this.treeViewPaths.Location = new System.Drawing.Point(0, 0);
 			this.treeViewPaths.Margin = new System.Windows.Forms.Padding(3, 128, 3, 128);
 			this.treeViewPaths.Name = "treeViewPaths";
-			this.treeViewPaths.Size = new System.Drawing.Size(364, 411);
+			this.treeViewPaths.Size = new System.Drawing.Size(364, 442);
 			this.treeViewPaths.TabIndex = 1;
 			// 
 			// statusStrip
@@ -60,9 +60,9 @@ namespace Wreck
 									this.lblFilesCount,
 									this.lblSkippedCount,
 									this.lblCurrentFile});
-			this.statusStrip.Location = new System.Drawing.Point(364, 389);
+			this.statusStrip.Location = new System.Drawing.Point(364, 420);
 			this.statusStrip.Name = "statusStrip";
-			this.statusStrip.Size = new System.Drawing.Size(372, 22);
+			this.statusStrip.Size = new System.Drawing.Size(340, 22);
 			this.statusStrip.TabIndex = 2;
 			this.statusStrip.Text = "statusStrip";
 			// 
@@ -106,7 +106,7 @@ namespace Wreck
 									this.btnRun});
 			this.toolStrip.Location = new System.Drawing.Point(364, 0);
 			this.toolStrip.Name = "toolStrip";
-			this.toolStrip.Size = new System.Drawing.Size(372, 25);
+			this.toolStrip.Size = new System.Drawing.Size(340, 25);
 			this.toolStrip.TabIndex = 3;
 			this.toolStrip.Text = "toolStrip";
 			// 
@@ -132,7 +132,7 @@ namespace Wreck
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(736, 411);
+			this.ClientSize = new System.Drawing.Size(704, 442);
 			this.Controls.Add(this.toolStrip);
 			this.Controls.Add(this.statusStrip);
 			this.Controls.Add(this.treeViewPaths);
