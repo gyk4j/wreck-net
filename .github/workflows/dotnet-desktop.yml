@@ -21,18 +21,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       
-      #- name: Setup .NET
-      #  uses: actions/setup-dotnet@v3
+      - name: Setup .NET Framework 3.5
+        run: Enable-WindowsOptionalFeature -Online -FeatureName "NetFx3" -All
       
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1
       
       - name: Build solution
         # run: msbuild $env:Base_Directory\$env:Solution_Name -t:rebuild -property:Configuration=$env:Configuration
-        run: |
-          cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\"
-          msbuild $Env:GITHUB_WORKSPACE\Wreck.sln -t:Rebuild -p:Configuration=Release -p:Platform=x86 -p:TargetFrameworkVersion=v2.0
-        #run: pwd && ls
+        #run: |
+        #  cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\"
+        #  msbuild $Env:GITHUB_WORKSPACE\Wreck.sln -t:Rebuild -p:Configuration=Release -p:Platform=x86 -p:TargetFrameworkVersion=v2.0
+        run: pwd && ls
         env:
           Configuration: ${{ matrix.configuration }}
     
