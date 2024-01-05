@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 using log4net;
 using log4net.Config;
@@ -18,6 +19,10 @@ namespace Wreck.Parser
 	public class ExifToolParser : IFileDateable, IDisposable
 	{
 		private static readonly ILog log = LogManager.GetLogger(typeof(ExifToolParser));
+		
+		private static readonly Regex DateTimeFormat = new Regex(
+			@"^\d{4}:\d{2}:\d{2} \d{2}:\d{2}:\d{2}",
+			RegexOptions.Compiled | RegexOptions.IgnoreCase);
 		
 		private ExifTool exifTool;
 		
@@ -68,6 +73,13 @@ namespace Wreck.Parser
 				string tag = (string) entry.Key;
 				if(!tag.StartsWith("System:") && tag.ToLower().Contains("date"))
 				{
+					
+					if(!DateTimeFormat.IsMatch((string) entry.Value))
+					{
+						log.WarnFormat("Unexpected ExifTool date format: {0}", (string) entry.Value);
+						continue;
+					}
+					
 					string k = tag.Substring(tag.IndexOf(':')+1).Trim();
 					
 					DateTime parsed;

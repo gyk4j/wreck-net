@@ -149,9 +149,14 @@ namespace Wreck.Parser
 //				creationTime = lastWriteTime = lastAccessTime = DateTime.Now;
 //				return;
 			}
-			else
+			else if(ifLoaded.StartsWith("MediaInfoLib - v"))
 			{
 				log.Info(ifLoaded);
+			}
+			else
+			{
+				log.ErrorFormat("Unknown MediaInfo response: {0}", ifLoaded);
+				throw new ApplicationException("Unknown MediaInfo response");
 			}
 			
 			MI.Open(fi.FullName);
