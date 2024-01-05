@@ -398,3 +398,18 @@ FodyWeavers.xsd
 *.sln.iml
 
 docs/
+
+# Exif Tool v12.63
+Dependencies/exiftool.exe
+
+# MediaInfo v23.11
+Dependencies/MediaInfo.dll
+Dependencies/MediaInfo_i386.dll
+
+# 7-Zip v23.01
+Dependencies/7z.dll
+Dependencies/7z86.dll
+Dependencies/7z64.dll
+Dependencies/7za.dll
+Dependencies/7za86.dll
+Dependencies/7za64.dll
