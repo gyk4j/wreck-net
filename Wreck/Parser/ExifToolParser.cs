@@ -35,7 +35,11 @@ namespace Wreck.Parser
 		public void Dispose()
 		{
 			log.DebugFormat("Called ExifToolParser.Dispose()");
-			exifTool.Dispose(); // Always stop the ExifTool process.
+			if(exifTool != null)
+			{
+				exifTool.Dispose(); // Always stop the ExifTool process.
+				exifTool = null;
+			}
 			GC.SuppressFinalize(this);
 		}
 		

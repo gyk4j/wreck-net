@@ -140,6 +140,20 @@ namespace Wreck.Parser
 			out DateTime? lastAccessTime)
 		{
 			MediaInfo MI = new MediaInfo();
+			
+			String ifLoaded = MI.Option(string.Format("Info_Version", "0.7.0.0;{0};0.7.0.0", Wreck.NAME));
+			if (ifLoaded.Length == 0 || "Unable to load MediaInfo library".Equals(ifLoaded))
+			{
+				log.Error("Failed to load MediaInfo.Dll or this version of the DLL is not compatible");
+				throw new ApplicationException("Failed to load MediaInfo");
+//				creationTime = lastWriteTime = lastAccessTime = DateTime.Now;
+//				return;
+			}
+			else
+			{
+				log.Info(ifLoaded);
+			}
+			
 			MI.Open(fi.FullName);
 			string encodedDate;
 			

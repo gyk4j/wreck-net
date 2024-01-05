@@ -22,15 +22,11 @@ namespace Wreck
 		{
 			//BasicConfigurator.Configure();
 			XmlConfigurator.Configure(new System.IO.FileInfo(LOG4NET_XML));
-			log.Info("Entering application.");
 			
 			Program app = new Program();
 			
 			string[] dirs = (args.Length > 0)? args: new string[]{ Directory.GetCurrentDirectory() };
-//			app.Run(args);
-			
-			log.Info("Exiting application.");			
-			Console.ReadLine();
+			app.Run(args);
 		}
 		
 		public Program()
