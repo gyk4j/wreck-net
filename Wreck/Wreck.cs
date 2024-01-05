@@ -4,6 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
+using log4net;
+using log4net.Config;
+
 using Wreck.Corrector;
 using Wreck.Logging;
 using Wreck.Parser;
@@ -17,6 +20,8 @@ namespace Wreck
 	{
 		public const string NAME = "WRECK.NET";
 		public const string VERSION = "1.00a";
+		
+		private static readonly ILog log = LogManager.GetLogger(typeof(Wreck));
 		
 		private ILogger logger;
 		
@@ -35,8 +40,17 @@ namespace Wreck
 			this.stats = new Statistics();
 			
 			this.parsers = new Dictionary<FileInfoTools, IFileDateable>();
-//			this.parsers.Add(FileInfoTools.ExifTool, new ExifToolParser());
-//			this.parsers.Add(FileInfoTools.MediaInfo, new MediaInfoParser());
+			
+			try
+			{
+				this.parsers.Add(FileInfoTools.ExifTool, new ExifToolParser());
+			}
+			catch(ApplicationException ex)
+			{
+				log.Error(ex);
+			}
+			
+			this.parsers.Add(FileInfoTools.MediaInfo, new MediaInfoParser());
 			this.parsers.Add(FileInfoTools.SevenZip, new SevenZipParser());
 			
 			this.corrector = corrector;
@@ -122,7 +136,15 @@ namespace Wreck
 			while(e.MoveNext())
 			{
 				IFileDateable parser = e.Current;
-				parser.GetDateTimes(file, out creation, out lastWrite, out lastAccess);
+				try
+				{
+					parser.GetDateTimes(file, out creation, out lastWrite, out lastAccess);
+				}
+				catch(ApplicationException ex)
+				{
+					creation = lastWrite = lastAccess = null;
+					log.Error(ex);
+				}
 				
 				if(creation.HasValue || lastWrite.HasValue || lastAccess.HasValue)
 				{

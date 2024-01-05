@@ -91,9 +91,14 @@ namespace Wreck.Parser
 					new SevenZipExtractor(fi.FullName):
 					new SevenZipExtractor(fi.FullName, password);
 			}
+			catch(SevenZipLibraryException ex)
+			{
+				log.Error(ex.Message);
+				throw new ApplicationException("Failed to load 7z.dll", ex);
+			}
 			catch(ArgumentException ex)
 			{
-				Console.WriteLine(ex.Message);
+				log.Error(ex.Message);
 				throw new ArgumentException(ex.Message, ex);
 			}
 			
@@ -245,7 +250,7 @@ namespace Wreck.Parser
 			// blank/empty, and 7-Zip will return current date time during
 			// runtime.
 			
-			log.DebugFormat(">>> {0} {1}", afi.LastWriteTime, afi.FileName);
+			//log.DebugFormat(">>> {0} {1}", afi.LastWriteTime, afi.FileName);
 			
 			TimeSpan diff = DateTime.Now - afi.LastWriteTime;
 			if(diff.Minutes >= 1)
@@ -280,7 +285,7 @@ namespace Wreck.Parser
 		
 		public static string GetPassword(string path)
 		{
-			log.DebugFormat("Password for {0}", path);
+//			log.DebugFormat("Password for {0}", path);
 			if(path.Equals(@"C:\temp\Public\Downloads\rar_sample\testfile.rar5.locked.rar"))
 				return "password";
 			else
