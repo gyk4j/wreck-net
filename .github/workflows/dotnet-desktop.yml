@@ -37,9 +37,9 @@ jobs:
         with:
           name: wreck
           path: |
-            Wreck\bin\Release\**
-            WreckCli\bin\Release\**
-            WreckGui\bin\Release\**
+            Wreck\bin\Release\**\*
+            WreckCli\bin\Release\**\*
+            WreckGui\bin\Release\**\*
           if-no-files-found: error
           retention-days: 1
           
