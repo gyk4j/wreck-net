@@ -37,9 +37,11 @@ jobs:
         with:
           name: wreck
           path: |
-            Wreck\bin\Release\**\*
-            WreckCli\bin\Release\**\*
-            WreckGui\bin\Release\**\*
+            LICENSE.txt
+            **/*.exe
+            **/*.dll
+            **/*.config
+            **/*.xml
           if-no-files-found: error
           retention-days: 1
           
