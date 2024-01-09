@@ -18,8 +18,6 @@ jobs:
       Configuration: Release
       
     steps:
-      - uses: actions/checkout@v4
-
       - name: Cache .Net Framework 3.5
         id: cache-net-framework-35
         uses: actions/cache@v3
