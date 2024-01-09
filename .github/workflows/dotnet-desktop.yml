@@ -31,17 +31,21 @@ jobs:
         run: C:\Windows\Microsoft.NET\Framework\v3.5\MSBuild.exe Wreck.sln -t:Rebuild -p:Configuration=Release -p:Platform=x86 -p:TargetFrameworkVersion=v2.0
         env:
           Configuration: ${{ matrix.configuration }}
+          
+      - name: Prepare upload artifact
+        run: |
+          mkdir -p /tmp/upload
+          cp LICENSE.txt /tmp/upload
+          cp -r Dependencies/* /tmp/upload
+          cp -r Wreck/bin/Release/* /tmp/upload
+          cp -r WreckCli/bin/Release/* /tmp/upload
+          cp -r WreckGui/bin/Release/* /tmp/upload          
     
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: wreck
-          path: |
-            LICENSE.txt
-            **/*.exe
-            **/*.dll
-            **/*.config
-            **/*.xml
+          path: /tmp/upload
           if-no-files-found: error
           retention-days: 1
           
