@@ -48,6 +48,7 @@
     <Compile Include="IO\Metadata.cs" />
     <Compile Include="IO\Reader\AbstractTimestampReader.cs" />
     <Compile Include="IO\Reader\ITimestampReader.cs" />
+    <Compile Include="IO\Reader\MetaTag\ExifToolReader.cs" />
     <Compile Include="IO\Reader\ReaderFactory.cs" />
     <Compile Include="Logging\TextFormatter.cs" />
     <Compile Include="Logging\ILogger.cs" />
@@ -69,7 +70,7 @@
   <ItemGroup>
     <Folder Include="Corrector" />
     <Folder Include="IO\Reader" />
-    <Folder Include="IO\Reader\Metadata" />
+    <Folder Include="IO\Reader\MetaTag" />
     <Folder Include="IO\Reader\Fs" />
     <Folder Include="IO\Reader\File" />
     <Folder Include="IO\Reader\User" />
