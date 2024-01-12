@@ -18,7 +18,7 @@ namespace Wreck.IO.Reader
 		private readonly SevenZipReader sevenZipReader;
 		private readonly PathReader pathReader;
 
-//		private readonly FileSystemReader fileSystemReader;
+		private readonly FileSystemReader fileSystemReader;
 		private readonly CustomDateTimeReader customDateTimeReader;
 		
 		public static bool IsInitialized()
@@ -35,7 +35,7 @@ namespace Wreck.IO.Reader
 			pathReader = new PathReader();
 			
 			// Secondary backup readers
-//			fileSystemReader = new FileSystemReader();
+			fileSystemReader = new FileSystemReader();
 			customDateTimeReader = new CustomDateTimeReader();
 		}
 		
@@ -58,7 +58,7 @@ namespace Wreck.IO.Reader
 			sevenZipReader.Dispose();
 			pathReader.Dispose();
 
-//			fileSystemReader.Dispose();
+			fileSystemReader.Dispose();
 			customDateTimeReader.Dispose();
 			
 			instance = null;
@@ -84,10 +84,10 @@ namespace Wreck.IO.Reader
 			get { return pathReader; }
 		}
 
-//		public FileSystemReader FileSystemReader
-//		{
-//			get { return fileSystemReader; }
-//		}
+		public FileSystemReader FileSystemReader
+		{
+			get { return fileSystemReader; }
+		}
 
 		public CustomDateTimeReader CustomDateTimeReader
 		{
