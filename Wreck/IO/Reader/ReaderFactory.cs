@@ -1,6 +1,8 @@
 ﻿
 using System;
+using Wreck.IO.Reader.Fs;
 using Wreck.IO.Reader.MetaTag;
+using Wreck.IO.Reader.User;
 
 namespace Wreck.IO.Reader
 {
@@ -14,27 +16,27 @@ namespace Wreck.IO.Reader
 		private readonly ExifToolReader exifToolReader;
 		private readonly MediaInfoReader mediaInfoReader;
 		private readonly SevenZipReader sevenZipReader;
-//		private readonly PathReader pathReader;
-//		
+		private readonly PathReader pathReader;
+
 //		private readonly FileSystemReader fileSystemReader;
-//		private readonly CustomDateTimeReader customDateTimeReader;
+		private readonly CustomDateTimeReader customDateTimeReader;
 		
 		public static bool IsInitialized()
 		{
 			return instance != null;
 		}
-	
+		
 		private ReaderFactory()
 		{
 			// Primary embedded metadata readers
 			exifToolReader = new ExifToolReader();
 			mediaInfoReader = new MediaInfoReader();
 			sevenZipReader = new SevenZipReader();
-//			pathReader = new PathReader();
+			pathReader = new PathReader();
 			
 			// Secondary backup readers
 //			fileSystemReader = new FileSystemReader();
-//			customDateTimeReader = new CustomDateTimeReader();
+			customDateTimeReader = new CustomDateTimeReader();
 		}
 		
 		public static ReaderFactory Instance
@@ -54,10 +56,10 @@ namespace Wreck.IO.Reader
 			exifToolReader.Dispose();
 			mediaInfoReader.Dispose();
 			sevenZipReader.Dispose();
-//			pathReader.Dispose();
-//			
+			pathReader.Dispose();
+
 //			fileSystemReader.Dispose();
-//			customDateTimeReader.Dispose();
+			customDateTimeReader.Dispose();
 			
 			instance = null;
 		}
@@ -75,6 +77,21 @@ namespace Wreck.IO.Reader
 		public SevenZipReader SevenZipReader
 		{
 			get { return sevenZipReader; }
+		}
+		
+		public PathReader PathReader
+		{
+			get { return pathReader; }
+		}
+
+//		public FileSystemReader FileSystemReader
+//		{
+//			get { return fileSystemReader; }
+//		}
+
+		public CustomDateTimeReader CustomDateTimeReader
+		{
+			get { return customDateTimeReader; }
 		}
 	}
 }

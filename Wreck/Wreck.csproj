@@ -50,14 +50,19 @@
     <Compile Include="IO\Metadata.cs" />
     <Compile Include="IO\MetadataBuilder.cs" />
     <Compile Include="IO\Reader\AbstractTimestampReader.cs" />
+    <Compile Include="IO\Reader\Fs\PathReader.cs" />
     <Compile Include="IO\Reader\ITimestampReader.cs" />
     <Compile Include="IO\Reader\MetaTag\ExifToolReader.cs" />
     <Compile Include="IO\Reader\MetaTag\MediaInfoReader.cs" />
     <Compile Include="IO\Reader\MetaTag\SevenZipReader.cs" />
     <Compile Include="IO\Reader\ReaderFactory.cs" />
+    <Compile Include="IO\Reader\User\CustomDateTimeReader.cs" />
     <Compile Include="IO\Reducer\ITimestampReducer.cs" />
     <Compile Include="IO\Reducer\TimestampReducer.cs" />
+    <Compile Include="IO\Task\AnalyzeTask.cs" />
+    <Compile Include="IO\Task\ITask.cs" />
     <Compile Include="IO\Writer\ITimestampWriter.cs" />
+    <Compile Include="IO\Writer\WriterFactory.cs" />
     <Compile Include="Logging\TextFormatter.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Parser\ExifToolParser.cs" />
@@ -68,6 +73,7 @@
     <Compile Include="Parser\MediaInfoParser.cs" />
     <Compile Include="Resources\CorrectionEnum.cs" />
     <Compile Include="Resources\R.cs" />
+    <Compile Include="Resources\SourceEnum.cs" />
     <Compile Include="Security\PasswordProvider.cs" />
     <Compile Include="Statistics.cs" />
     <Compile Include="Test.cs" />
@@ -79,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Corrector" />
+    <Folder Include="IO\Task" />
     <Folder Include="IO\Reducer" />
     <Folder Include="IO\Writer" />
     <Folder Include="IO\Reader" />
