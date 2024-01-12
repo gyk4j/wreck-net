@@ -57,12 +57,12 @@ namespace Wreck.IO.Reader.Fs
 		{
 		}
 		
-		public new string[] creation()
+		public override string[] Creation()
 		{
 			return CREATION;
 		}
 		
-		public new void extract(FileSystemInfo file, List<Metadata> metadata)
+		public override void Extract(FileSystemInfo file, List<Metadata> metadata)
 		{
 			string date = null;
 			string time = null;

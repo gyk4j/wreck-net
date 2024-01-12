@@ -21,38 +21,35 @@ namespace Wreck.IO.Reader
 		{
 			keys = new Dictionary<string, CorrectionEnum>();
 			
-			foreach(string s in creation())
+			foreach(string s in Creation())
 			{
 				keys.Add(s, CorrectionEnum.CREATION);
 			}
 			
-			foreach(string s in modified())
+			foreach(string s in Modified())
 			{
 				keys.Add(s, CorrectionEnum.MODIFIED);
 			}
 			
-			foreach(string s in accessed())
+			foreach(string s in Accessed())
 			{
 				keys.Add(s, CorrectionEnum.ACCESSED);
 			}
 		}
 		
-		public void extract(FileSystemInfo file, List<Metadata> metadata)
-		{
-			throw new NotImplementedException();
-		}
+		public abstract void Extract(FileSystemInfo file, List<Metadata> metadata);
 		
-		public string[] creation()
+		public virtual string[] Creation()
 		{
 			return NONE;
 		}
 		
-		public string[] modified()
+		public virtual string[] Modified()
 		{
 			return NONE;
 		}
 		
-		public string[] accessed()
+		public virtual string[] Accessed()
 		{
 			return NONE;
 		}
@@ -120,9 +117,8 @@ namespace Wreck.IO.Reader
 			Add(metadata, key, val, it);
 		}
 		
-		public void Dispose()
+		public virtual void Dispose()
 		{
-			throw new NotImplementedException();
 		}
 	}
 }
