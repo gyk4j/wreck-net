@@ -29,6 +29,19 @@ namespace Wreck.Resources
 				"Apply correction to last accessed time attribute"
 			);
 		
+		private static readonly CorrectionEnum[] values = 
+			new CorrectionEnum[]
+			{
+				CREATION,
+				MODIFIED,
+				ACCESSED
+			};
+		
+		public static CorrectionEnum[] Values
+		{
+			get { return values; }
+		}
+		
 		private string name;
 		public string Name
 		{
