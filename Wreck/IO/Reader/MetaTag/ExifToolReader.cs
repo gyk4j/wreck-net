@@ -44,7 +44,7 @@ namespace Wreck.IO.Reader.MetaTag
 
 		private ExifTool exifTool = null;
 
-		public ExifToolReader()
+		public ExifToolReader() : base()
 		{
 			try
 			{
@@ -57,17 +57,17 @@ namespace Wreck.IO.Reader.MetaTag
 			}
 		}
 
-		public new string[] creation()
+		public override string[] Creation()
 		{
 			return CREATION;
 		}
 
-		public new string[] modified()
+		public override string[] Modified()
 		{
 			return MODIFIED;
 		}
 
-		public new void extract(FileSystemInfo file, List<Metadata> metadata)
+		public override void Extract(FileSystemInfo file, List<Metadata> metadata)
 		{
 //			LOG.Debug(file.ToString());
 

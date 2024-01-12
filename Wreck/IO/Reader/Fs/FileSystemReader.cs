@@ -26,22 +26,22 @@ namespace Wreck.IO.Reader.Fs
 		{
 		}
 		
-		public new string[] creation()
+		public override string[] Creation()
 		{
 			return CREATION;
 		}
 		
-		public new string[] modified()
+		public override string[] Modified()
 		{
 			return MODIFIED;
 		}
 		
-		public new string[] accessed()
+		public override string[] Accessed()
 		{
 			return MODIFIED;
 		}
 		
-		public new void extract(FileSystemInfo file, List<Metadata> metadata)
+		public override void Extract(FileSystemInfo file, List<Metadata> metadata)
 		{
 			int order = file.CreationTime.CompareTo(file.LastWriteTime);
 			DateTime earlier = (order < 0)? file.CreationTime: file.LastWriteTime;

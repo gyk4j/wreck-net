@@ -27,7 +27,7 @@ namespace Wreck.IO.Reader.User
 			custom = new DateTime();
 		}
 		
-		public new string[] creation()
+		public override string[] Creation()
 		{
 			return USER;
 		}
@@ -38,7 +38,7 @@ namespace Wreck.IO.Reader.User
 			set { custom = value; }
 		}
 		
-		public new void extract(FileSystemInfo file, List<Metadata> metadata)
+		public override void Extract(FileSystemInfo file, List<Metadata> metadata)
 		{
 			DateTime i = custom;
 			string v = (i != null)? i.ToString() : null;

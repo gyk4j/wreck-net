@@ -10,9 +10,9 @@ namespace Wreck.IO.Reader
 	/// </summary>
 	public interface ITimestampReader : IDisposable
 	{
-		void extract(FileSystemInfo file, List<Metadata> metadata);
-		string[] creation();
-		string[] modified();
-		string[] accessed();
+		void Extract(FileSystemInfo file, List<Metadata> metadata);
+		string[] Creation();
+		string[] Modified();
+		string[] Accessed();
 	}
 }

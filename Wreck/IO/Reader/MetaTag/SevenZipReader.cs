@@ -63,12 +63,12 @@ namespace Wreck.IO.Reader.MetaTag
 			return SUPPORTED_EXTENSIONS.Contains(extension);
 		}
 		
-		public new string[] modified()
+		public override string[] Modified()
 		{
 			return MODIFIED;
 		}
 		
-		public new void extract(FileSystemInfo file, List<Metadata> metadata)
+		public override void Extract(FileSystemInfo file, List<Metadata> metadata)
 		{
 			if(!File.Exists(file.FullName))
 			{

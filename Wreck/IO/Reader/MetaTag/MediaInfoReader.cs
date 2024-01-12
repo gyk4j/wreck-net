@@ -40,12 +40,12 @@ namespace Wreck.IO.Reader.MetaTag
 		{
 		}
 
-		public new string[] creation()
+		public override string[] Creation()
 		{
 			return CREATION;
 		}
 
-		public new void extract(FileSystemInfo file, List<Metadata> metadata)
+		public override void Extract(FileSystemInfo file, List<Metadata> metadata)
 		{
 			MediaInfo mi = new MediaInfo();
 
