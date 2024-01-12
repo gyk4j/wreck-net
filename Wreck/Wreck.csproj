@@ -38,6 +38,8 @@
       <HintPath>..\Dependencies\SevenZipSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -50,6 +52,7 @@
     <Compile Include="IO\Reader\ITimestampReader.cs" />
     <Compile Include="IO\Reader\MetaTag\ExifToolReader.cs" />
     <Compile Include="IO\Reader\MetaTag\MediaInfoReader.cs" />
+    <Compile Include="IO\Reader\MetaTag\SevenZipReader.cs" />
     <Compile Include="IO\Reader\ReaderFactory.cs" />
     <Compile Include="Logging\TextFormatter.cs" />
     <Compile Include="Logging\ILogger.cs" />
@@ -60,6 +63,8 @@
     <Compile Include="Parser\MediaInfoDLL.cs" />
     <Compile Include="Parser\MediaInfoParser.cs" />
     <Compile Include="Resources\CorrectionEnum.cs" />
+    <Compile Include="Resources\R.cs" />
+    <Compile Include="Security\PasswordProvider.cs" />
     <Compile Include="Statistics.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="Time\TimeOrder.cs" />
@@ -77,6 +82,7 @@
     <Folder Include="IO\Reader\User" />
     <Folder Include="Logging" />
     <Folder Include="IO" />
+    <Folder Include="Security" />
     <Folder Include="Resources" />
     <Folder Include="Time" />
     <Folder Include="Parser" />
