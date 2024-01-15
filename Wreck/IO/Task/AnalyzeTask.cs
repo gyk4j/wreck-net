@@ -192,22 +192,32 @@ namespace Wreck.IO.Task
 		
 		public void PreVisitDirectory(Dictionary<CorrectionEnum, DateTime> suggestions, DirectoryInfo dir)
 		{
-			throw new NotImplementedException();
+			
 		}
 		
 		public void PostVisitDirectory(Dictionary<CorrectionEnum, DateTime> suggestions, DirectoryInfo dir)
 		{
-			throw new NotImplementedException();
+			IDictionary<CorrectionEnum, DateTime> metadata = Analyze(dir);
+			IEnumerator<KeyValuePair<CorrectionEnum, DateTime>> e = metadata.GetEnumerator();
+			while(e.MoveNext())
+			{
+				suggestions.Add(e.Current.Key, e.Current.Value);
+			}
 		}
 		
 		public void VisitFile(Dictionary<CorrectionEnum, DateTime> suggestions, FileInfo file)
 		{
-			throw new NotImplementedException();
+			IDictionary<CorrectionEnum, DateTime> metadata = Analyze(file);
+			IEnumerator<KeyValuePair<CorrectionEnum, DateTime>> e = metadata.GetEnumerator();
+			while(e.MoveNext())
+			{
+				suggestions.Add(e.Current.Key, e.Current.Value);
+			}
 		}
 		
 		public void VisitFileFailed(Dictionary<CorrectionEnum, DateTime> suggestions, FileSystemInfo file, IOException exc)
 		{
-			throw new NotImplementedException();
+			LOG.ErrorFormat("VisitFileFailed: {0}", file.FullName);
 		}
 	}
 }
