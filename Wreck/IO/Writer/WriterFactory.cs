@@ -10,8 +10,8 @@ namespace Wreck.IO.Writer
 	{
 		private static WriterFactory INSTANCE = null;
 		
-//		private readonly AnalyzeWriter analyzeWriter;
-//		private readonly BasicFileAttributesWriter basicFileAttributesWriter;
+		private readonly AnalyzeWriter analyzeWriter;
+		private readonly BasicFileAttributesWriter basicFileAttributesWriter;
 //		private readonly CsvLogWriter csvLogWriter;
 //		private readonly RestoreBasicFileAttributesWriter restoreBasicFileAttributesWriter;
 		
@@ -22,8 +22,8 @@ namespace Wreck.IO.Writer
 		
 		private WriterFactory()
 		{
-//			analyzeWriter = new AnalyzeWriter();
-//			basicFileAttributesWriter = new BasicFileAttributesWriter();
+			analyzeWriter = new AnalyzeWriter();
+			basicFileAttributesWriter = new BasicFileAttributesWriter();
 //			csvLogWriter = new CsvLogWriter();
 //			restoreBasicFileAttributesWriter = new RestoreBasicFileAttributesWriter();
 		}
@@ -46,16 +46,16 @@ namespace Wreck.IO.Writer
 			INSTANCE = null;
 		}
 		
-//		public AnalyzeWriter AnalyzeWriter
-//		{
-//			get { return analyzeWriter; }
-//		}
-//		
-//		public BasicFileAttributesWriter BasicFileAttributesWriter
-//		{
-//			get { return basicFileAttributesWriter; }
-//		}
-//
+		public AnalyzeWriter AnalyzeWriter
+		{
+			get { return analyzeWriter; }
+		}
+		
+		public BasicFileAttributesWriter BasicFileAttributesWriter
+		{
+			get { return basicFileAttributesWriter; }
+		}
+
 //		public CsvLogWriter CsvLogWriter
 //		{
 //			get { return csvLogWriter; }
