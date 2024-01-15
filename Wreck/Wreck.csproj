@@ -84,7 +84,11 @@
     <Compile Include="Time\TimeOrder.cs" />
     <Compile Include="Time\TimestampFormatter.cs" />
     <Compile Include="Time\TimeUtils.cs" />
+    <Compile Include="Util\Logging\ExtensionEvent.cs" />
+    <Compile Include="Util\Logging\ExtensionStatistics.cs" />
     <Compile Include="Util\Logging\FileEvent.cs" />
+    <Compile Include="Util\Logging\StatisticsCollector.cs" />
+    <Compile Include="Util\Logging\TagEvent.cs" />
     <Compile Include="Wreck.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
