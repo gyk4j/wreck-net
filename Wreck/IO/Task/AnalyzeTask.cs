@@ -49,6 +49,147 @@ namespace Wreck.IO.Task
 			writerFactory = WriterFactory.Instance;
 		}
 		
+		protected IDictionary<SourceEnum, bool> Sources
+		{
+			get { return sources; }
+		}
+		
+		protected DateTime CustomDateTime
+		{
+			get { return customDateTime; }
+		}
+
+		protected IDictionary<CorrectionEnum, Boolean> Corrections
+		{
+			get { return corrections; }
+		}
+		
+		protected ReaderFactory ReaderFactory
+		{
+			get { return readerFactory; }
+		}
+		
+		protected WriterFactory WriterFactory
+		{
+			get { return writerFactory; }
+		}
+		
+		protected ITimestampWriter[] Writers
+		{
+			get
+			{
+				return new ITimestampWriter[]
+				{
+					WriterFactory.AnalyzeWriter
+				};
+			}
+		}
+		
+		protected ITimestampReader[] FileReaders
+		{
+			get
+			{
+				List<ITimestampReader> readers = new List<ITimestampReader>();
+				if(sources[SourceEnum.METADATA])
+				{
+					readers.Add(readerFactory.ExifToolReader);
+					readers.Add(readerFactory.MediaInfoReader);
+					readers.Add(readerFactory.SevenZipReader);
+//					readers.Add(readerFactory.TikaReader);
+					readers.Add(readerFactory.PathReader);
+				}
+				
+				// Use fallback option.
+				if(sources[SourceEnum.FILE_SYSTEM])
+					readers.Add(readerFactory.FileSystemReader);
+
+				if(sources[SourceEnum.CUSTOM])
+					readers.Add(customReader);
+				
+				return readers.ToArray();
+			}
+		}
+		
+		protected ITimestampReader[] DirectoryReaders
+		{
+			get
+			{
+				List<ITimestampReader> readers = new List<ITimestampReader>();
+				
+				// TODO: Add DirectoryReader
+//				if(sources[SourceEnum.METADATA])
+//					readers.Add(readerFactory.DirectoryReader);
+				
+				// Use fallback option.
+				if(sources[SourceEnum.FILE_SYSTEM])
+					readers.Add(readerFactory.FileSystemReader);
+
+				if(sources[SourceEnum.CUSTOM])
+					readers.Add(customReader);
+				
+				return readers.ToArray();
+			}
+		}
+		
+		private IDictionary<CorrectionEnum, DateTime> Process(
+			FileSystemInfo path,
+			ITimestampReader[] readers,
+			ITimestampWriter[] writers)
+		{
+			
+			MetadataBuilder mb = new MetadataBuilder();
+			
+			foreach(ITimestampReader reader in readers)
+			{
+				mb.AddReader(reader);
+			}
+			
+			foreach(ITimestampWriter writer in writers)
+			{
+				mb.AddWriter(writer);
+			}
+			
+			mb.Process(path);
+			
+			mb.Save(path);
+			
+			return mb.Suggestions;
+		}
+		
+		private IDictionary<CorrectionEnum, DateTime> Analyze(FileSystemInfo path)
+		{
+			IDictionary<CorrectionEnum, DateTime> suggestions = null;
+			
+			ITimestampWriter[] writers = Writers;
+			
+			// Use embedded or inferred metadata as primary source.
+			ITimestampReader[] readers;
+			
+			if(!FSUtils.IsDirectory(path) && !FSUtils.IsReparsePoint(path))
+				readers = FileReaders;
+			else if(FSUtils.IsDirectory(path))
+				readers = DirectoryReaders;
+			else
+				readers = new ITimestampReader[0];
+			
+			suggestions = Process(
+				path,
+				readers,
+				writers);
+			
+			// TODO: Implement DirectoryReader
+//			readerFactory.DirectoryReader.Add(Path.GetDirectoryName(path.FullName), suggestions);
+			
+			LOG.InfoFormat("{0} C: {1}, M: {2}, A: {3} {4}",
+			         !FSUtils.IsDirectory(path) && !FSUtils.IsReparsePoint(path)? "<F>": "[D]",
+			         suggestions[CorrectionEnum.CREATION],
+			         suggestions[CorrectionEnum.MODIFIED],
+			         suggestions[CorrectionEnum.ACCESSED],
+			         path.Name);
+
+			return suggestions;
+		}
+		
 		public void PreVisitDirectory(Dictionary<CorrectionEnum, DateTime> suggestions, DirectoryInfo dir)
 		{
 			throw new NotImplementedException();
