@@ -16,7 +16,7 @@ namespace Wreck.IO.Writer
 	public abstract class AbstractTimestampWriter : ITimestampWriter
 	{
 		private static readonly ILog LOG = LogManager.GetLogger(typeof(AbstractTimestampWriter));
-//		private static readonly StatisticsCollector STATS = StatisticsCollector.getInstance();
+		private static readonly StatisticsCollector STATS = StatisticsCollector.Instance;
 		
 		protected DateTime WriteAttribute(
 			FileEvent required,
@@ -30,11 +30,11 @@ namespace Wreck.IO.Writer
 			
 			if (correct == null)
 			{
-//				STATS.count(none);
+				STATS.Count(none);
 			}
 			else if(TimeUtils.IsLaterThan(fileSystem, correct))
 			{
-//				STATS.count(required);
+				STATS.Count(required);
 				val = correct;
 			}
 			return val.Value;
@@ -49,12 +49,12 @@ namespace Wreck.IO.Writer
 			
 			if (metadata == null)
 			{
-//				STATS.count(none);
+				STATS.Count(none);
 				LOG.Warn("Missing correct value");
 			}
 			else if(!TimeUtils.IsSameTime(fileSystem, metadata))
 			{
-//				STATS.count(required);
+				STATS.Count(required);
 			}
 			
 			return metadata;
