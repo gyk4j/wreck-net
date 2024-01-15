@@ -63,6 +63,7 @@
     <Compile Include="IO\Task\AnalyzeTask.cs" />
     <Compile Include="IO\Task\ITask.cs" />
     <Compile Include="IO\Writer\AbstractTimestampWriter.cs" />
+    <Compile Include="IO\Writer\AnalyzeWriter.cs" />
     <Compile Include="IO\Writer\BasicFileAttributesWriter.cs" />
     <Compile Include="IO\Writer\ITimestampWriter.cs" />
     <Compile Include="IO\Writer\WriterFactory.cs" />
