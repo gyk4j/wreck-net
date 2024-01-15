@@ -62,6 +62,8 @@
     <Compile Include="IO\Reducer\TimestampReducer.cs" />
     <Compile Include="IO\Task\AnalyzeTask.cs" />
     <Compile Include="IO\Task\ITask.cs" />
+    <Compile Include="IO\Writer\AbstractTimestampWriter.cs" />
+    <Compile Include="IO\Writer\BasicFileAttributesWriter.cs" />
     <Compile Include="IO\Writer\ITimestampWriter.cs" />
     <Compile Include="IO\Writer\WriterFactory.cs" />
     <Compile Include="Logging\TextFormatter.cs" />
@@ -81,6 +83,7 @@
     <Compile Include="Time\TimeOrder.cs" />
     <Compile Include="Time\TimestampFormatter.cs" />
     <Compile Include="Time\TimeUtils.cs" />
+    <Compile Include="Util\Logging\FileEvent.cs" />
     <Compile Include="Wreck.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -96,9 +99,11 @@
     <Folder Include="IO\Reader\User" />
     <Folder Include="Logging" />
     <Folder Include="IO" />
+    <Folder Include="Util" />
     <Folder Include="Security" />
     <Folder Include="Resources" />
     <Folder Include="Time" />
     <Folder Include="Parser" />
+    <Folder Include="Util\Logging" />
   </ItemGroup>
 </Project>
