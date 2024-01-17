@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace Wreck
+namespace JShim
 {
 	/// <summary>
 	/// Description of FileSystemUtils.

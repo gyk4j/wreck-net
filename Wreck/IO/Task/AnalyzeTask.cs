@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+using JShim;
 using log4net;
 using Wreck.IO.Reader;
 using Wreck.IO.Reader.User;
