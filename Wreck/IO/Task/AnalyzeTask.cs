@@ -74,7 +74,7 @@ namespace Wreck.IO.Task
 			get { return writerFactory; }
 		}
 		
-		protected ITimestampWriter[] Writers
+		protected virtual ITimestampWriter[] Writers
 		{
 			get
 			{
@@ -85,7 +85,7 @@ namespace Wreck.IO.Task
 			}
 		}
 		
-		protected ITimestampReader[] FileReaders
+		protected virtual ITimestampReader[] FileReaders
 		{
 			get
 			{
@@ -110,7 +110,7 @@ namespace Wreck.IO.Task
 			}
 		}
 		
-		protected ITimestampReader[] DirectoryReaders
+		protected virtual ITimestampReader[] DirectoryReaders
 		{
 			get
 			{
@@ -190,12 +190,12 @@ namespace Wreck.IO.Task
 			return suggestions;
 		}
 		
-		public void PreVisitDirectory(Dictionary<CorrectionEnum, DateTime> suggestions, DirectoryInfo dir)
+		public virtual void PreVisitDirectory(Dictionary<CorrectionEnum, DateTime> suggestions, DirectoryInfo dir)
 		{
 			
 		}
 		
-		public void PostVisitDirectory(Dictionary<CorrectionEnum, DateTime> suggestions, DirectoryInfo dir)
+		public virtual void PostVisitDirectory(Dictionary<CorrectionEnum, DateTime> suggestions, DirectoryInfo dir)
 		{
 			IDictionary<CorrectionEnum, DateTime> metadata = Analyze(dir);
 			IEnumerator<KeyValuePair<CorrectionEnum, DateTime>> e = metadata.GetEnumerator();
@@ -205,7 +205,7 @@ namespace Wreck.IO.Task
 			}
 		}
 		
-		public void VisitFile(Dictionary<CorrectionEnum, DateTime> suggestions, FileInfo file)
+		public virtual void VisitFile(Dictionary<CorrectionEnum, DateTime> suggestions, FileInfo file)
 		{
 			IDictionary<CorrectionEnum, DateTime> metadata = Analyze(file);
 			IEnumerator<KeyValuePair<CorrectionEnum, DateTime>> e = metadata.GetEnumerator();
@@ -215,7 +215,7 @@ namespace Wreck.IO.Task
 			}
 		}
 		
-		public void VisitFileFailed(Dictionary<CorrectionEnum, DateTime> suggestions, FileSystemInfo file, IOException exc)
+		public virtual void VisitFileFailed(Dictionary<CorrectionEnum, DateTime> suggestions, FileSystemInfo file, IOException exc)
 		{
 			LOG.ErrorFormat("VisitFileFailed: {0}", file.FullName);
 		}
