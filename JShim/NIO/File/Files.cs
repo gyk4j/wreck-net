@@ -21,11 +21,11 @@ namespace JShim.NIO.File
 			where T : FileSystemInfo
 		{
 			if(System.IO.File.Exists(start.FullName)){
-				RetrieveFile(new FileInfo(start.FullName));
+				VisitFile(new FileInfo(start.FullName), visitor);
 			}
 			else if(System.IO.Directory.Exists(start.FullName))
 			{
-				RetrieveDirectory(new DirectoryInfo(start.FullName));
+				VisitDirectory(new DirectoryInfo(start.FullName), visitor);
 			}
 			else
 			{
@@ -44,30 +44,36 @@ namespace JShim.NIO.File
 			                    visitor);
 		}
 		
-		private static void RetrieveDirectory(DirectoryInfo dir)
+		private static void VisitDirectory<T>(DirectoryInfo dir, FileVisitor<T> visitor)
+			where T : FileSystemInfo
 		{
 			if(FSUtils.IsReparsePoint(dir))
 			{
 //				logger.SkipReparsePoint(dir);
 //				stats.Skip(dir);
+				visitor.VisitFileFailed(dir, new IOException("Skip reparse point"));
 				return;
 			}
 			
 //			logger.CurrentDirectory(dir);
+			visitor.PreVisitDirectory(dir);
 			
 			FileInfo[] files = dir.GetFiles();
 			foreach(FileInfo f in files)
 			{
-				RetrieveFile(f);
+				VisitFile(f, visitor);
 			}
 			
 			DirectoryInfo[] dirs = dir.GetDirectories();
 			foreach(DirectoryInfo d in dirs)
 			{
-				RetrieveDirectory(d);
+				VisitDirectory(d, visitor);
 			}
 			
 //			stats.Count(dir);
+			
+			// TODO: To add detailed error reporting if exception occurs.
+			visitor.PostVisitDirectory(dir, null);
 			
 			// TODO: Shift processing logic to FileVisitor
 //			DateTime? creation, lastWrite, lastAccess;
@@ -75,12 +81,14 @@ namespace JShim.NIO.File
 //			Correct(dir, creation, lastWrite, lastAccess);
 		}
 		
-		private static void RetrieveFile(FileInfo file)
+		private static void VisitFile<T>(FileInfo file, FileVisitor<T> visitor)
+			where T : FileSystemInfo
 		{
 			if(FSUtils.IsReparsePoint(file))
 			{
 //				logger.SkipReparsePoint(file);
 //				stats.Skip(file);
+				visitor.VisitFileFailed(file, new IOException("Skip reparse point"));
 				return;
 			}
 			
@@ -88,6 +96,7 @@ namespace JShim.NIO.File
 //			stats.Count(file);
 			
 			// TODO: Shift processing logic to FileVisitor
+			visitor.VisitFile(file);
 			/*
 			DateTime? creation, lastWrite, lastAccess;
 			IEnumerator<IFileDateable> e = this.parsers.Values.GetEnumerator();

@@ -4,7 +4,7 @@ using System.IO;
 
 namespace JShim.NIO.File
 {
-	public interface FileVisitor<T>
+	public interface FileVisitor<T> where T : FileSystemInfo
 	{
 		/// Invoked for a directory before entries in the directory are visited.
 		/// 
@@ -15,14 +15,14 @@ namespace JShim.NIO.File
 		/// directory (and any descendants) will not be visited.
 		/// <param name="dir">a reference to the directory</param>
 		/// <returns>the visit result</returns>
-		FileVisitResult PreVisitDirectory(T dir);
+		FileVisitResult PreVisitDirectory<T>(T dir) where T : FileSystemInfo;
 		
 		/// <summary>
 		/// Invoked for a file in a directory.
 		/// </summary>
 		/// <param name="file">a reference to the file</param>
 		/// <returns></returns>
-		FileVisitResult VisitFile(T file);
+		FileVisitResult VisitFile<T>(T file) where T : FileSystemInfo;
 		
 		/// <summary>
 		/// Invoked for a file that could not be visited. This method is invoked
@@ -32,7 +32,7 @@ namespace JShim.NIO.File
 		/// <param name="file">a reference to the file</param>
 		/// <param name="exc">the I/O exception that prevented the file from being visited</param>
 		/// <returns>the visit result</returns>
-		FileVisitResult VisitFileFailed(T file, IOException exc);
+		FileVisitResult VisitFileFailed<T>(T file, IOException exc) where T : FileSystemInfo;
 		
 		/// <summary>
 		/// Invoked for a directory after entries in the directory, and all of their
@@ -48,6 +48,6 @@ namespace JShim.NIO.File
 		/// of the directory to complete prematurely
 		/// </param>
 		/// <returns>the visit result</returns>
-		FileVisitResult PostVisitDirectory(T dir, IOException exc);
+		FileVisitResult PostVisitDirectory<T>(T dir, IOException exc) where T : FileSystemInfo;
 	}
 }

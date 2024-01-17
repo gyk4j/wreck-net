@@ -90,29 +90,30 @@ namespace Wreck
 		// HACK: To be replaced by actual implementation.
 		class EchoFileVisitor : FileVisitor<FileSystemInfo>
 		{
-			public FileVisitResult PreVisitDirectory(FileSystemInfo dir)
+			public FileVisitResult PreVisitDirectory<T>(T dir) where T : FileSystemInfo
 			{
 				log.InfoFormat("PreVisitDirectory: {0}", dir);
 				return FileVisitResult.CONTINUE;
 			}
 			
-			public FileVisitResult VisitFile(FileSystemInfo file)
+			public FileVisitResult VisitFile<T>(T file) where T : FileSystemInfo
 			{
 				log.InfoFormat("VisitFile: {0}", file);
 				return FileVisitResult.CONTINUE;
 			}
 			
-			public FileVisitResult VisitFileFailed(FileSystemInfo file, IOException exc)
+			public FileVisitResult VisitFileFailed<T>(T file, IOException exc) where T : FileSystemInfo
 			{
 				log.ErrorFormat("VisitFileFailed: {0}, Exception: {1}", file, exc.Message);
 				return FileVisitResult.CONTINUE;
 			}
 			
-			public FileVisitResult PostVisitDirectory(FileSystemInfo dir, IOException exc)
+			public FileVisitResult PostVisitDirectory<T>(T dir, IOException exc) where T : FileSystemInfo
 			{
 				log.InfoFormat("PostVisitDirectory: {0}", dir);
 				return FileVisitResult.CONTINUE;
 			}
+			
 		}
 		
 		/// <summary>
