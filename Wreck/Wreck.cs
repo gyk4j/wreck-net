@@ -4,9 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
+using JShim.NIO.File;
 using log4net;
 using log4net.Config;
-
 using Wreck.Corrector;
 using Wreck.Logging;
 using Wreck.Parser;
@@ -74,89 +74,44 @@ namespace Wreck
 		
 		public void Walk(string startingPath)
 		{
-			if(File.Exists(startingPath)){
-				FileInfo start = new FileInfo(startingPath);
-				RetrieveFile(start);
-			}
-			else if(Directory.Exists(startingPath))
-			{
-				DirectoryInfo start = new DirectoryInfo(startingPath);
-				RetrieveDirectory(start);
-			}
+			FileSystemInfo start;
+			
+			if(Directory.Exists(startingPath))
+				start = new DirectoryInfo(startingPath);
+			else if(File.Exists(startingPath))
+				start = new FileInfo(startingPath);
 			else
-			{
-				logger.UnknownPathType(startingPath);
-			}
+				throw new IOException(startingPath + " is neither directory or file.");
+			
+			FileVisitor<FileSystemInfo> visitor = new EchoFileVisitor();
+			Files.WalkFileTree(start, visitor);
 		}
 		
-		public void RetrieveDirectory(DirectoryInfo dir)
+		// HACK: To be replaced by actual implementation.
+		class EchoFileVisitor : FileVisitor<FileSystemInfo>
 		{
-			if(FSUtils.IsReparsePoint(dir))
+			public FileVisitResult PreVisitDirectory(FileSystemInfo dir)
 			{
-				logger.SkipReparsePoint(dir);
-				stats.Skip(dir);
-				return;
+				log.InfoFormat("PreVisitDirectory: {0}", dir);
+				return FileVisitResult.CONTINUE;
 			}
 			
-			logger.CurrentDirectory(dir);
-			
-			FileInfo[] files = dir.GetFiles();
-			foreach(FileInfo f in files)
+			public FileVisitResult VisitFile(FileSystemInfo file)
 			{
-				RetrieveFile(f);
+				log.InfoFormat("VisitFile: {0}", file);
+				return FileVisitResult.CONTINUE;
 			}
 			
-			DirectoryInfo[] dirs = dir.GetDirectories();
-			foreach(DirectoryInfo d in dirs)
+			public FileVisitResult VisitFileFailed(FileSystemInfo file, IOException exc)
 			{
-				RetrieveDirectory(d);
+				log.ErrorFormat("VisitFileFailed: {0}, Exception: {1}", file, exc.Message);
+				return FileVisitResult.CONTINUE;
 			}
 			
-			stats.Count(dir);
-			
-//			DateTime? creation, lastWrite, lastAccess;
-//			Extract(dir, out creation, out lastWrite, out lastAccess);
-//			Correct(dir, creation, lastWrite, lastAccess);
-		}
-		
-		public void RetrieveFile(FileInfo file)
-		{
-			if(FSUtils.IsReparsePoint(file))
+			public FileVisitResult PostVisitDirectory(FileSystemInfo dir, IOException exc)
 			{
-				logger.SkipReparsePoint(file);
-				stats.Skip(file);
-				return;
-			}
-			
-			logger.CurrentFile(file);
-			stats.Count(file);
-			
-			DateTime? creation, lastWrite, lastAccess;
-			IEnumerator<IFileDateable> e = this.parsers.Values.GetEnumerator();
-			while(e.MoveNext())
-			{
-				IFileDateable parser = e.Current;
-				try
-				{
-					parser.GetDateTimes(file, out creation, out lastWrite, out lastAccess);
-				}
-				catch(ApplicationException ex)
-				{
-					creation = lastWrite = lastAccess = null;
-					log.Error(ex);
-				}
-				
-				if(creation.HasValue || lastWrite.HasValue || lastAccess.HasValue)
-				{
-					// Backup and restore Read-Only attribute prior to updating any 
-					// timestamps.
-					bool readOnly = file.IsReadOnly;
-					file.IsReadOnly = false;
-					Correct(file, creation, lastWrite, lastAccess);
-					file.IsReadOnly = readOnly;
-				}
-				
-				creation = lastWrite = lastAccess = null;
+				log.InfoFormat("PostVisitDirectory: {0}", dir);
+				return FileVisitResult.CONTINUE;
 			}
 		}
 		

@@ -48,7 +48,6 @@
     <Compile Include="Corrector\Previewer.cs" />
     <Compile Include="Entity\FileEntity.cs" />
     <Compile Include="Entity\FileVisit.cs" />
-    <Compile Include="FSUtils.cs" />
     <Compile Include="IO\Metadata.cs" />
     <Compile Include="IO\MetadataBuilder.cs" />
     <Compile Include="IO\Reader\AbstractTimestampReader.cs" />
@@ -123,5 +122,9 @@
     <Folder Include="Time" />
     <Folder Include="Parser" />
     <Folder Include="Util\Logging" />
+    <ProjectReference Include="..\JShim\JShim.csproj">
+      <Project>{5A4F611C-E618-4D19-90D4-79D05F457F30}</Project>
+      <Name>JShim</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

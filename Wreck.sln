@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WreckCli", "WreckCli\WreckC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WreckGui", "WreckGui\WreckGui.csproj", "{503B2A30-5B19-4582-BBD4-3CE705861DE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JShim", "JShim\JShim.csproj", "{5A4F611C-E618-4D19-90D4-79D05F457F30}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -26,5 +28,9 @@ Global
 		{503B2A30-5B19-4582-BBD4-3CE705861DE4}.Debug|x86.ActiveCfg = Debug|x86
 		{503B2A30-5B19-4582-BBD4-3CE705861DE4}.Release|x86.Build.0 = Release|x86
 		{503B2A30-5B19-4582-BBD4-3CE705861DE4}.Release|x86.ActiveCfg = Release|x86
+		{5A4F611C-E618-4D19-90D4-79D05F457F30}.Debug|x86.Build.0 = Debug|x86
+		{5A4F611C-E618-4D19-90D4-79D05F457F30}.Debug|x86.ActiveCfg = Debug|x86
+		{5A4F611C-E618-4D19-90D4-79D05F457F30}.Release|x86.Build.0 = Release|x86
+		{5A4F611C-E618-4D19-90D4-79D05F457F30}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 EndGlobal
