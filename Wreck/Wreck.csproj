@@ -61,6 +61,7 @@
     <Compile Include="IO\Reducer\ITimestampReducer.cs" />
     <Compile Include="IO\Reducer\TimestampReducer.cs" />
     <Compile Include="IO\Task\AnalyzeTask.cs" />
+    <Compile Include="IO\Task\CorrectTask.cs" />
     <Compile Include="IO\Task\ITask.cs" />
     <Compile Include="IO\Writer\AbstractTimestampWriter.cs" />
     <Compile Include="IO\Writer\AnalyzeWriter.cs" />
