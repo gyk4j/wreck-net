@@ -10,15 +10,15 @@ namespace JShim.NIO.File
 	/// <summary>
 	/// Description of MyClass.
 	/// </summary>
-	public class Files 
+	public class Files
 	{
 		private static readonly ILog LOG = LogManager.GetLogger(typeof(Files));
 		
-		public static FileSystemInfo WalkFileTree<T>(FileSystemInfo start,
-                                    List<FileVisitOption> options,
-                                    int maxDepth,
-                                    FileVisitor<T> visitor)
-			where T : FileSystemInfo
+		public static FileSystemInfo WalkFileTree(FileSystemInfo start,
+		                                          List<FileVisitOption> options,
+		                                          int maxDepth,
+		                                          FileVisitor visitor)
+			
 		{
 			if(System.IO.File.Exists(start.FullName)){
 				VisitFile(new FileInfo(start.FullName), visitor);
@@ -35,8 +35,7 @@ namespace JShim.NIO.File
 			return start;
 		}
 		
-		public static FileSystemInfo WalkFileTree<T>(FileSystemInfo start, FileVisitor<T> visitor) 
-			where T : FileSystemInfo
+		public static FileSystemInfo WalkFileTree(FileSystemInfo start, FileVisitor visitor)
 		{
 			return WalkFileTree(start,
 			                    new List<FileVisitOption>(),
@@ -44,8 +43,7 @@ namespace JShim.NIO.File
 			                    visitor);
 		}
 		
-		private static void VisitDirectory<T>(DirectoryInfo dir, FileVisitor<T> visitor)
-			where T : FileSystemInfo
+		private static void VisitDirectory(DirectoryInfo dir, FileVisitor visitor)
 		{
 			if(FSUtils.IsReparsePoint(dir))
 			{
@@ -61,13 +59,27 @@ namespace JShim.NIO.File
 			FileInfo[] files = dir.GetFiles();
 			foreach(FileInfo f in files)
 			{
-				VisitFile(f, visitor);
+				try
+				{
+					VisitFile(f, visitor);
+				}
+				catch(Exception e)
+				{
+					visitor.VisitFileFailed(f, new IOException("Visit file failed", e));
+				}
 			}
 			
 			DirectoryInfo[] dirs = dir.GetDirectories();
 			foreach(DirectoryInfo d in dirs)
 			{
-				VisitDirectory(d, visitor);
+				try
+				{
+					VisitDirectory(d, visitor);
+				}
+				catch(Exception e)
+				{
+					visitor.VisitFileFailed(d, new IOException("Visit directory failed", e));
+				}
 			}
 			
 //			stats.Count(dir);
@@ -81,8 +93,7 @@ namespace JShim.NIO.File
 //			Correct(dir, creation, lastWrite, lastAccess);
 		}
 		
-		private static void VisitFile<T>(FileInfo file, FileVisitor<T> visitor)
-			where T : FileSystemInfo
+		private static void VisitFile(FileInfo file, FileVisitor visitor)
 		{
 			if(FSUtils.IsReparsePoint(file))
 			{
@@ -115,7 +126,7 @@ namespace JShim.NIO.File
 				
 				if(creation.HasValue || lastWrite.HasValue || lastAccess.HasValue)
 				{
-					// Backup and restore Read-Only attribute prior to updating any 
+					// Backup and restore Read-Only attribute prior to updating any
 					// timestamps.
 					bool readOnly = file.IsReadOnly;
 					file.IsReadOnly = false;
@@ -125,7 +136,7 @@ namespace JShim.NIO.File
 				
 				creation = lastWrite = lastAccess = null;
 			}
-			*/
+			 */
 		}
 	}
 }

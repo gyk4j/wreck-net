@@ -83,37 +83,36 @@ namespace Wreck
 			else
 				throw new IOException(startingPath + " is neither directory or file.");
 			
-			FileVisitor<FileSystemInfo> visitor = new EchoFileVisitor();
+			FileVisitor visitor = new EchoFileVisitor();
 			Files.WalkFileTree(start, visitor);
 		}
 		
 		// HACK: To be replaced by actual implementation.
-		class EchoFileVisitor : FileVisitor<FileSystemInfo>
+		class EchoFileVisitor : FileVisitor
 		{
-			public FileVisitResult PreVisitDirectory<T>(T dir) where T : FileSystemInfo
+			public FileVisitResult PreVisitDirectory(DirectoryInfo dir)
 			{
-				log.InfoFormat("PreVisitDirectory: {0}", dir);
+				log.InfoFormat("PreVisitDirectory: {0}", dir.FullName);
 				return FileVisitResult.CONTINUE;
 			}
 			
-			public FileVisitResult VisitFile<T>(T file) where T : FileSystemInfo
+			public FileVisitResult VisitFile(FileInfo file)
 			{
-				log.InfoFormat("VisitFile: {0}", file);
+				log.InfoFormat("VisitFile: {0}", file.Name);
 				return FileVisitResult.CONTINUE;
 			}
 			
-			public FileVisitResult VisitFileFailed<T>(T file, IOException exc) where T : FileSystemInfo
+			public FileVisitResult VisitFileFailed(FileSystemInfo file, IOException exc)
 			{
-				log.ErrorFormat("VisitFileFailed: {0}, Exception: {1}", file, exc.Message);
+				log.ErrorFormat("VisitFileFailed: {0}, Exception: {1}", file.FullName, exc.Message);
 				return FileVisitResult.CONTINUE;
 			}
 			
-			public FileVisitResult PostVisitDirectory<T>(T dir, IOException exc) where T : FileSystemInfo
+			public FileVisitResult PostVisitDirectory(DirectoryInfo dir, IOException exc)
 			{
-				log.InfoFormat("PostVisitDirectory: {0}", dir);
+				log.InfoFormat("PostVisitDirectory: {0}", dir.FullName);
 				return FileVisitResult.CONTINUE;
 			}
-			
 		}
 		
 		/// <summary>
