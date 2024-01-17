@@ -46,6 +46,8 @@
     <Compile Include="Corrector\Applicator.cs" />
     <Compile Include="Corrector\ICorrector.cs" />
     <Compile Include="Corrector\Previewer.cs" />
+    <Compile Include="Entity\FileEntity.cs" />
+    <Compile Include="Entity\FileVisit.cs" />
     <Compile Include="FSUtils.cs" />
     <Compile Include="IO\Metadata.cs" />
     <Compile Include="IO\MetadataBuilder.cs" />
@@ -77,14 +79,17 @@
     <Compile Include="Parser\MediaInfoDLL.cs" />
     <Compile Include="Parser\MediaInfoParser.cs" />
     <Compile Include="Resources\CorrectionEnum.cs" />
+    <Compile Include="Resources\CorrectionMode.cs" />
     <Compile Include="Resources\R.cs" />
     <Compile Include="Resources\SourceEnum.cs" />
     <Compile Include="Security\PasswordProvider.cs" />
+    <Compile Include="Service\PreviewService.cs" />
     <Compile Include="Statistics.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="Time\TimeOrder.cs" />
     <Compile Include="Time\TimestampFormatter.cs" />
     <Compile Include="Time\TimeUtils.cs" />
+    <Compile Include="UI\ProgressWorker.cs" />
     <Compile Include="Util\Logging\CountListener.cs" />
     <Compile Include="Util\Logging\ExtensionEvent.cs" />
     <Compile Include="Util\Logging\ExtensionStatistics.cs" />
@@ -109,6 +114,9 @@
     <Folder Include="IO\Reader\User" />
     <Folder Include="Logging" />
     <Folder Include="IO" />
+    <Folder Include="Entity" />
+    <Folder Include="UI" />
+    <Folder Include="Service" />
     <Folder Include="Util" />
     <Folder Include="Security" />
     <Folder Include="Resources" />
