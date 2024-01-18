@@ -93,25 +93,25 @@ namespace Wreck
 			public FileVisitResult PreVisitDirectory(DirectoryInfo dir)
 			{
 				log.InfoFormat("PreVisitDirectory: {0}", dir.FullName);
-				return FileVisitResult.CONTINUE;
+				return FileVisitResult.Continue;
 			}
 			
 			public FileVisitResult VisitFile(FileInfo file)
 			{
 				log.InfoFormat("VisitFile: {0}", file.Name);
-				return FileVisitResult.CONTINUE;
+				return FileVisitResult.Continue;
 			}
 			
 			public FileVisitResult VisitFileFailed(FileSystemInfo file, IOException exc)
 			{
 				log.ErrorFormat("VisitFileFailed: {0}, Exception: {1}", file.FullName, exc.Message);
-				return FileVisitResult.CONTINUE;
+				return FileVisitResult.Continue;
 			}
 			
 			public FileVisitResult PostVisitDirectory(DirectoryInfo dir, IOException exc)
 			{
 				log.InfoFormat("PostVisitDirectory: {0}", dir.FullName);
-				return FileVisitResult.CONTINUE;
+				return FileVisitResult.Continue;
 			}
 		}
 		

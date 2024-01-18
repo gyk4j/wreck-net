@@ -43,49 +43,82 @@ namespace JShim.NIO.File
 			                    visitor);
 		}
 		
-		private static void VisitDirectory(DirectoryInfo dir, FileVisitor visitor)
+		private static FileVisitResult VisitDirectory(DirectoryInfo dir, FileVisitor visitor)
 		{
+			FileVisitResult result;
+			List<IOException> exceptions = new List<IOException>();
+			
 			if(FSUtils.IsReparsePoint(dir))
 			{
 //				logger.SkipReparsePoint(dir);
 //				stats.Skip(dir);
-				visitor.VisitFileFailed(dir, new IOException("Skip reparse point"));
-				return;
+				result = visitor.VisitFileFailed(dir, new IOException("Skip reparse point"));
+				return result;
 			}
 			
 //			logger.CurrentDirectory(dir);
-			visitor.PreVisitDirectory(dir);
+			result = visitor.PreVisitDirectory(dir);
+			
+			if(result == FileVisitResult.Terminate)
+				return FileVisitResult.Terminate;
+			else if(
+				result == FileVisitResult.SkipSubTree)
+				return FileVisitResult.Continue;
 			
 			FileInfo[] files = dir.GetFiles();
 			foreach(FileInfo f in files)
 			{
 				try
 				{
-					VisitFile(f, visitor);
+					result = VisitFile(f, visitor);
 				}
 				catch(Exception e)
 				{
-					visitor.VisitFileFailed(f, new IOException("Visit file failed", e));
+					result = visitor.VisitFileFailed(f, new IOException("Visit file failed", e));
 				}
+				
+				if(result == FileVisitResult.Terminate)
+					return FileVisitResult.Terminate;
+				else if(result == FileVisitResult.SkipSubTree)
+					return FileVisitResult.Continue;
+				else if(result == FileVisitResult.SkipSiblings)
+					break;
 			}
+			
+			// Do not traverse down to sub-directories.
+			if(result == FileVisitResult.SkipSubTree)
+				return result;
 			
 			DirectoryInfo[] dirs = dir.GetDirectories();
 			foreach(DirectoryInfo d in dirs)
 			{
 				try
 				{
-					VisitDirectory(d, visitor);
+					result = VisitDirectory(d, visitor);
 				}
 				catch(Exception e)
 				{
-					visitor.VisitFileFailed(d, new IOException("Visit directory failed", e));
+					result = visitor.VisitFileFailed(d, new IOException("Visit directory failed", e));
 				}
+				
+				if(result == FileVisitResult.Terminate)
+					return FileVisitResult.Terminate;
+				else if(result == FileVisitResult.SkipSubTree)
+					return FileVisitResult.Continue;
+				else if(result == FileVisitResult.SkipSiblings)
+					break;
 			}
 			
 //			stats.Count(dir);
 			
-			// TODO: To add detailed error reporting if exception occurs.
-			visitor.PostVisitDirectory(dir, null);
+			IOException ex = exceptions.Count > 0 ? exceptions[0]: null;
+			result = visitor.PostVisitDirectory(dir, ex);
+			
+			// Added for consistency and not drop down to the default action.
+			if(result == FileVisitResult.Terminate)
+				return result;
+			
+			return result;
 			
 			// TODO: Shift processing logic to FileVisitor
 //			DateTime? creation, lastWrite, lastAccess;
@@ -93,21 +126,25 @@ namespace JShim.NIO.File
 //			Correct(dir, creation, lastWrite, lastAccess);
 		}
 		
-		private static void VisitFile(FileInfo file, FileVisitor visitor)
+		private static FileVisitResult VisitFile(FileInfo file, FileVisitor visitor)
 		{
+			FileVisitResult result;
+			
 			if(FSUtils.IsReparsePoint(file))
 			{
 //				logger.SkipReparsePoint(file);
 //				stats.Skip(file);
-				visitor.VisitFileFailed(file, new IOException("Skip reparse point"));
-				return;
+				result = visitor.VisitFileFailed(file, new IOException("Skip reparse point"));
+				return result;
 			}
 			
 //			logger.CurrentFile(file);
 //			stats.Count(file);
 			
+			result = visitor.VisitFile(file);
+			return result;
+			
 			// TODO: Shift processing logic to FileVisitor
-			visitor.VisitFile(file);
 			/*
 			DateTime? creation, lastWrite, lastAccess;
 			IEnumerator<IFileDateable> e = this.parsers.Values.GetEnumerator();

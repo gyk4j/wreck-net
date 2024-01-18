@@ -13,18 +13,18 @@ namespace JShim.NIO.File
 		 * preVisitDirectory} method then the entries in the directory should also
 		 * be visited.
 		 */
-		CONTINUE,
+		Continue,
 		/**
 		 * Terminate.
 		 */
-		TERMINATE,
+		Terminate,
 		/**
 		 * Continue without visiting the entries in this directory. This result
 		 * is only meaningful when returned from the {@link
 		 * FileVisitor#preVisitDirectory preVisitDirectory} method; otherwise
 		 * this result type is the same as returning {@link #CONTINUE}.
 		 */
-		SKIP_SUBTREE,
+		SkipSubTree,
 		/**
 		 * Continue without visiting the <em>siblings</em> of this file or directory.
 		 * If returned from the {@link FileVisitor#preVisitDirectory
@@ -32,6 +32,6 @@ namespace JShim.NIO.File
 		 * skipped and the {@link FileVisitor#postVisitDirectory postVisitDirectory}
 		 * method is not invoked.
 		 */
-		SKIP_SIBLINGS
+		SkipSiblings
 	}
 }
