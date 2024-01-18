@@ -46,6 +46,7 @@
     <Compile Include="NIO\File\FileVisitOption.cs" />
     <Compile Include="NIO\File\FileVisitor.cs" />
     <Compile Include="NIO\File\FileVisitResult.cs" />
+    <Compile Include="NIO\File\SimpleFileVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\EventObject.cs" />
   </ItemGroup>
