@@ -43,15 +43,21 @@
     <Compile Include="Beans\PropertyChangeListener.cs" />
     <Compile Include="FSUtils.cs" />
     <Compile Include="NIO\File\Files.cs" />
+    <Compile Include="NIO\File\FileStore.cs" />
+    <Compile Include="NIO\File\FileSystem.cs" />
     <Compile Include="NIO\File\FileVisitOption.cs" />
     <Compile Include="NIO\File\FileVisitor.cs" />
     <Compile Include="NIO\File\FileVisitResult.cs" />
+    <Compile Include="NIO\File\LinkOption.cs" />
+    <Compile Include="NIO\File\Path.cs" />
     <Compile Include="NIO\File\SimpleFileVisitor.cs" />
+    <Compile Include="NIO\File\SPI\FileSystemProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\EventObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="NIO\File" />
+    <Folder Include="NIO\File\SPI" />
     <Folder Include="Util" />
     <Folder Include="NIO" />
     <Folder Include="Beans" />
