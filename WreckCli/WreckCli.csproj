@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\CliController.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -57,5 +58,6 @@
       <Name>Wreck</Name>
     </ProjectReference>
     <Folder Include="Logging" />
+    <Folder Include="Controller" />
   </ItemGroup>
 </Project>

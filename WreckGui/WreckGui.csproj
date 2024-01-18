@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\GuiController.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="MainForm.cs" />
     <Compile Include="MainForm.Designer.cs">
@@ -79,6 +80,7 @@
       <Name>Wreck</Name>
     </ProjectReference>
     <Folder Include="Logging" />
+    <Folder Include="Controller" />
     <Folder Include="Resources" />
   </ItemGroup>
 </Project>
