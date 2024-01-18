@@ -10,22 +10,22 @@ namespace JShim.NIO.File
 	/// </summary>
 	public class SimpleFileVisitor : FileVisitor
 	{
-		public FileVisitResult PreVisitDirectory(DirectoryInfo dir)
+		public virtual FileVisitResult PreVisitDirectory(DirectoryInfo dir)
 		{
 			return FileVisitResult.Continue;
 		}
 		
-		public FileVisitResult VisitFile(FileInfo file)
+		public virtual FileVisitResult VisitFile(FileInfo file)
 		{
 			return FileVisitResult.Continue;
 		}
 		
-		public FileVisitResult VisitFileFailed(FileSystemInfo file, IOException exc)
+		public virtual FileVisitResult VisitFileFailed(FileSystemInfo file, IOException exc)
 		{
 			return FileVisitResult.Continue;
 		}
 		
-		public FileVisitResult PostVisitDirectory(DirectoryInfo dir, IOException exc)
+		public virtual FileVisitResult PostVisitDirectory(DirectoryInfo dir, IOException exc)
 		{
 			return FileVisitResult.Continue;
 		}

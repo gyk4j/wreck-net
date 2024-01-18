@@ -88,30 +88,30 @@ namespace Wreck
 		}
 		
 		// HACK: To be replaced by actual implementation.
-		class EchoFileVisitor : FileVisitor
+		class EchoFileVisitor : SimpleFileVisitor
 		{
-			public FileVisitResult PreVisitDirectory(DirectoryInfo dir)
+			public override FileVisitResult PreVisitDirectory(DirectoryInfo dir)
 			{
 				log.InfoFormat("PreVisitDirectory: {0}", dir.FullName);
-				return FileVisitResult.Continue;
+				return base.PreVisitDirectory(dir);
 			}
 			
-			public FileVisitResult VisitFile(FileInfo file)
+			public override FileVisitResult VisitFile(FileInfo file)
 			{
 				log.InfoFormat("VisitFile: {0}", file.Name);
-				return FileVisitResult.Continue;
+				return base.VisitFile(file);
 			}
 			
-			public FileVisitResult VisitFileFailed(FileSystemInfo file, IOException exc)
+			public override FileVisitResult VisitFileFailed(FileSystemInfo file, IOException exc)
 			{
 				log.ErrorFormat("VisitFileFailed: {0}, Exception: {1}", file.FullName, exc.Message);
-				return FileVisitResult.Continue;
+				return base.VisitFileFailed(file, exc);
 			}
 			
-			public FileVisitResult PostVisitDirectory(DirectoryInfo dir, IOException exc)
+			public override FileVisitResult PostVisitDirectory(DirectoryInfo dir, IOException exc)
 			{
 				log.InfoFormat("PostVisitDirectory: {0}", dir.FullName);
-				return FileVisitResult.Continue;
+				return base.PostVisitDirectory(dir, exc);
 			}
 		}
 		
