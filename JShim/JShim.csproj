@@ -48,11 +48,13 @@
     <Compile Include="NIO\File\Files.cs" />
     <Compile Include="NIO\File\FileStore.cs" />
     <Compile Include="NIO\File\FileSystem.cs" />
+    <Compile Include="NIO\File\FileSystems.cs" />
     <Compile Include="NIO\File\FileVisitOption.cs" />
     <Compile Include="NIO\File\FileVisitor.cs" />
     <Compile Include="NIO\File\FileVisitResult.cs" />
     <Compile Include="NIO\File\LinkOption.cs" />
     <Compile Include="NIO\File\Path.cs" />
+    <Compile Include="NIO\File\Paths.cs" />
     <Compile Include="NIO\File\SimpleFileVisitor.cs" />
     <Compile Include="NIO\File\SPI\FileSystemProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
