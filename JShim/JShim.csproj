@@ -39,6 +39,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\Windows\Classes\Sun\NIO\FS\WindowsFileStore.cs" />
     <Compile Include="Base\Windows\Classes\Sun\NIO\FS\WindowsFileSystem.cs" />
     <Compile Include="Base\Windows\Classes\Sun\NIO\FS\WindowsPath.cs" />
     <Compile Include="Base\Windows\Classes\Sun\NIO\FS\WindowsPathType.cs" />
