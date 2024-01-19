@@ -324,5 +324,10 @@ namespace Wreck
 				MessageBoxIcon.Error
 			);
 		}
+		
+		void MainFormClosing(object sender, EventArgs e)
+		{
+			this.wreck.Dispose();
+		}
 	}
 }
