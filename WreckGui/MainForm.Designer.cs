@@ -140,6 +140,7 @@ namespace Wreck
 			this.Controls.Add(this.treeViewPaths);
 			this.Name = "MainForm";
 			this.Text = "WreckGui";
+			this.Closing += new System.ComponentModel.CancelEventHandler(this.MainFormClosing);
 			this.statusStrip.ResumeLayout(false);
 			this.statusStrip.PerformLayout();
 			this.toolStrip.ResumeLayout(false);
