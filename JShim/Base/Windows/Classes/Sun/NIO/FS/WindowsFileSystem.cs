@@ -69,12 +69,17 @@ namespace Sun.NIO.FS
 		
 		public override IEnumerable<Path> GetRootDirectories()
 		{
-			return null;
+			System.IO.DriveInfo[] drives = System.IO.DriveInfo.GetDrives();
+			
+			foreach(System.IO.DriveInfo d in drives)
+			{
+				yield return Paths.Get(d.Name);
+			}
 		}
 		
 		public override string GetSeparator()
 		{
-			return null;
+			return Char.ToString(System.IO.Path.DirectorySeparatorChar);
 		}
 		
 //		public override UserPrincipalLookupService	GetUserPrincipalLookupService() { }
