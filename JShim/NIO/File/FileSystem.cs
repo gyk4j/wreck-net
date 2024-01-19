@@ -15,7 +15,7 @@ namespace JShim.NIO.File
 		}
 		
 		public abstract void close();
-//		public abstract IEnumerable<FileStore> GetFileStores();
+		public abstract IEnumerable<FileStore> GetFileStores();
 		public abstract Path GetPath(params string[] subpaths);
 //		public abstract PathMatcher GetPathMatcher(string syntaxAndPattern);
 		public abstract IEnumerable<Path> GetRootDirectories();
