@@ -74,20 +74,14 @@ namespace Wreck
 		}
 		
 		public void Run(string[] args)
-		{
-			logger.Version();
-			
+		{			
 			using(Wreck wreck = new Wreck(logger, new Previewer()))
-			{
-				logger.Statistics(wreck.GetStatistics());
-				
+			{				
 				foreach(string p in args)
 				{
 					logger.CurrentPath(p);
 					wreck.Walk(p);
 				}
-				
-				logger.Statistics(wreck.GetStatistics());
 			}
 		}
 		
@@ -103,6 +97,9 @@ namespace Wreck
 				backgroundWorker.RunWorkerAsync();
 				SetAppState(true);
 			}
+			logger.Version();
+			// FIXME: Need to return statistics from background worker as progress update
+//			logger.Statistics(wreck.GetStatistics());
 		}
 		
 		void DoWork(object sender, DoWorkEventArgs e)
@@ -214,6 +211,9 @@ namespace Wreck
 			SetCurrentFile(string.Empty);
 			SetAppState(false);
 			this.treeViewPaths.ExpandAll();
+			
+			// FIXME: Need to return statistics from background worker as progress update
+//			logger.Statistics(wreck.GetStatistics());
 		}
 		
 		public void Version()
