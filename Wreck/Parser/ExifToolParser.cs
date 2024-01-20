@@ -31,12 +31,9 @@ namespace Wreck.Parser
 			exifTool = new ExifTool();
 		}
 		
-		~ExifToolParser()
-		{
-			log.DebugFormat("Called ~ExifToolParser");
-			Dispose();
-		}
-		
+		/// <summary>
+		/// Dispose needs to be called explicitly.
+		/// </summary>
 		public void Dispose()
 		{
 			log.DebugFormat("Called ExifToolParser.Dispose()");
