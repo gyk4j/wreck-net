@@ -24,7 +24,6 @@ namespace Wreck
 		
 		private static readonly ILog log = LogManager.GetLogger(typeof(MainForm));
 		private Logger logger;
-		private Wreck wreck;
 		
 		private TreeNode rootNode;
 		private TreeNode pathNode;
@@ -46,7 +45,7 @@ namespace Wreck
 		
 		private static readonly string APP_STATE_IDLE = "Idle";
 		private static readonly string APP_STATE_RUNNING = "Running";
-			
+		
 		public MainForm()
 		{
 			//
@@ -62,9 +61,6 @@ namespace Wreck
 			log.Debug("Initializing MainForm");
 			
 			this.logger = new Logger(this);
-			this.wreck = new Wreck(logger, new Previewer());
-			logger.Version();
-			logger.Statistics(wreck.GetStatistics());
 			
 			this.treeViewPaths.ImageList = this.imageList;
 			this.rootNode = new TreeNode();
@@ -72,20 +68,27 @@ namespace Wreck
 			SetAppState(false);
 			this.treeViewPaths.Nodes.Add(this.rootNode);
 			
-			backgroundWorker = new BackgroundWorker(); 
+			backgroundWorker = new BackgroundWorker();
 			
 			log.Debug("Initialized MainForm");
 		}
 		
 		public void Run(string[] args)
 		{
-			foreach(string p in args)
-			{
-				logger.CurrentPath(p);
-				wreck.Walk(p);
-			}
+			logger.Version();
 			
-			logger.Statistics(wreck.GetStatistics());
+			using(Wreck wreck = new Wreck(logger, new Previewer()))
+			{
+				logger.Statistics(wreck.GetStatistics());
+				
+				foreach(string p in args)
+				{
+					logger.CurrentPath(p);
+					wreck.Walk(p);
+				}
+				
+				logger.Statistics(wreck.GetStatistics());
+			}
 		}
 		
 		void BtnRunClick(object sender, EventArgs e)
@@ -99,7 +102,7 @@ namespace Wreck
 				backgroundWorker.WorkerSupportsCancellation = false;
 				backgroundWorker.RunWorkerAsync();
 				SetAppState(true);
-			}	
+			}
 		}
 		
 		void DoWork(object sender, DoWorkEventArgs e)
@@ -301,8 +304,8 @@ namespace Wreck
 		private void SetAppState(bool running)
 		{
 			string text = running ? APP_STATE_RUNNING : APP_STATE_IDLE;
-			int icon = running ? 
-				(int) TreeViewIcon.AppRunning : 
+			int icon = running ?
+				(int) TreeViewIcon.AppRunning :
 				(int) TreeViewIcon.AppIdle;
 			
 			Debug.Assert(this.rootNode != null);
@@ -323,11 +326,6 @@ namespace Wreck
 				MessageBoxButtons.OK,
 				MessageBoxIcon.Error
 			);
-		}
-		
-		void MainFormClosing(object sender, EventArgs e)
-		{
-			this.wreck.Dispose();
 		}
 	}
 }
