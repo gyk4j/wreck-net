@@ -7,7 +7,7 @@ using System.Text;
 using JShim.NIO.File;
 using Sun.NIO.FS;
 
-namespace JShim.Base.Windows.Classes.Sun.NIO.FS
+namespace Sun.NIO.FS
 {
 	/// <summary>
 	/// Description of WindowsFileStore.
