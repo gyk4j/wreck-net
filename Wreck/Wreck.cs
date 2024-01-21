@@ -58,7 +58,7 @@ namespace Wreck
 		
 		public void Dispose()
 		{
-			IFileDateable exifToolParser; 
+			IFileDateable exifToolParser;
 			if(this.parsers.TryGetValue(FileInfoTools.ExifTool, out exifToolParser))
 			{
 				((ExifToolParser) exifToolParser).Dispose();
@@ -83,34 +83,65 @@ namespace Wreck
 			else
 				throw new IOException(startingPath + " is neither directory or file.");
 			
-			FileVisitor visitor = new EchoFileVisitor();
+			FileVisitor visitor = new Wreck.EchoFileVisitor(this);
 			Files.WalkFileTree(start, visitor);
 		}
 		
 		// HACK: To be replaced by actual implementation.
-		class EchoFileVisitor : SimpleFileVisitor
+		public class EchoFileVisitor : SimpleFileVisitor
 		{
+			private Wreck outer;
+			
+			public EchoFileVisitor(Wreck outer)
+			{
+				this.outer = outer;
+			}
+			
 			public override FileVisitResult PreVisitDirectory(DirectoryInfo dir)
 			{
 				log.InfoFormat("PreVisitDirectory: {0}", dir.FullName);
+				
+				outer.logger.CurrentDirectory(dir);
+				
 				return base.PreVisitDirectory(dir);
 			}
 			
 			public override FileVisitResult VisitFile(FileInfo file)
 			{
 				log.InfoFormat("VisitFile: {0}", file.Name);
+				
+				outer.logger.CurrentFile(file);
+				outer.stats.Count(file);
+				
 				return base.VisitFile(file);
 			}
 			
 			public override FileVisitResult VisitFileFailed(FileSystemInfo file, IOException exc)
 			{
 				log.ErrorFormat("VisitFileFailed: {0}, Exception: {1}", file.FullName, exc.Message);
+				
+				if(file is FileInfo)
+				{
+					outer.stats.Skip((FileInfo) file);
+					outer.logger.SkipReparsePoint((FileInfo) file);
+				}
+				else if(file is DirectoryInfo)
+				{
+					outer.stats.Skip((DirectoryInfo) file);
+					outer.logger.SkipReparsePoint((DirectoryInfo) file);
+				}
+				else
+					outer.logger.UnknownPathType(file.FullName);
+				
 				return base.VisitFileFailed(file, exc);
 			}
 			
 			public override FileVisitResult PostVisitDirectory(DirectoryInfo dir, IOException exc)
 			{
 				log.InfoFormat("PostVisitDirectory: {0}", dir.FullName);
+				
+				outer.stats.Count(dir);
+				
 				return base.PostVisitDirectory(dir, exc);
 			}
 		}
@@ -161,7 +192,7 @@ namespace Wreck
 			DateTime? creation,
 			DateTime? lastWrite,
 			DateTime? lastAccess)
-		{			
+		{
 			// Fix modification time.
 			try
 			{
@@ -169,7 +200,7 @@ namespace Wreck
 				{
 					corrector.ByLastWriteMetadata(fsi, lastWrite.Value);
 					logger.CorrectedByLastWriteMetadata(fsi, lastWrite.Value);
-				}					
+				}
 			}
 			catch(UnauthorizedAccessException ex)
 			{
@@ -221,7 +252,7 @@ namespace Wreck
 			{
 				logger.UnauthorizedAccessException(ex);
 			}
-			*/
+			 */
 			// Fix last access time from modified time.
 			// Last access time will always be earlier than modification time.
 			/*
@@ -237,14 +268,14 @@ namespace Wreck
 			{
 				logger.UnauthorizedAccessException(ex);
 			}
-			*/
+			 */
 		}
 		
 		/// <summary>
 		/// Does nothing for now after the file system time stamps are corrected.
 		/// Perhaps for some future post-processing tasks like:
 		/// - packaging into a ZIP archive
-		/// - generating a file manifest or hash file like md5sum 
+		/// - generating a file manifest or hash file like md5sum
 		/// </summary>
 		public void Keep()
 		{
