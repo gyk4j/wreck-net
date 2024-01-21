@@ -39,10 +39,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\Windows\Classes\Sun\NIO\FS\WindowsFileStore.cs" />
-    <Compile Include="Base\Windows\Classes\Sun\NIO\FS\WindowsFileSystem.cs" />
-    <Compile Include="Base\Windows\Classes\Sun\NIO\FS\WindowsPath.cs" />
-    <Compile Include="Base\Windows\Classes\Sun\NIO\FS\WindowsPathType.cs" />
+    <Compile Include="Sun\NIO\FS\WindowsFileStore.cs" />
+    <Compile Include="Sun\NIO\FS\WindowsFileSystem.cs" />
+    <Compile Include="Sun\NIO\FS\WindowsPath.cs" />
+    <Compile Include="Sun\NIO\FS\WindowsPathType.cs" />
     <Compile Include="Beans\PropertyChangeEvent.cs" />
     <Compile Include="Beans\PropertyChangeListener.cs" />
     <Compile Include="FSUtils.cs" />
@@ -62,12 +62,9 @@
     <Compile Include="Util\EventObject.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Base" />
-    <Folder Include="Base\Windows" />
-    <Folder Include="Base\Windows\Classes" />
-    <Folder Include="Base\Windows\Classes\Sun" />
-    <Folder Include="Base\Windows\Classes\Sun\NIO" />
-    <Folder Include="Base\Windows\Classes\Sun\NIO\FS" />
+    <Folder Include="Sun" />
+    <Folder Include="Sun\NIO" />
+    <Folder Include="Sun\NIO\FS" />
     <Folder Include="NIO\File" />
     <Folder Include="NIO\File\SPI" />
     <Folder Include="Util" />
