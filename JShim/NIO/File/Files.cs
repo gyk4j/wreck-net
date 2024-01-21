@@ -8,7 +8,7 @@ using log4net;
 namespace JShim.NIO.File
 {
 	/// <summary>
-	/// Description of MyClass.
+	/// Description of Files.
 	/// </summary>
 	public class Files
 	{
@@ -20,17 +20,18 @@ namespace JShim.NIO.File
 		                                          FileVisitor visitor)
 			
 		{
+			FileVisitResult result;
+			
 			if(System.IO.File.Exists(start.FullName)){
-				VisitFile(new FileInfo(start.FullName), visitor);
+				result = VisitFile(new FileInfo(start.FullName), visitor);
 			}
 			else if(System.IO.Directory.Exists(start.FullName))
 			{
-				VisitDirectory(new DirectoryInfo(start.FullName), visitor);
+				result = VisitDirectory(new DirectoryInfo(start.FullName), visitor);
 			}
 			else
 			{
 				LOG.ErrorFormat("Unknown path type: {0}", start.FullName);
-//				logger.UnknownPathType(start);
 			}
 			return start;
 		}
@@ -50,13 +51,10 @@ namespace JShim.NIO.File
 			
 			if(FSUtils.IsReparsePoint(dir))
 			{
-//				logger.SkipReparsePoint(dir);
-//				stats.Skip(dir);
 				result = visitor.VisitFileFailed(dir, new IOException("Skip reparse point"));
 				return result;
 			}
 			
-//			logger.CurrentDirectory(dir);
 			result = visitor.PreVisitDirectory(dir);
 			
 			if(result == FileVisitResult.Terminate)
@@ -109,8 +107,6 @@ namespace JShim.NIO.File
 					break;
 			}
 			
-//			stats.Count(dir);
-			
 			IOException ex = exceptions.Count > 0 ? exceptions[0]: null;
 			result = visitor.PostVisitDirectory(dir, ex);
 			
@@ -132,14 +128,9 @@ namespace JShim.NIO.File
 			
 			if(FSUtils.IsReparsePoint(file))
 			{
-//				logger.SkipReparsePoint(file);
-//				stats.Skip(file);
 				result = visitor.VisitFileFailed(file, new IOException("Skip reparse point"));
 				return result;
 			}
-			
-//			logger.CurrentFile(file);
-//			stats.Count(file);
 			
 			result = visitor.VisitFile(file);
 			return result;

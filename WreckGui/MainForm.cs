@@ -75,14 +75,16 @@ namespace Wreck
 		}
 		
 		public void Run(string[] args)
-		{			
+		{
 			using(Wreck wreck = new Wreck(logger, new Previewer()))
-			{				
+			{
+				logger.Statistics(wreck.GetStatistics());
 				foreach(string p in args)
 				{
 					logger.CurrentPath(p);
 					wreck.Walk(p);
 				}
+				logger.Statistics(wreck.GetStatistics());
 			}
 		}
 		
@@ -98,9 +100,6 @@ namespace Wreck
 				backgroundWorker.RunWorkerAsync();
 				SetAppState(true);
 			}
-			
-			// FIXME: Need to return statistics from background worker as progress update
-//			logger.Statistics(wreck.GetStatistics());
 		}
 		
 		void DoWork(object sender, DoWorkEventArgs e)
@@ -198,9 +197,21 @@ namespace Wreck
 					}
 					
 					break;
+				case "Statistics":
+					Statistics stats = (Statistics) e.UserState;
+					ToolStripItem lblDirectoriesCount = statusStrip.Items["lblDirectoriesCount"];
+					lblDirectoriesCount.Text = string.Format("Directories: {0}", stats.Directories);
+
+					ToolStripItem lblFilesCount = statusStrip.Items["lblFilesCount"];
+					lblFilesCount.Text = string.Format("Files: {0}", stats.Files);
+
+					ToolStripItem lblSkippedCount = statusStrip.Items["lblSkippedCount"];
+					lblSkippedCount.Text = string.Format("Skipped: {0}", stats.Skipped);
+					
+					break;
 				default:
-					Debug.Assert(false);
 					log.WarnFormat("{0}: {1}", e.UserState.GetType().FullName, e.UserState.ToString());
+					Debug.Assert(false);					
 					break;
 			}
 			
@@ -212,9 +223,6 @@ namespace Wreck
 			SetCurrentFile(string.Empty);
 			SetAppState(false);
 			this.treeViewPaths.ExpandAll();
-			
-			// FIXME: Need to return statistics from background worker as progress update
-//			logger.Statistics(wreck.GetStatistics());
 		}
 		
 		public void Version()
@@ -286,14 +294,8 @@ namespace Wreck
 		
 		public void Statistics(Statistics stats)
 		{
-			ToolStripItem lblDirectoriesCount = statusStrip.Items["lblDirectoriesCount"];
-			lblDirectoriesCount.Text = string.Format("Directories: {0}", stats.Directories);
-			
-			ToolStripItem lblFilesCount = statusStrip.Items["lblFilesCount"];
-			lblFilesCount.Text = string.Format("Files: {0}", stats.Files);
-			
-			ToolStripItem lblSkippedCount = statusStrip.Items["lblSkippedCount"];
-			lblSkippedCount.Text = string.Format("Skipped: {0}", stats.Skipped);
+			if(backgroundWorker != null)
+				backgroundWorker.ReportProgress(0, stats);
 		}
 		
 		public void SetCurrentFile(string p)
