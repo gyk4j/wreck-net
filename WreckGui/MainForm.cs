@@ -61,6 +61,7 @@ namespace Wreck
 			log.Debug("Initializing MainForm");
 			
 			this.logger = new Logger(this);
+			logger.Version();
 			
 			this.treeViewPaths.ImageList = this.imageList;
 			this.rootNode = new TreeNode();
@@ -97,7 +98,7 @@ namespace Wreck
 				backgroundWorker.RunWorkerAsync();
 				SetAppState(true);
 			}
-			logger.Version();
+			
 			// FIXME: Need to return statistics from background worker as progress update
 //			logger.Statistics(wreck.GetStatistics());
 		}
