@@ -1,19 +1,21 @@
 ﻿
 using System;
-using System.IO;
 using System.Collections;
 using System.Collections.Generic;
-using Wreck.Corrector;
+using System.IO;
 
-using Wreck.Logging;
 using log4net;
 using log4net.Config;
+using Wreck.Controller;
+using Wreck.Corrector;
+using Wreck.Logging;
 
 namespace Wreck
 {
 	class Program
 	{
 		private const string LOG4NET_XML = "log4net.xml";
+		private IController controller;
 		private Logger logger;
 		
 		private static readonly ILog log = LogManager.GetLogger(typeof(Program));
@@ -31,16 +33,13 @@ namespace Wreck
 		
 		public Program()
 		{
+			controller = new CliController();
 			logger = new Logger();
 		}
 		
 		public void Run(string[] args)
 		{
 			logger.Version();
-			
-//			Test.TestMediaInfo();
-//			Test.TestExifTool();
-//			Test.Test7Zip();
 			
 			using(Wreck wreck = new Wreck(logger, new Previewer()))
 			{
