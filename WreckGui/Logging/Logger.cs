@@ -18,8 +18,10 @@ namespace Wreck.Logging
 		
 		private static readonly ILog log = LogManager.GetLogger(typeof(Logger));
 		
+		// TODO: Shift to controller?
 		private MainForm form;
 		
+		// TODO: Initialize with controller instead?
 		public Logger(MainForm form)
 		{
 			//BasicConfigurator.Configure();
@@ -41,19 +43,28 @@ namespace Wreck.Logging
 		public void CurrentPath(string p)
 		{
 			log.DebugFormat("P {0}", p);
-			form.CurrentPath(p);
+			
+//			TODO: Shift to controller?
+			if(form.BackgroundWorker != null)
+				form.BackgroundWorker.ReportProgress(0, p);
 		}
 		
 		public void CurrentFile(FileInfo f)
 		{
 			log.DebugFormat("F     - {0}", f.Name);
-			form.CurrentFile(f);
+			
+//			TODO: Shift to controller?
+			if(form.BackgroundWorker != null)
+				form.BackgroundWorker.ReportProgress(0, f);
 		}
 		
 		public void CurrentDirectory(DirectoryInfo d)
 		{
 			log.DebugFormat("D   - {0}", d.FullName);
-			form.CurrentDirectory(d);
+			
+//			TODO: Shift to controller?
+			if(form.BackgroundWorker != null)
+				form.BackgroundWorker.ReportProgress(0, d);
 		}
 		
 		public void SkipReparsePoint(DirectoryInfo d)
@@ -89,7 +100,9 @@ namespace Wreck.Logging
 		
 		public void Statistics(Statistics stats)
 		{
-			form.Statistics(stats);
+//			TODO: Shift to controller?
+			if(form.BackgroundWorker != null)
+				form.BackgroundWorker.ReportProgress(0, stats);
 		}
 		
 		// For error reporting
