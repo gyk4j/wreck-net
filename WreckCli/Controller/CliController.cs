@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using log4net;
+using Wreck.Logging;
 
 namespace Wreck.Controller
 {
@@ -31,67 +32,73 @@ namespace Wreck.Controller
 		
 		public void Version()
 		{
-			throw new NotImplementedException();
+			Console.WriteLine("{0} v{1}\n", Wreck.NAME, Wreck.VERSION);
 		}
 		
 		public void UnknownPathType(string path)
 		{
-			throw new NotImplementedException();
+			Console.WriteLine("UnknownPathType: {0}", path);
 		}
 		
 		public void CurrentPath(string p)
 		{
-			throw new NotImplementedException();
+			Console.WriteLine("> {0}", p);
 		}
 		
 		public void CurrentFile(FileInfo f)
 		{
-			throw new NotImplementedException();
+			Console.WriteLine("    - {0}", f.Name);
 		}
 		
 		public void CurrentDirectory(DirectoryInfo d)
 		{
-			throw new NotImplementedException();
+			Console.WriteLine("  + {0}", d.FullName);
 		}
 		
 		public void SkipReparsePoint(DirectoryInfo d)
 		{
-			throw new NotImplementedException();
+			Console.WriteLine("Skipped reparse point: {0}", d.Name);
 		}
 		
 		public void SkipReparsePoint(FileInfo f)
 		{
-			throw new NotImplementedException();
+			Console.WriteLine("Skipped reparse point: {0}", f.Name);
 		}
 		
 		public void CorrectedByLastWriteMetadata(FileSystemInfo fsi, DateTime lastWrite)
 		{
-			throw new NotImplementedException();
+			Console.WriteLine("        MW: {0}", TextFormatter.Format(fsi.LastWriteTime.Subtract(lastWrite)));
 		}
 		
 		public void CorrectedByCreationMetadata(FileSystemInfo fsi, DateTime creation)
 		{
-			throw new NotImplementedException();
+			Console.WriteLine("        MC: {0}", TextFormatter.Format(fsi.CreationTime.Subtract(creation)));
 		}
 		
 		public void CorrectedByLastAccessMetadata(FileSystemInfo fsi, DateTime lastAccess)
 		{
-			throw new NotImplementedException();
+			Console.WriteLine("        MA: {0}", TextFormatter.Format(fsi.LastAccessTime.Subtract(lastAccess)));
 		}
 		
 		public void CorrectedByLastWriteTime(FileSystemInfo fsi, DateTime creationOrLastAccess)
 		{
-			throw new NotImplementedException();
+			if(creationOrLastAccess == fsi.CreationTime)
+				Console.WriteLine("        LC: {0}", TextFormatter.Format(fsi.CreationTime.Subtract(fsi.LastWriteTime)));
+			else if(creationOrLastAccess == fsi.LastAccessTime)
+				Console.WriteLine("        LA: {0}", TextFormatter.Format(fsi.LastAccessTime.Subtract(fsi.LastWriteTime)));
 		}
 		
 		public void Statistics(Statistics stats)
 		{
-			throw new NotImplementedException();
+			Console.WriteLine("\n### Dirs: {0}, Files: {1}, Skipped: {2} ###\n", 
+			                  stats.Directories, 
+			                  stats.Files, 
+			                  stats.Skipped);
 		}
 		
 		public void UnauthorizedAccessException(UnauthorizedAccessException ex)
 		{
-			throw new NotImplementedException();
+			Console.Error.WriteLine(ex.ToString());
 		}
 	}
 }
