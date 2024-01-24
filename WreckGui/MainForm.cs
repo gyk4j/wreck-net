@@ -31,6 +31,10 @@ namespace Wreck
 		private TreeNode fileNode;
 		
 		private BackgroundWorker backgroundWorker = null;
+		public BackgroundWorker BackgroundWorker
+		{
+			get { return backgroundWorker; }
+		}
 		
 		// Based on the index assigned by imageList in Design mode.
 		private enum TreeViewIcon
@@ -128,91 +132,30 @@ namespace Wreck
 		{
 			//log.DebugFormat("Progress: {0} %", e.ProgressPercentage);
 			
-			switch(e.UserState.GetType().Name)
+			if (e.UserState is String)
 			{
-				case "String":
-					string p = (string) e.UserState;
-					//log.InfoFormat("P: {0}", p);
-					SetCurrentFile(p);
-					
-					pathNode = new TreeNode();
-					pathNode.Name = p;
-					pathNode.Text = p;
-					
-					pathNode.ImageIndex = (int) TreeViewIcon.Start;
-					pathNode.SelectedImageIndex = (int) TreeViewIcon.Start;
-					
-					if(rootNode != null)
-					{
-						rootNode.Nodes.Add(pathNode);
-						
-						if(Directory.Exists(p))
-							dirNode = pathNode;
-						else if(File.Exists(p))
-							fileNode = pathNode;
-					}
-					else
-						log.Error("rootNode is null");
-					break;
-				case "FileInfo":
-					FileInfo fi = (FileInfo) e.UserState;
-					//log.InfoFormat("F: {0}", fi.Name);
-					SetCurrentFile(fi.Name);
-					
-					// If file is not a top-level starting path
-					if(!pathNode.Name.Equals(fi.FullName))
-					{
-						fileNode = new TreeNode();
-						fileNode.Name = fi.FullName;
-						fileNode.Text = fi.Name;
-						fileNode.ImageIndex = (int) TreeViewIcon.File;
-						fileNode.SelectedImageIndex = (int) TreeViewIcon.File;
-						
-						if(dirNode != null)
-							dirNode.Nodes.Add(fileNode);
-						else
-							log.Error("dirNode is null");
-					}
-					
-					break;
-				case "DirectoryInfo":
-					DirectoryInfo di = (DirectoryInfo) e.UserState;
-					//log.InfoFormat("D: {0}", di.FullName);
-					SetCurrentFile(di.Name);
-					
-					// If directory is not a top-level starting path
-					// i.e. directory is a sub-directory
-					if(!pathNode.Name.Equals(di.FullName))
-					{
-						dirNode = new TreeNode();
-						dirNode.Name = di.FullName;
-						dirNode.Text = di.FullName.Replace(pathNode.Name, "");
-						dirNode.ImageIndex = (int) TreeViewIcon.Folder;
-						dirNode.SelectedImageIndex = (int) TreeViewIcon.Folder;
-						
-						if(pathNode != null)
-							pathNode.Nodes.Add(dirNode);
-						else
-							log.Error("pathNode is null");
-					}
-					
-					break;
-				case "Statistics":
-					Statistics stats = (Statistics) e.UserState;
-					ToolStripItem lblDirectoriesCount = statusStrip.Items["lblDirectoriesCount"];
-					lblDirectoriesCount.Text = string.Format("Directories: {0}", stats.Directories);
-
-					ToolStripItem lblFilesCount = statusStrip.Items["lblFilesCount"];
-					lblFilesCount.Text = string.Format("Files: {0}", stats.Files);
-
-					ToolStripItem lblSkippedCount = statusStrip.Items["lblSkippedCount"];
-					lblSkippedCount.Text = string.Format("Skipped: {0}", stats.Skipped);
-					
-					break;
-				default:
-					log.WarnFormat("{0}: {1}", e.UserState.GetType().FullName, e.UserState.ToString());
-					Debug.Assert(false);					
-					break;
+				string p = (string) e.UserState;
+				CurrentPath(p);
+			}
+			else if(e.UserState is FileInfo)
+			{
+				FileInfo fi = (FileInfo) e.UserState;
+				CurrentFile(fi);
+			}
+			else if(e.UserState is DirectoryInfo)
+			{
+				DirectoryInfo di = (DirectoryInfo) e.UserState;
+				CurrentDirectory(di);
+			}
+			else if(e.UserState is Statistics)
+			{
+				Statistics stats = (Statistics) e.UserState;
+				Statistics(stats);
+			}
+			else
+			{
+				log.WarnFormat("{0}: {1}", e.UserState.GetType().FullName, e.UserState.ToString());
+				Debug.Assert(false);
 			}
 			
 		}
@@ -240,22 +183,72 @@ namespace Wreck
 			);
 		}
 		
-		public void CurrentPath(string p)
+		private void CurrentPath(string p)
 		{
-			if(backgroundWorker != null)
-				backgroundWorker.ReportProgress(0, p);
+			//log.InfoFormat("P: {0}", p);
+			SetCurrentFile(p);
+			
+			pathNode = new TreeNode();
+			pathNode.Name = p;
+			pathNode.Text = p;
+			
+			pathNode.ImageIndex = (int) TreeViewIcon.Start;
+			pathNode.SelectedImageIndex = (int) TreeViewIcon.Start;
+			
+			if(rootNode != null)
+			{
+				rootNode.Nodes.Add(pathNode);
+				
+				if(Directory.Exists(p))
+					dirNode = pathNode;
+				else if(File.Exists(p))
+					fileNode = pathNode;
+			}
+			else
+				log.Error("rootNode is null");
 		}
 		
-		public void CurrentFile(FileInfo f)
+		private void CurrentFile(FileInfo fi)
 		{
-			if(backgroundWorker != null)
-				backgroundWorker.ReportProgress(0, f);
+			//log.InfoFormat("F: {0}", fi.Name);
+			SetCurrentFile(fi.Name);
+			
+			// If file is not a top-level starting path
+			if(!pathNode.Name.Equals(fi.FullName))
+			{
+				fileNode = new TreeNode();
+				fileNode.Name = fi.FullName;
+				fileNode.Text = fi.Name;
+				fileNode.ImageIndex = (int) TreeViewIcon.File;
+				fileNode.SelectedImageIndex = (int) TreeViewIcon.File;
+				
+				if(dirNode != null)
+					dirNode.Nodes.Add(fileNode);
+				else
+					log.Error("dirNode is null");
+			}
 		}
 		
-		public void CurrentDirectory(DirectoryInfo d)
+		private void CurrentDirectory(DirectoryInfo di)
 		{
-			if(backgroundWorker != null)
-				backgroundWorker.ReportProgress(0, d);
+			//log.InfoFormat("D: {0}", di.FullName);
+			SetCurrentFile(di.Name);
+			
+			// If directory is not a top-level starting path
+			// i.e. directory is a sub-directory
+			if(!pathNode.Name.Equals(di.FullName))
+			{
+				dirNode = new TreeNode();
+				dirNode.Name = di.FullName;
+				dirNode.Text = di.FullName.Replace(pathNode.Name, "");
+				dirNode.ImageIndex = (int) TreeViewIcon.Folder;
+				dirNode.SelectedImageIndex = (int) TreeViewIcon.Folder;
+				
+				if(pathNode != null)
+					pathNode.Nodes.Add(dirNode);
+				else
+					log.Error("pathNode is null");
+			}
 		}
 		
 		public void SkipReparsePoint(DirectoryInfo d)
@@ -292,10 +285,16 @@ namespace Wreck
 				log.DebugFormat("LA: {0} : {1} -> {2}", fsi.Name, fsi.LastAccessTime, fsi.LastWriteTime);
 		}
 		
-		public void Statistics(Statistics stats)
+		private void Statistics(Statistics stats)
 		{
-			if(backgroundWorker != null)
-				backgroundWorker.ReportProgress(0, stats);
+			ToolStripItem lblDirectoriesCount = statusStrip.Items["lblDirectoriesCount"];
+			lblDirectoriesCount.Text = string.Format("Directories: {0}", stats.Directories);
+
+			ToolStripItem lblFilesCount = statusStrip.Items["lblFilesCount"];
+			lblFilesCount.Text = string.Format("Files: {0}", stats.Files);
+
+			ToolStripItem lblSkippedCount = statusStrip.Items["lblSkippedCount"];
+			lblSkippedCount.Text = string.Format("Skipped: {0}", stats.Skipped);
 		}
 		
 		public void SetCurrentFile(string p)
