@@ -1,7 +1,7 @@
 ﻿
 using System;
-using System.ComponentModel;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 using log4net;
 using log4net.Config;
+using Wreck.Controller;
 using Wreck.Corrector;
 using Wreck.Logging;
 
@@ -23,6 +24,7 @@ namespace Wreck
 		private const string LOG4NET_XML = "log4net.xml";
 		
 		private static readonly ILog log = LogManager.GetLogger(typeof(MainForm));
+		private IController controller;
 		private Logger logger;
 		
 		private TreeNode rootNode;
@@ -63,6 +65,8 @@ namespace Wreck
 			//BasicConfigurator.Configure();
 			XmlConfigurator.Configure(new System.IO.FileInfo(LOG4NET_XML));
 			log.Debug("Initializing MainForm");
+			
+			this.controller = new GuiController(this);
 			
 			this.logger = new Logger(this);
 			logger.Version();
