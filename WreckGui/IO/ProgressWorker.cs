@@ -260,6 +260,69 @@ namespace Wreck.IO
 				
 				return FileVisitResult.Continue;
 			}
+			
+			public override FileVisitResult PostVisitDirectory(DirectoryInfo dir, IOException exc)
+			{
+				// TODO: Handle BackgroundWorker cancellation
+				//if(IsCancelled())
+				//	return FileVisitResult.Terminate;
+				
+				if(exc != null)
+				{
+					LOG.Error(exc.ToString());
+					return FileVisitResult.Continue;
+				}
+				
+				bool ok = Directories.Remove(dir);
+				
+				if(!ok)
+					LOG.WarnFormat("{0}: attrs = null", dir.FullName);
+				
+				Suggestions.Clear();
+				outer.Task.PostVisitDirectory(Suggestions, dir);
+				outer.UpdateFileList(dir, Suggestions);
+				
+				return FileVisitResult.Continue;
+			}
+			
+			public override FileVisitResult VisitFile(FileInfo file)
+			{
+				// TODO: Handle BackgroundWorker cancellation
+				// Stop immediately once cancelled
+				//if(IsCancelled)
+				//	return FileVisitResult.Terminate;
+				//else
+				if(file.Name.Equals(R.strings.SKIP_DESKTOP_INI) ||
+				   file.Name.Equals(R.strings.LOG_FILE_NAME))
+					return FileVisitResult.Continue;
+				
+				// TODO: Update SwingWorker update
+				//FileVisit visit = new FileVisit(file, attrs);
+				//Publish(visit);
+				STATS.Count(FileEvent.FileFound);
+				
+				Suggestions.Clear();
+				outer.Task.VisitFile(Suggestions, file);
+				outer.UpdateFileList(file, Suggestions);
+				
+				return FileVisitResult.Continue;
+			}
+			
+			public override FileVisitResult VisitFileFailed(FileSystemInfo file, IOException exc)
+			{
+				// TODO: Handle BackgroundWorker cancellation
+				// Stop immediately once cancelled
+				//if(IsCancelled)
+				//	return FileVisitResult.Terminate;
+				
+				LOG.ErrorFormat("{0}: {1}", file.Name, exc.ToString());
+				STATS.Count(FileEvent.FileError);
+				
+				outer.Task.VisitFileFailed(Suggestions, file, exc);
+				outer.UpdateFileList(file, Suggestions);
+				
+				return FileVisitResult.Continue;
+			}
 		}
 	}
 }
