@@ -47,6 +47,7 @@
     <Compile Include="Corrector\Applicator.cs" />
     <Compile Include="Corrector\ICorrector.cs" />
     <Compile Include="Corrector\Previewer.cs" />
+    <Compile Include="Entity\FileBean.cs" />
     <Compile Include="Entity\FileEntity.cs" />
     <Compile Include="Entity\FileVisit.cs" />
     <Compile Include="IO\Metadata.cs" />
