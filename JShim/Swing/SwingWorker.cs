@@ -28,7 +28,7 @@ namespace JShim.Swing
 		/// getPropertyChangeSupport()</see>.
 		/// </summary>
 		/// <param name="listener"></param>
-		void AddPropertyChangeListener(PropertyChangeListener listener)
+		public void AddPropertyChangeListener(PropertyChangeListener listener)
 		{
 			
 		}
@@ -54,7 +54,7 @@ namespace JShim.Swing
 		/// false if the task could not be cancelled, typically because it has 
 		/// already completed normally; true otherwise
 		/// </returns>
-		bool Cancel(bool mayInterruptIfRunning)
+		public bool Cancel(bool mayInterruptIfRunning)
 		{
 			return false;
 		}
@@ -93,7 +93,7 @@ namespace JShim.Swing
 		/// SwingWorker more than once will not result in invoking the 
 		/// doInBackground method twice.
 		/// </summary>
-		void Execute()
+		public void Execute()
 		{
 			
 		}
@@ -171,7 +171,7 @@ namespace JShim.Swing
 		/// are called off the Event Dispatch Thread.
 		/// </summary>
 		/// <returns>PropertyChangeSupport for this SwingWorker</returns>
-		PropertyChangeSupport GetPropertyChangeSupport()
+		public PropertyChangeSupport GetPropertyChangeSupport()
 		{
 			return null;
 		}
@@ -180,7 +180,7 @@ namespace JShim.Swing
 		/// Returns the SwingWorker state bound property.
 		/// </summary>
 		/// <returns>the current state</returns>
-		SwingWorker<T,V>.StateValue GetState()
+		public SwingWorker<T,V>.StateValue GetState()
 		{
 			return StateValue.Pending;
 		}
@@ -249,7 +249,7 @@ namespace JShim.Swing
 		/// getPropertyChangeSupport()</see>.
 		/// </summary>
 		/// <param name="listener">the PropertyChangeListener to be removed</param>
-		void RemovePropertyChangeListener(PropertyChangeListener listener)
+		public void RemovePropertyChangeListener(PropertyChangeListener listener)
 		{
 			
 		}
@@ -276,7 +276,7 @@ namespace JShim.Swing
 			
 		}
 		
-		enum StateValue
+		public enum StateValue
 		{
 			Done,
 			Pending,
