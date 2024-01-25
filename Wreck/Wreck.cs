@@ -83,6 +83,7 @@ namespace Wreck
 			else
 				throw new IOException(startingPath + " is neither directory or file.");
 			
+			// TODO: Migrate to using PreviewService and ProgressWorker
 			FileVisitor visitor = new Wreck.EchoFileVisitor(this);
 			Files.WalkFileTree(start, visitor);
 		}

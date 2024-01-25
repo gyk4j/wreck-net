@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 
 using JShim.NIO.File;
+using JShim.Swing;
 using log4net;
 using Wreck.Entity;
 using Wreck.IO.Task;
@@ -16,17 +17,10 @@ namespace Wreck.IO
 	/// <summary>
 	/// Description of ProgressWorker.
 	/// </summary>
-	public class ProgressWorker
+	public class ProgressWorker : SwingWorker<int, FileVisit>
 	{
 		private static readonly ILog LOG = LogManager.GetLogger(typeof(ProgressWorker));
 		private static readonly StatisticsCollector STATS = StatisticsCollector.Instance;
-		
-		public enum BackgroundJobStatus
-		{
-			Done,
-			Cancelled,
-			Error
-		}
 
 		private readonly ITask task;
 		private readonly FileCountVisitor countVisitor;
@@ -135,7 +129,7 @@ namespace Wreck.IO
 			return diff;
 		}
 		
-		protected BackgroundJobStatus DoInBackground()
+		protected override int DoInBackground()
 		{
 			Total = 0;
 			Count = 0;
@@ -152,10 +146,10 @@ namespace Wreck.IO
 			
 			// Return if background worker is cancelled by user.
 			//return this.isCancelled()? Status.Cancelled : Status.Done;
-			return BackgroundJobStatus.Done;
+			return 0;
 		}
 		
-		protected void Process(List<FileVisit> chunks)
+		protected override void Process(List<FileVisit> chunks)
 		{
 			chunks.ForEach(
 				v =>
@@ -170,7 +164,7 @@ namespace Wreck.IO
 			);
 		}
 		
-		protected void Done()
+		protected override void Done()
 		{
 			try
 			{
