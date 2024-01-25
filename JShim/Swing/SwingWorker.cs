@@ -115,7 +115,7 @@ namespace JShim.Swing
 		/// <param name="propertyName">the programmatic name of the property that was changed</param>
 		/// <param name="oldValue">the old value of the property</param>
 		/// <param name="newValue">the new value of the property</param>
-		void FirePropertyChange(string propertyName, object oldValue, object newValue)
+		protected void FirePropertyChange(string propertyName, object oldValue, object newValue)
 		{
 			
 		}
@@ -132,7 +132,7 @@ namespace JShim.Swing
 		/// we recommend that you use a modal dialog.
 		/// </summary>
 		/// <returns>the computed result</returns>
-		T Get()
+		public T Get()
 		{
 			return new T();
 		}
@@ -145,7 +145,7 @@ namespace JShim.Swing
 		/// <param name="timeout">the maximum time to wait</param>
 		/// <param name="unit">the time unit of the timeout argument</param>
 		/// <returns>the computed result</returns>
-		T Get(long timeout, TimeUnit unit)
+		public T Get(long timeout, TimeUnit unit)
 		{
 			return new T();
 		}
@@ -154,7 +154,7 @@ namespace JShim.Swing
 		/// Returns the progress bound property.
 		/// </summary>
 		/// <returns>the progress bound property.</returns>
-		int	GetProgress()
+		public int GetProgress()
 		{
 			return -1;
 		}
@@ -192,7 +192,7 @@ namespace JShim.Swing
 		/// <returns>
 		/// true if this task was cancelled before it completed
 		/// </returns>
-		bool IsCancelled()
+		public bool IsCancelled()
 		{
 			return false;
 		}
@@ -203,7 +203,7 @@ namespace JShim.Swing
 		/// this method will return true.
 		/// </summary>
 		/// <returns>true if this task completed</returns>
-		bool IsDone()
+		public bool IsDone()
 		{
 			return false;
 		}

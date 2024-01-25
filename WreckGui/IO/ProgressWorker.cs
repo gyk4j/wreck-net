@@ -69,14 +69,14 @@ namespace Wreck.IO
 		{
 			FileVisit old = this.visit;
 			this.visit = visit;
-			// TODO: Rewrite FirePropertyChange(R.strings.PROPERTY_VISITS, old, this.visit);
+			FirePropertyChange(R.strings.PROPERTY_VISITS, old, this.visit);
 		}
 		
 		protected void SetFileBean(FileBean fileBean)
 		{
 			FileBean old = this.fileBean;
 			this.fileBean = fileBean;
-			// TODO: Rewrite FirePropertyChange(R.strings.PROPERTY_BEAN, old, this.fileBean);
+			FirePropertyChange(R.strings.PROPERTY_BEAN, old, this.fileBean);
 		}
 		
 		private void UpdateFileList(FileSystemInfo file, IDictionary<CorrectionEnum, DateTime> suggestions)
@@ -145,8 +145,7 @@ namespace Wreck.IO
 				Visitor);
 			
 			// Return if background worker is cancelled by user.
-			//return this.isCancelled()? Status.Cancelled : Status.Done;
-			return 0;
+			return IsCancelled()? 1 : 0;
 		}
 		
 		protected override void Process(List<FileVisit> chunks)
@@ -157,7 +156,7 @@ namespace Wreck.IO
 					IncrementProgress();
 					int progress = (int) (Convert.ToDouble(count) / Convert.ToDouble(total) * 100);
 					// LOG.DebugFormat("visits = {0}, count = {1}, progress = {2}", visits.Length, count, progress);
-					// FIXME: Rewrite SwingWorker API setProgress(progress);
+					SetProgress(progress);
 					v.Progress = progress;
 					SetFileVisit(v);
 				}
@@ -168,7 +167,7 @@ namespace Wreck.IO
 		{
 			try
 			{
-				DoInBackground();
+				int result = Get();
 			}
 			catch (Exception e)
 			{
@@ -185,16 +184,16 @@ namespace Wreck.IO
 		
 		class FileCountVisitor : SimpleFileVisitor
 		{
-			ProgressWorker outer = null;
+			ProgressWorker progressWorker = null;
 			
-			public FileCountVisitor(ProgressWorker outer)
+			public FileCountVisitor(ProgressWorker progressWorker)
 			{
-				this.outer = outer;
+				this.progressWorker = progressWorker;
 			}
 			
 			public override FileVisitResult PreVisitDirectory(DirectoryInfo dir)
 			{
-				outer.IncrementTotal();
+				progressWorker.IncrementTotal();
 				return FileVisitResult.Continue;
 			}
 			
@@ -204,7 +203,7 @@ namespace Wreck.IO
 				   file.Name.Equals(R.strings.LOG_FILE_NAME))
 					return FileVisitResult.Continue;
 				
-				outer.IncrementTotal();
+				progressWorker.IncrementTotal();
 				return FileVisitResult.Continue;
 			}
 
@@ -216,14 +215,14 @@ namespace Wreck.IO
 		
 		class FileVisitor : SimpleFileVisitor
 		{
-			ProgressWorker outer = null;
+			ProgressWorker progressWorker = null;
 			
 			private readonly List<DirectoryInfo> directories;
 			private readonly Dictionary<CorrectionEnum, DateTime> suggestions;
 			
-			public FileVisitor(ProgressWorker outer) : base()
+			public FileVisitor(ProgressWorker progressWorker) : base()
 			{
-				this.outer = outer;
+				this.progressWorker = progressWorker;
 				this.directories = new List<DirectoryInfo>();
 				this.suggestions = new Dictionary<CorrectionEnum, DateTime>();
 			}
@@ -235,13 +234,11 @@ namespace Wreck.IO
 			{
 				
 				// Stop immediately once cancelled
-				// TODO: Handle BackgroundWorker cancellation
-				//if(IsCancelled)
-				//return FileVisitResult.Terminate;
+				if(progressWorker.IsCancelled())
+					return FileVisitResult.Terminate;
 				
-				// TODO: Update SwingWorker update
-				// FileVisit visit = new FileVisit(dir);
-				// Publish(visit);
+				FileVisit visit = new FileVisit(dir);
+				progressWorker.Publish(visit);
 				
 				STATS.Count(FileEvent.DirectoryFound);
 				STATS.Count(FileEvent.FileFound);
@@ -249,17 +246,16 @@ namespace Wreck.IO
 				Directories.Add(dir);
 				
 				Suggestions.Clear();
-				outer.Task.PreVisitDirectory(Suggestions, dir);
-				outer.UpdateFileList(dir, Suggestions);
+				progressWorker.Task.PreVisitDirectory(Suggestions, dir);
+				progressWorker.UpdateFileList(dir, Suggestions);
 				
 				return FileVisitResult.Continue;
 			}
 			
 			public override FileVisitResult PostVisitDirectory(DirectoryInfo dir, IOException exc)
 			{
-				// TODO: Handle BackgroundWorker cancellation
-				//if(IsCancelled())
-				//	return FileVisitResult.Terminate;
+				if(progressWorker.IsCancelled())
+					return FileVisitResult.Terminate;
 				
 				if(exc != null)
 				{
@@ -273,47 +269,43 @@ namespace Wreck.IO
 					LOG.WarnFormat("{0}: attrs = null", dir.FullName);
 				
 				Suggestions.Clear();
-				outer.Task.PostVisitDirectory(Suggestions, dir);
-				outer.UpdateFileList(dir, Suggestions);
+				progressWorker.Task.PostVisitDirectory(Suggestions, dir);
+				progressWorker.UpdateFileList(dir, Suggestions);
 				
 				return FileVisitResult.Continue;
 			}
 			
 			public override FileVisitResult VisitFile(FileInfo file)
 			{
-				// TODO: Handle BackgroundWorker cancellation
 				// Stop immediately once cancelled
-				//if(IsCancelled)
-				//	return FileVisitResult.Terminate;
-				//else
-				if(file.Name.Equals(R.strings.SKIP_DESKTOP_INI) ||
+				if(progressWorker.IsCancelled())
+					return FileVisitResult.Terminate;
+				else if(file.Name.Equals(R.strings.SKIP_DESKTOP_INI) ||
 				   file.Name.Equals(R.strings.LOG_FILE_NAME))
 					return FileVisitResult.Continue;
 				
-				// TODO: Update SwingWorker update
-				//FileVisit visit = new FileVisit(file, attrs);
-				//Publish(visit);
+				FileVisit visit = new FileVisit(file);
+				progressWorker.Publish(visit);
 				STATS.Count(FileEvent.FileFound);
 				
 				Suggestions.Clear();
-				outer.Task.VisitFile(Suggestions, file);
-				outer.UpdateFileList(file, Suggestions);
+				progressWorker.Task.VisitFile(Suggestions, file);
+				progressWorker.UpdateFileList(file, Suggestions);
 				
 				return FileVisitResult.Continue;
 			}
 			
 			public override FileVisitResult VisitFileFailed(FileSystemInfo file, IOException exc)
 			{
-				// TODO: Handle BackgroundWorker cancellation
 				// Stop immediately once cancelled
-				//if(IsCancelled)
-				//	return FileVisitResult.Terminate;
+				if(progressWorker.IsCancelled())
+					return FileVisitResult.Terminate;
 				
 				LOG.ErrorFormat("{0}: {1}", file.Name, exc.ToString());
 				STATS.Count(FileEvent.FileError);
 				
-				outer.Task.VisitFileFailed(Suggestions, file, exc);
-				outer.UpdateFileList(file, Suggestions);
+				progressWorker.Task.VisitFileFailed(Suggestions, file, exc);
+				progressWorker.UpdateFileList(file, Suggestions);
 				
 				return FileVisitResult.Continue;
 			}
