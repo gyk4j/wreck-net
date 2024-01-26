@@ -32,11 +32,12 @@ namespace Wreck
 		private TreeNode dirNode;
 		private TreeNode fileNode;
 		
-		private BackgroundWorker backgroundWorker = null;
-		public BackgroundWorker BackgroundWorker
-		{
-			get { return backgroundWorker; }
-		}
+		// TODO: Remove
+//		private BackgroundWorker backgroundWorker = null;
+//		public BackgroundWorker BackgroundWorker
+//		{
+//			get { return backgroundWorker; }
+//		}
 		
 		// Based on the index assigned by imageList in Design mode.
 		private enum TreeViewIcon
@@ -77,39 +78,45 @@ namespace Wreck
 			SetAppState(false);
 			this.treeViewPaths.Nodes.Add(this.rootNode);
 			
-			backgroundWorker = new BackgroundWorker();
+			// TODO: Remove
+//			backgroundWorker = new BackgroundWorker();
 			
 			log.Debug("Initialized MainForm");
 		}
 		
-		public void Run(string[] args)
-		{
-			using(Wreck wreck = new Wreck(logger, new Previewer()))
-			{
-				logger.Statistics(wreck.GetStatistics());
-				foreach(string p in args)
-				{
-					logger.CurrentPath(p);
-					wreck.Walk(p);
-				}
-				logger.Statistics(wreck.GetStatistics());
-			}
-		}
+		// TODO: Remove
+//		public void Run(string[] args)
+//		{
+//			using(Wreck wreck = new Wreck(logger, new Previewer()))
+//			{
+//				logger.Statistics(wreck.GetStatistics());
+//				foreach(string p in args)
+//				{
+//					logger.CurrentPath(p);
+//					wreck.Walk(p);
+//				}
+//				logger.Statistics(wreck.GetStatistics());
+//			}
+//		}
 		
 		void BtnRunClick(object sender, EventArgs e)
 		{
-			if(!backgroundWorker.IsBusy)
-			{
-				backgroundWorker.DoWork += new DoWorkEventHandler(DoWork);
-				backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(ProgressChanged);
-				backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(RunWorkerCompleted);
-				backgroundWorker.WorkerReportsProgress = true;
-				backgroundWorker.WorkerSupportsCancellation = false;
-				backgroundWorker.RunWorkerAsync();
-				SetAppState(true);
-			}
+			((GuiController) controller).Analyze();
+			// TODO: Remove
+//			if(!backgroundWorker.IsBusy)
+//			{
+//				backgroundWorker.DoWork += new DoWorkEventHandler(DoWork);
+//				backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(ProgressChanged);
+//				backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(RunWorkerCompleted);
+//				backgroundWorker.WorkerReportsProgress = true;
+//				backgroundWorker.WorkerSupportsCancellation = false;
+//				backgroundWorker.RunWorkerAsync();
+//				SetAppState(true);
+//			}
 		}
 		
+		// TODO: Remove
+		/*
 		void DoWork(object sender, DoWorkEventArgs e)
 		{
 			log.Debug("DoWork");
@@ -171,6 +178,7 @@ namespace Wreck
 			SetAppState(false);
 			this.treeViewPaths.ExpandAll();
 		}
+		*/
 		
 		public void Version()
 		{

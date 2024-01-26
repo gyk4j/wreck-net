@@ -21,7 +21,7 @@ namespace Wreck.Service
 			return r.Exists(startPath);
 		}
 		*/
-		public ProgressWorker Run(
+		public ITask Run(
 			FileSystemInfo startPath,
 			CorrectionMode mode,
 			Dictionary<SourceEnum, bool> sources,
@@ -62,10 +62,10 @@ namespace Wreck.Service
 			}
 			
 			// TODO: To update factory method to instantiate ProgressWorker sub-class implementations
-			ProgressWorker pw = null; //new ProgressWorker(task, startPath);
+//			ProgressWorker pw = new ProgressWorker(task, startPath);
 //			pw.addPropertyChangeListener(pcl); // Belongs to Java Beans
 //			pw.execute(); // Belongs to Java SwingWorker
-			return pw;
+			return task;
 		}
 	}
 }

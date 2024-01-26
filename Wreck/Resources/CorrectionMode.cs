@@ -10,8 +10,8 @@ namespace Wreck.Resources
 	{
 		Analyze,
 		SaveAttributes,
-//		BackupAttributes,
-//		RestoreAttributes,
-//		VerifyAttributes
+		BackupAttributes,
+		RestoreAttributes,
+		VerifyAttributes
 	}
 }
