@@ -91,7 +91,7 @@ namespace Wreck.IO.Task
 			get
 			{
 				List<ITimestampReader> readers = new List<ITimestampReader>();
-				if(sources[SourceEnum.METADATA])
+				if(sources.ContainsKey(SourceEnum.METADATA))
 				{
 					readers.Add(readerFactory.ExifToolReader);
 					readers.Add(readerFactory.MediaInfoReader);
@@ -101,10 +101,10 @@ namespace Wreck.IO.Task
 				}
 				
 				// Use fallback option.
-				if(sources[SourceEnum.FILE_SYSTEM])
+				if(sources.ContainsKey(SourceEnum.FILE_SYSTEM))
 					readers.Add(readerFactory.FileSystemReader);
 
-				if(sources[SourceEnum.CUSTOM])
+				if(sources.ContainsKey(SourceEnum.CUSTOM))
 					readers.Add(customReader);
 				
 				return readers.ToArray();
@@ -118,14 +118,14 @@ namespace Wreck.IO.Task
 				List<ITimestampReader> readers = new List<ITimestampReader>();
 				
 				// TODO: Add DirectoryReader
-//				if(sources[SourceEnum.METADATA])
+//				if(sources.ContainsKey(SourceEnum.METADATA))
 //					readers.Add(readerFactory.DirectoryReader);
 				
 				// Use fallback option.
-				if(sources[SourceEnum.FILE_SYSTEM])
+				if(sources.ContainsKey(SourceEnum.FILE_SYSTEM))
 					readers.Add(readerFactory.FileSystemReader);
 
-				if(sources[SourceEnum.CUSTOM])
+				if(sources.ContainsKey(SourceEnum.CUSTOM))
 					readers.Add(customReader);
 				
 				return readers.ToArray();

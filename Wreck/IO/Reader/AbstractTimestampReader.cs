@@ -17,23 +17,32 @@ namespace Wreck.IO.Reader
 		
 		private readonly Dictionary<string, CorrectionEnum> keys;
 		
-		public AbstractTimestampReader()
+		public AbstractTimestampReader() : base()
 		{
 			keys = new Dictionary<string, CorrectionEnum>();
 			
 			foreach(string s in Creation())
 			{
-				keys.Add(s, CorrectionEnum.CREATION);
+				if(keys.ContainsKey(s))
+					keys[s] = CorrectionEnum.CREATION;
+				else
+					keys.Add(s, CorrectionEnum.CREATION);
 			}
 			
 			foreach(string s in Modified())
 			{
-				keys.Add(s, CorrectionEnum.MODIFIED);
+				if(keys.ContainsKey(s))
+					keys[s] = CorrectionEnum.MODIFIED;
+				else
+					keys.Add(s, CorrectionEnum.MODIFIED);
 			}
 			
 			foreach(string s in Accessed())
 			{
-				keys.Add(s, CorrectionEnum.ACCESSED);
+				if(keys.ContainsKey(s))
+					keys[s] = CorrectionEnum.ACCESSED;
+				else
+					keys.Add(s, CorrectionEnum.ACCESSED);
 			}
 		}
 		
