@@ -74,17 +74,34 @@ namespace JShim.Swing
 		/// </returns>
 		public bool Cancel(bool mayInterruptIfRunning)
 		{
+			// If worker is not configured to allow cancellation, fail
+			// immediately.
+			if(!backgroundWorker.WorkerSupportsCancellation)
+			{
+				cancelled = false;
+			}
 			// If worker is already cancelled, block repeat subsequent attempts
 			// Fail immediately by returning false.
-			if(backgroundWorker.CancellationPending)
-				return false;
-			
+			else if(backgroundWorker.CancellationPending)
+			{
+				cancelled = false;
+			}
+			// If worker is currently busy running, and mayInterruptIfRunning is 
+			// explicitly disallowed, then block it.
+			else if(backgroundWorker.IsBusy && !mayInterruptIfRunning)
+			{
+				cancelled = false;
+			}
 			// Not cancelled yet. Proceed to try to cancel.
-			backgroundWorker.CancelAsync();
-			
-			// Now check if the cancellation request is accepted.
-			cancelled = backgroundWorker.CancellationPending;
-			
+			else
+			{
+				backgroundWorker.CancelAsync();
+				
+				// Now check if the cancellation request is accepted.
+				// If CancelAsync is rejected for some reasons (e.g. error), it
+				// should return false to indicate failure.
+				cancelled = backgroundWorker.CancellationPending;
+			}
 			return cancelled;
 		}
 		
@@ -130,7 +147,7 @@ namespace JShim.Swing
 				backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(ProgressChanged);
 				backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(RunWorkerCompleted);
 				backgroundWorker.WorkerReportsProgress = true;
-				backgroundWorker.WorkerSupportsCancellation = false;
+				backgroundWorker.WorkerSupportsCancellation = true;
 				backgroundWorker.RunWorkerAsync();
 			}
 		}
@@ -188,7 +205,7 @@ namespace JShim.Swing
 		/// <param name="newValue">the new value of the property</param>
 		protected void FirePropertyChange(string propertyName, object oldValue, object newValue)
 		{
-			log.DebugFormat("FirePropertyChange: {0}, {1}, {2}", 
+			log.DebugFormat("FirePropertyChange: {0}, {1}, {2}",
 			                propertyName, oldValue, newValue);
 		}
 		
