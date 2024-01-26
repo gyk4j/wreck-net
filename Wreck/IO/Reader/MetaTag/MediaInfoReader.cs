@@ -36,8 +36,21 @@ namespace Wreck.IO.Reader.MetaTag
 
 		protected const string FORMATTER = "[z ]yyyy-MM-dd HH:mm:ss[.SSS]";
 
+		private MediaInfo mi;
+		
 		public MediaInfoReader() : base()
 		{
+			mi = new MediaInfo();
+			string ifLoaded = mi.Option(string.Format("Info_Version", "0.7.0.0;{0};0.7.0.0", Wreck.NAME));
+			if (ifLoaded.Length == 0 ||
+			    "Unable to load MediaInfo library".Equals(ifLoaded) ||
+			    !ifLoaded.StartsWith("MediaInfoLib - v"))
+			{
+				LOG.Error("Failed to load MediaInfo.dll or this version of the DLL is not compatible");
+				throw new ApplicationException("Failed to load MediaInfo");
+			}
+			else
+				LOG.Info(ifLoaded);
 		}
 
 		public override string[] Creation()
@@ -47,17 +60,6 @@ namespace Wreck.IO.Reader.MetaTag
 
 		public override void Extract(FileSystemInfo file, List<Metadata> metadata)
 		{
-			MediaInfo mi = new MediaInfo();
-
-			String ifLoaded = mi.Option(string.Format("Info_Version", "0.7.0.0;{0};0.7.0.0", Wreck.NAME));
-			if (ifLoaded.Length == 0 ||
-			    "Unable to load MediaInfo library".Equals(ifLoaded) ||
-			    !ifLoaded.StartsWith("MediaInfoLib - v"))
-			{
-				LOG.Error("Failed to load MediaInfo.Dll or this version of the DLL is not compatible");
-				throw new ApplicationException("Failed to load MediaInfo");
-			}
-
 			mi.Open(file.FullName);
 			string encodedDate = string.Empty;
 

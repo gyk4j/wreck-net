@@ -54,7 +54,7 @@ namespace Wreck.IO.Reader.MetaTag
 			FileVersionInfo libraryVersion = SevenZipExtractor.GetLibraryVersion();
 			LibraryFeature features = SevenZipExtractor.CurrentLibraryFeatures;
 			
-			LOG.InfoFormat("7-Zip v{0} loaded", libraryVersion.ToString());
+			LOG.InfoFormat("7-Zip v{0}", libraryVersion.FileVersion);
 		}
 		
 		private static bool IsSupportedFileExtension(FileSystemInfo file)
