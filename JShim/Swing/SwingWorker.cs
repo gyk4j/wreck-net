@@ -22,7 +22,7 @@ namespace JShim.Swing
 		protected T result;
 		protected StateValue state;
 		
-		protected List<PropertyChangeListener> propertyChangeListeners;
+		private readonly PropertyChangeSupport propertyChangeSupport;
 		
 		/// <summary>
 		/// Constructs this SwingWorker.
@@ -33,7 +33,7 @@ namespace JShim.Swing
 			cancelled = false;
 			progress = 0;
 			state = StateValue.Pending;
-			propertyChangeListeners = new List<PropertyChangeListener>();
+			propertyChangeSupport = new PropertyChangeSupport(this);
 		}
 		
 		/// <summary>
@@ -48,7 +48,7 @@ namespace JShim.Swing
 		/// <param name="listener"></param>
 		public void AddPropertyChangeListener(PropertyChangeListener listener)
 		{
-			propertyChangeListeners.Add(listener);
+			GetPropertyChangeSupport().AddPropertyChangeListener(listener);
 		}
 		
 		/// <summary>
@@ -86,7 +86,7 @@ namespace JShim.Swing
 			{
 				cancelled = false;
 			}
-			// If worker is currently busy running, and mayInterruptIfRunning is 
+			// If worker is currently busy running, and mayInterruptIfRunning is
 			// explicitly disallowed, then block it.
 			else if(backgroundWorker.IsBusy && !mayInterruptIfRunning)
 			{
@@ -203,10 +203,14 @@ namespace JShim.Swing
 		/// <param name="propertyName">the programmatic name of the property that was changed</param>
 		/// <param name="oldValue">the old value of the property</param>
 		/// <param name="newValue">the new value of the property</param>
-		protected void FirePropertyChange(string propertyName, object oldValue, object newValue)
+		protected void FirePropertyChange(string propertyName, object oldValue,
+		                                  object newValue)
 		{
 			log.DebugFormat("FirePropertyChange: {0}, {1}, {2}",
 			                propertyName, oldValue, newValue);
+			GetPropertyChangeSupport().FirePropertyChange(
+				propertyName,
+				oldValue, newValue);
 		}
 		
 		/// <summary>
@@ -262,7 +266,7 @@ namespace JShim.Swing
 		/// <returns>PropertyChangeSupport for this SwingWorker</returns>
 		public PropertyChangeSupport GetPropertyChangeSupport()
 		{
-			throw new NotImplementedException("GetPropertyChangeSupport() is not implemented");
+			return propertyChangeSupport;
 		}
 		
 		/// <summary>
@@ -271,7 +275,23 @@ namespace JShim.Swing
 		/// <returns>the current state</returns>
 		public SwingWorker<T,V>.StateValue GetState()
 		{
-			return state;
+			if (IsDone())
+			{
+				return StateValue.Done;
+			} else {
+				return state;
+			}
+		}
+		
+		/// <summary>
+		/// Sets this {@code SwingWorker} state bound property.
+		/// </summary>
+		/// <param name="state">the state to set</param>
+		private void SetState(StateValue state)
+		{
+			StateValue old = this.state;
+			this.state = state;
+			FirePropertyChange("state", old, state);
 		}
 		
 		/// <summary>
@@ -352,7 +372,7 @@ namespace JShim.Swing
 		/// <param name="listener">the PropertyChangeListener to be removed</param>
 		public void RemovePropertyChangeListener(PropertyChangeListener listener)
 		{
-			propertyChangeListeners.Remove(listener);
+			GetPropertyChangeSupport().RemovePropertyChangeListener(listener);
 		}
 		
 		/// <summary>
@@ -384,6 +404,19 @@ namespace JShim.Swing
 			Done,
 			Pending,
 			Started
+		}
+		
+		private class SwingWorkerPropertyChangeSupport
+			: PropertyChangeSupport
+		{
+			SwingWorkerPropertyChangeSupport(object source) : base(source)
+			{
+			}
+			
+			public override void FirePropertyChange(PropertyChangeEvent evt)
+			{
+				base.FirePropertyChange(evt);
+			}
 		}
 	}
 }
