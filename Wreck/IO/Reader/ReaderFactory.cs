@@ -71,7 +71,7 @@ namespace Wreck.IO.Reader
 		
 		public MediaInfoReader MediaInfoReader
 		{
-			get { return MediaInfoReader; }
+			get { return mediaInfoReader; }
 		}
 		
 		public SevenZipReader SevenZipReader
