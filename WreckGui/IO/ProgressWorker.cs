@@ -17,7 +17,7 @@ namespace Wreck.IO
 	/// <summary>
 	/// Description of ProgressWorker.
 	/// </summary>
-	public class ProgressWorker : SwingWorker<int, FileVisit>
+	public class ProgressWorker : SwingWorker<SwingWorkerResult, FileVisit>
 	{
 		private static readonly ILog LOG = LogManager.GetLogger(typeof(ProgressWorker));
 		private static readonly StatisticsCollector STATS = StatisticsCollector.Instance;
@@ -129,7 +129,7 @@ namespace Wreck.IO
 			return diff;
 		}
 		
-		protected override int DoInBackground()
+		protected override SwingWorkerResult DoInBackground()
 		{
 			Total = 0;
 			Count = 0;
@@ -145,7 +145,9 @@ namespace Wreck.IO
 				Visitor);
 			
 			// Return if background worker is cancelled by user.
-			return IsCancelled()? 1 : 0;
+			return IsCancelled()? 
+				SwingWorkerResult.Cancelled : 
+				SwingWorkerResult.Done;
 		}
 		
 		protected override void Process(List<FileVisit> chunks)
@@ -167,7 +169,17 @@ namespace Wreck.IO
 		{
 			try
 			{
-				int result = Get();
+				SwingWorkerResult result = Get();
+				switch(result)
+				{
+					case SwingWorkerResult.Done:
+						break;
+					case SwingWorkerResult.Cancelled:
+						break;
+					default:
+						LOG.Error("Unknown result");
+						throw new NotSupportedException("Unknown result");						
+				}
 			}
 			catch (Exception e)
 			{
@@ -310,5 +322,11 @@ namespace Wreck.IO
 				return FileVisitResult.Continue;
 			}
 		}
+	}
+	
+	public enum SwingWorkerResult
+	{
+		Done,
+		Cancelled
 	}
 }
