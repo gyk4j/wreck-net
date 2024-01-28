@@ -12,7 +12,7 @@ namespace JShim.Swing
 	/// <summary>
 	/// 
 	/// </summary>
-	public abstract class SwingWorker<T,V> where T : new()
+	public abstract class SwingWorker<T,V>
 	{
 		private static readonly ILog log = LogManager.GetLogger(typeof(SwingWorker<T,V>));
 		private readonly BackgroundWorker backgroundWorker;
