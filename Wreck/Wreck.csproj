@@ -52,6 +52,7 @@
     <Compile Include="Entity\FileVisit.cs" />
     <Compile Include="IO\Metadata.cs" />
     <Compile Include="IO\MetadataBuilder.cs" />
+    <Compile Include="IO\ProgressWorker.cs" />
     <Compile Include="IO\Reader\AbstractTimestampReader.cs" />
     <Compile Include="IO\Reader\Fs\FileSystemReader.cs" />
     <Compile Include="IO\Reader\Fs\PathReader.cs" />

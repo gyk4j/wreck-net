@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
 
 using JShim.NIO.File;
 using JShim.Swing;
@@ -175,11 +174,11 @@ namespace Wreck.IO
 				LOG.Error(e.ToString());
 				LOG.Error(e.StackTrace);
 				
-				MessageBox.Show(
-					e.ToString(),
-					"Error",
-					MessageBoxButtons.OK,
-					MessageBoxIcon.Error);
+//				MessageBox.Show(
+//					e.ToString(),
+//					"Error",
+//					MessageBoxButtons.OK,
+//					MessageBoxIcon.Error);
 			}
 		}
 		
