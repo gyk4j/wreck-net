@@ -6,11 +6,11 @@ using Wreck.Resources;
 
 namespace Wreck.IO
 {
-	class FileCountVisitor : SimpleFileVisitor
+	class GuiCountVisitor : SimpleFileVisitor
 	{
-		ProgressWorker progressWorker = null;
+		GuiWorker progressWorker = null;
 		
-		public FileCountVisitor(ProgressWorker progressWorker)
+		public GuiCountVisitor(GuiWorker progressWorker)
 		{
 			this.progressWorker = progressWorker;
 		}
