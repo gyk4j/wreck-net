@@ -85,6 +85,7 @@ namespace Wreck.IO.Reader.MetaTag
 			// GetProperties extracts ALL tags found with no filtering/selection.
 			exifTool.GetProperties(file.FullName, output);
 
+			List<string> removeables = new List<string>();
 			// Filter out unwanted tags.
 			foreach(string key in output.Keys)
 			{
@@ -102,9 +103,18 @@ namespace Wreck.IO.Reader.MetaTag
 						remove = false;
 				}
 
+				// To be removed if it is not in the list.
 				if(remove)
-					output.Remove(key);
+					removeables.Add(key);
 			}
+			
+			// Now strip out the ignored tags.
+			removeables.ForEach(
+				s => 
+				{
+					output.Remove(s);
+				}
+			);
 
 			if(output.Count > 0)
 			{
