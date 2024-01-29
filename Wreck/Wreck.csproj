@@ -50,6 +50,8 @@
     <Compile Include="Entity\FileBean.cs" />
     <Compile Include="Entity\FileEntity.cs" />
     <Compile Include="Entity\FileVisit.cs" />
+    <Compile Include="IO\FileCountVisitor.cs" />
+    <Compile Include="IO\FileVisitor.cs" />
     <Compile Include="IO\Metadata.cs" />
     <Compile Include="IO\MetadataBuilder.cs" />
     <Compile Include="IO\ProgressWorker.cs" />
