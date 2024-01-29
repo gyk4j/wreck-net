@@ -2,8 +2,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 
 using ExifToolWrapper;
@@ -46,6 +48,11 @@ namespace Wreck.IO.Reader.MetaTag
 
 		public ExifToolReader() : base()
 		{
+			if(StopRunningInstances())
+				LOG.Info("All running exiftool instances were stopped successfully.");
+			else
+				LOG.Warn("Some exiftool instance(s) were not cleaned up.");
+
 			try
 			{
 				exifTool = new ExifTool();
@@ -226,6 +233,36 @@ namespace Wreck.IO.Reader.MetaTag
 			}
 
 			return i.Value;
+		}
+		
+		private const string ExifTool = "exiftool";
+		private static bool StopRunningInstances()
+		{
+			int stopped = 0;
+			
+			Process[] instances = Process.GetProcessesByName(ExifTool);
+			
+			LOG.WarnFormat("{0} running exiftool found.", instances.Length);
+			
+			foreach(Process p in instances)
+			{
+				try
+				{
+					if(!p.HasExited)
+					{
+						p.Kill();
+						LOG.InfoFormat("Cleaned up process {0}", p.Id);
+						stopped++;
+					}
+				}
+				catch(Exception ex)
+				{
+					LOG.ErrorFormat("Exception caught during clean-up: {0}", ex.Message);
+				}
+			}
+			
+			// Return if all instances were stopped successfully.
+			return (stopped == instances.Length);
 		}
 	}
 }
