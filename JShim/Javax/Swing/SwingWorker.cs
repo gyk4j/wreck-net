@@ -349,7 +349,7 @@ namespace Javax.Swing
 		/// with concatenated arguments.
 		/// </summary>
 		/// <param name="chunks">intermediate results to process</param>
-		protected void Publish(params V[] chunks)
+		public void Publish(params V[] chunks)
 		{
 			foreach(V chunk in chunks)
 			{
