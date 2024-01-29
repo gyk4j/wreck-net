@@ -9,14 +9,17 @@ using log4net.Config;
 using Wreck.Controller;
 using Wreck.Corrector;
 using Wreck.Logging;
+using Wreck.View;
 
 namespace Wreck
 {
 	class Program
 	{
 		private const string LOG4NET_XML = "log4net.xml";
+		/*
 		private IController controller;
 		private Logger logger;
+		*/
 		
 		private static readonly ILog log = LogManager.GetLogger(typeof(Program));
 		
@@ -25,12 +28,17 @@ namespace Wreck
 			//BasicConfigurator.Configure();
 			XmlConfigurator.Configure(new System.IO.FileInfo(LOG4NET_XML));
 			
+			ConsoleView view = new ConsoleView();
+			view.Run(args);
+			/*
 			Program app = new Program();
 			
 			string[] dirs = (args.Length > 0)? args: new string[]{ Directory.GetCurrentDirectory() };
 			app.Run(args);
+			*/
 		}
 		
+		/*
 		public Program()
 		{
 			controller = new CliController();
@@ -52,5 +60,6 @@ namespace Wreck
 				logger.Statistics(wreck.GetStatistics());
 			}	
 		}
+		*/
 	}
 }
