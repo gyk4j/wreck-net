@@ -51,7 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\GuiController.cs" />
-    <Compile Include="IO\ProgressWorker.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="MainForm.cs" />
     <Compile Include="MainForm.Designer.cs">
