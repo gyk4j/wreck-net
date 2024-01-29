@@ -9,22 +9,21 @@ using log4net;
 using Wreck.Entity;
 using Wreck.IO.Task;
 using Wreck.Resources;
-using Wreck.Util.Logging;
 
 namespace Wreck.IO
 {
 	/// <summary>
-	/// Description of ProgressWorker.
+	/// Description of GuiWorker.
 	/// </summary>
-	public class ProgressWorker : SwingWorker<string, FileVisit>
+	public class GuiWorker : SwingWorker<string, FileVisit>
 	{
-		private static readonly ILog LOG = LogManager.GetLogger(typeof(ProgressWorker));
-		private static readonly StatisticsCollector STATS = StatisticsCollector.Instance;
-
+		private static readonly ILog LOG = LogManager.GetLogger(typeof(GuiWorker));
+		
 		private readonly ITask task;
-		private readonly FileCountVisitor countVisitor;
-		private readonly FileVisitor visitor;
 		private readonly FileSystemInfo startPath;
+		
+		private readonly GuiCountVisitor countVisitor;
+		private readonly GuiVisitor visitor;
 		
 		private long total;
 		private int count;
@@ -32,20 +31,20 @@ namespace Wreck.IO
 		private FileVisit visit;
 		private FileBean fileBean;
 		
-		public ProgressWorker(ITask task, FileSystemInfo startPath)
+		public GuiWorker(ITask task, FileSystemInfo startPath)
 		{
 			this.total = 0;
 			this.count = 0;
 			this.task = task;
-			this.countVisitor = new FileCountVisitor(this);
-			this.visitor = new FileVisitor(this);
 			this.startPath = startPath;
+			this.countVisitor = new GuiCountVisitor(this);
+			this.visitor = new GuiVisitor(this);
 		}
 		
 		public ITask Task { get { return task; } }
-		private FileCountVisitor CountVisitor { get { return countVisitor; } }
-		private FileVisitor Visitor { get { return visitor; } }
 		private FileSystemInfo StartPath { get { return startPath; } }
+		private GuiCountVisitor CountVisitor { get { return countVisitor; } }
+		private GuiVisitor Visitor { get { return visitor; } }
 		private long Total
 		{
 			get { return total; }
@@ -62,6 +61,60 @@ namespace Wreck.IO
 		public void IncrementProgress()
 		{
 			count++;
+		}
+		
+		protected override string DoInBackground()
+		{
+			Total = 0;
+			Count = 0;
+			
+			Files.WalkFileTree(
+				StartPath,
+				CountVisitor);
+
+			LOG.InfoFormat("{0} total files detected.", Total);
+
+			Files.WalkFileTree(
+				StartPath,
+				Visitor);
+			
+			// Return if background worker is cancelled by user.
+			return IsCancelled()? "Cancelled" : "Done";
+		}
+		
+		protected override void Process(List<FileVisit> chunks)
+		{
+			chunks.ForEach(
+				v =>
+				{
+					IncrementProgress();
+					int progress = (int) (Convert.ToDouble(count) / Convert.ToDouble(total) * 100);
+					// LOG.DebugFormat("visits = {0}, count = {1}, progress = {2}", visits.Length, count, progress);
+					SetProgress(progress);
+					v.Progress = progress;
+					SetFileVisit(v);
+				}
+			);
+		}
+		
+		protected override void Done()
+		{
+			try
+			{
+				string result = Get();
+				LOG.DebugFormat("Done: {0}", result);
+			}
+			catch (Exception e)
+			{
+				LOG.Error(e.ToString());
+				LOG.Error(e.StackTrace);
+				
+//				MessageBox.Show(
+//					e.ToString(),
+//					"Error",
+//					MessageBoxButtons.OK,
+//					MessageBoxIcon.Error);
+			}
 		}
 		
 		protected void SetFileVisit(FileVisit visit)
@@ -127,59 +180,5 @@ namespace Wreck.IO
 			
 			return diff;
 		}
-		
-		protected override string DoInBackground()
-		{
-			Total = 0;
-			Count = 0;
-			
-			Files.WalkFileTree(
-				StartPath,
-				CountVisitor);
-
-			LOG.InfoFormat("{0} total files detected.", Total);
-
-			Files.WalkFileTree(
-				StartPath,
-				Visitor);
-			
-			// Return if background worker is cancelled by user.
-			return IsCancelled()? "Cancelled" : "Done";
-		}
-		
-		protected override void Process(List<FileVisit> chunks)
-		{
-			chunks.ForEach(
-				v =>
-				{
-					IncrementProgress();
-					int progress = (int) (Convert.ToDouble(count) / Convert.ToDouble(total) * 100);
-					// LOG.DebugFormat("visits = {0}, count = {1}, progress = {2}", visits.Length, count, progress);
-					SetProgress(progress);
-					v.Progress = progress;
-					SetFileVisit(v);
-				}
-			);
-		}
-		
-		protected override void Done()
-		{
-			try
-			{
-				string result = Get();
-				LOG.DebugFormat("Done: {0}", result);
-			}
-			catch (Exception e)
-			{
-				LOG.Error(e.ToString());
-				LOG.Error(e.StackTrace);
-				
-//				MessageBox.Show(
-//					e.ToString(),
-//					"Error",
-//					MessageBoxButtons.OK,
-//					MessageBoxIcon.Error);
-			}
-		}
-	}	
+	}
 }

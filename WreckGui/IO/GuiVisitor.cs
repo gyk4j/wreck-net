@@ -11,17 +11,17 @@ using Wreck.Util.Logging;
 
 namespace Wreck.IO
 {
-	class FileVisitor : SimpleFileVisitor
+	class GuiVisitor : SimpleFileVisitor
 	{
-		private static readonly ILog LOG = LogManager.GetLogger(typeof(FileVisitor));
+		private static readonly ILog LOG = LogManager.GetLogger(typeof(GuiVisitor));
 		private static readonly StatisticsCollector STATS = StatisticsCollector.Instance;
 		
-		ProgressWorker progressWorker = null;
+		GuiWorker progressWorker = null;
 		
 		private readonly List<DirectoryInfo> directories;
 		private readonly Dictionary<CorrectionEnum, DateTime> suggestions;
 		
-		public FileVisitor(ProgressWorker progressWorker) : base()
+		public GuiVisitor(GuiWorker progressWorker) : base()
 		{
 			this.progressWorker = progressWorker;
 			this.directories = new List<DirectoryInfo>();

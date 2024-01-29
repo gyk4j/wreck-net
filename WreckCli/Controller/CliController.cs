@@ -30,7 +30,7 @@ namespace Wreck.Controller
 		private static readonly StatisticsCollector STATS = StatisticsCollector.Instance;
 		
 		private FileSystemInfo startPath;
-		private ProgressWorker worker;
+		private CliWorker worker;
 		
 		private readonly ConsoleModel model;
 		private readonly ConsoleView view;
@@ -71,7 +71,7 @@ namespace Wreck.Controller
 			get { return startPath; }
 		}
 		
-		public ProgressWorker Worker
+		public CliWorker Worker
 		{
 			get { return worker; }
 			set { worker = value; }
@@ -184,9 +184,9 @@ namespace Wreck.Controller
 		
 		public void Statistics(Statistics stats)
 		{
-			Console.WriteLine("\n### Dirs: {0}, Files: {1}, Skipped: {2} ###\n", 
-			                  stats.Directories, 
-			                  stats.Files, 
+			Console.WriteLine("\n### Dirs: {0}, Files: {1}, Skipped: {2} ###\n",
+			                  stats.Directories,
+			                  stats.Files,
 			                  stats.Skipped);
 		}
 		
@@ -223,7 +223,7 @@ namespace Wreck.Controller
 		}
 
 		private void Run(CorrectionMode mode, string[] args)
-		{			
+		{
 			foreach(string path in args)
 			{
 				FileSystemInfo fsi;
@@ -257,50 +257,9 @@ namespace Wreck.Controller
 				
 				ITask task = service.Run(fsi, mode, sources, corrections, customDateTime);
 				
-				PropertyChangeListener propertyChangeListener = new ProgressPropertyChangeListener(this);
-				
-				ProgressWorker pw = new ProgressWorker(task, fsi);
-				pw.AddPropertyChangeListener(propertyChangeListener);
-				pw.Execute();
-			}
-		}
-		
-		private class ProgressPropertyChangeListener : PropertyChangeListener
-		{
-			CliController controller;
-			public ProgressPropertyChangeListener(CliController controller)
-			{
-				this.controller = controller;
-			}
-			
-			public void PropertyChange(PropertyChangeEvent evt)
-			{
-				if(R.strings.PROPERTY_STATE.Equals(evt.PropertyName))
-				{
-					SwingWorker<int, FileVisit>.StateValue state = (SwingWorker<int, FileVisit>.StateValue) evt.NewValue;
-					if(SwingWorker<int, FileVisit>.StateValue.Done.Equals(state))
-					{
-						if(controller.Worker != null && controller.Worker.IsDone())
-							controller.Done();
-					}
-				}
-				else if (R.strings.PROPERTY_PROGRESS.Equals(evt.PropertyName))
-				{
-					int progress = (int)evt.NewValue;
-//					Model.getScanningProgressModel().setValue(progress);
-				}
-				else if (R.strings.PROPERTY_VISITS.Equals(evt.PropertyName))
-				{
-					FileVisit visit = (FileVisit) evt.NewValue;
-					
-//					View.getScanningDialog().setProgress(visit.getProgress());
-//					View.getScanningDialog().getAction().setText(visit.getFile().getFileName().toString());
-				}
-				else if(R.strings.PROPERTY_BEAN.Equals(evt.PropertyName))
-				{
-					FileBean update = (FileBean) evt.NewValue;
-//					Model.getTableModel().addRow(update);
-				}
+				CliWorker pw = new CliWorker(task, fsi);
+				pw.Run();
+				Done();
 			}
 		}
 		
@@ -323,14 +282,11 @@ namespace Wreck.Controller
 		
 		public void Done()
 		{
-			if(Worker.IsDone())
-			{
-//				View.GetScanningDialog().Close();
-				
-				Stop();
-				Worker = null;
-				UpdateRestoreState();
-			}
+//			View.GetScanningDialog().Close();
+			
+			Stop();
+			Worker = null;
+			UpdateRestoreState();
 			
 			UpdateStatistics();
 			UpdateForecastStatistics();

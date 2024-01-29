@@ -29,7 +29,7 @@ namespace Wreck.Controller
 		private static readonly StatisticsCollector STATS = StatisticsCollector.Instance;
 		
 		private FileSystemInfo startPath;
-		private ProgressWorker worker;
+		private GuiWorker worker;
 		
 		private readonly GuiModel model;
 		private readonly MainForm view;
@@ -70,7 +70,7 @@ namespace Wreck.Controller
 			get { return startPath; }
 		}
 		
-		public ProgressWorker Worker
+		public GuiWorker Worker
 		{
 			get { return worker; }
 			set { worker = value; }
@@ -280,7 +280,7 @@ namespace Wreck.Controller
 				
 				PropertyChangeListener propertyChangeListener = new ProgressPropertyChangeListener(this);
 				
-				ProgressWorker pw = new ProgressWorker(task, fsi);
+				GuiWorker pw = new GuiWorker(task, fsi);
 				pw.AddPropertyChangeListener(propertyChangeListener);
 				pw.Execute();
 			}

@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\CliController.cs" />
+    <Compile Include="IO\CliVisitor.cs" />
+    <Compile Include="IO\CliWorker.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Model\ConsoleModel.cs" />
     <Compile Include="Program.cs" />
@@ -66,6 +68,7 @@
     <Folder Include="Logging" />
     <Folder Include="Controller" />
     <Folder Include="Model" />
+    <Folder Include="IO" />
     <Folder Include="View" />
   </ItemGroup>
 </Project>
