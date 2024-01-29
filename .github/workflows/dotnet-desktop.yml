@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Cache .Net Framework 3.5
         id: cache-net-framework-35
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: cache-net-framework-35
         with:
@@ -36,10 +36,10 @@ jobs:
         run: Enable-WindowsOptionalFeature -Online -FeatureName "NetFx3" -All
       
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.1
+        uses: microsoft/setup-msbuild@v1.3.2
         
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       
       - name: Build solution
         run: C:\Windows\Microsoft.NET\Framework\v3.5\MSBuild.exe Wreck.sln -t:Rebuild -p:Configuration=Release -p:Platform=x86 -p:TargetFrameworkVersion=v2.0
@@ -56,7 +56,7 @@ jobs:
           cp -r WreckGui/bin/Release/* /tmp/upload          
     
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: wreck
           path: /tmp/upload
