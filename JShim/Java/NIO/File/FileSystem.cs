@@ -1,9 +1,9 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using JShim.NIO.File.SPI;
+using Java.NIO.File.SPI;
 
-namespace JShim.NIO.File
+namespace Java.NIO.File
 {
 	/// <summary>
 	/// Description of FileSystem.

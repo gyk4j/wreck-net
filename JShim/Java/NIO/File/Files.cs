@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 
 using log4net;
+using Microsoft.NET;
 
-namespace JShim.NIO.File
+namespace Java.NIO.File
 {
 	/// <summary>
 	/// Description of Files.

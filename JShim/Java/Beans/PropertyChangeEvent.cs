@@ -1,9 +1,9 @@
 ﻿
 using System;
 using System.Text;
-using JShim.Util;
+using Java.Util;
 
-namespace JShim.Beans
+namespace Java.Beans
 {
 	/// <summary>
 	/// Description of PropertyChangeEvent.

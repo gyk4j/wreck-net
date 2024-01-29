@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-using JShim.Beans;
-using JShim.Util.Concurrent;
+using Java.Beans;
+using Java.Util.Concurrent;
 using log4net;
 
-namespace JShim.Swing
+namespace Javax.Swing
 {
 	/// <summary>
 	/// 

@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-using JShim;
+using Java;
 using log4net;
+using Microsoft.NET;
 using Wreck.IO.Reader;
 using Wreck.IO.Reader.User;
 using Wreck.IO.Writer;

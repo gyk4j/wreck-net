@@ -2,7 +2,7 @@
 using System;
 using Sun.NIO.FS;
 
-namespace JShim.NIO.File
+namespace Java.NIO.File
 {
 	/// <summary>
 	/// Description of FileSystems.

@@ -1,7 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using JShim.NIO.File;
+using Java.NIO.File;
 
 namespace Sun.NIO.FS
 {

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace JShim.Beans
+namespace Java.Beans
 {
 	/// <summary>
 	/// Description of PropertyChangeSupport.

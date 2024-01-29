@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace JShim.Util
+namespace Java.Util
 {
 	/// <summary>
 	/// The root class from which all event state objects shall be derived.

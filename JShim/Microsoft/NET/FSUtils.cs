@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace JShim
+namespace Microsoft.NET
 {
 	/// <summary>
 	/// Description of FileSystemUtils.

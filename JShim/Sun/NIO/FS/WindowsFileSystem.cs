@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-using JShim.NIO.File;
-using JShim.NIO.File.SPI;
+using Java.NIO.File;
+using Java.NIO.File.SPI;
 
 namespace Sun.NIO.FS
 {

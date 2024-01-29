@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
-using JShim.NIO.File;
+using Java.NIO.File;
 using log4net;
 using log4net.Config;
 using Wreck.Corrector;

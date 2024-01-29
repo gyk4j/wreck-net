@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 
-using JShim.NIO.File;
+using Java.NIO.File;
 using Sun.NIO.FS;
 
 namespace Sun.NIO.FS
