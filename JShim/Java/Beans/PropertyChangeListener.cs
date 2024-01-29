@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace JShim.Beans
+namespace Java.Beans
 {
 	/// <summary>
 	/// Description of PropertyChangeListener.

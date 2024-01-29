@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace JShim.NIO.File.SPI
+namespace Java.NIO.File.SPI
 {
 	/// <summary>
 	/// Service-provider class for file systems. The methods defined by the Files class will typically delegate to an instance of this class.

@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace JShim.NIO.File
+namespace Java.NIO.File
 {
 	/// <summary>
 	/// Defines the file tree traversal options.

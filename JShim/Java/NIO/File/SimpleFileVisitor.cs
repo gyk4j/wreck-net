@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace JShim.NIO.File
+namespace Java.NIO.File
 {
 	/// <summary>
 	/// A simple visitor of files with default behavior to visit all files and to re-throw I/O errors.

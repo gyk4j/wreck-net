@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace JShim.Util.Concurrent
+namespace Java.Util.Concurrent
 {
 	/// <summary>
 	/// Description of TimeUnit.

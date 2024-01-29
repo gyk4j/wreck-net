@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
-using JShim.Beans;
-using JShim.Swing;
+using Java.Beans;
+using Javax.Swing;
 using log4net;
 using Wreck.Entity;
 using Wreck.IO;

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace JShim.NIO.File
+namespace Java.NIO.File
 {
 	/// <summary>
 	/// Description of Path.

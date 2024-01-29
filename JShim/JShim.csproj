@@ -39,41 +39,45 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Beans\PropertyChangeSupport.cs" />
+    <Compile Include="Java\Beans\PropertyChangeSupport.cs" />
+    <Compile Include="Microsoft\NET\FSUtils.cs" />
     <Compile Include="Sun\NIO\FS\WindowsFileStore.cs" />
     <Compile Include="Sun\NIO\FS\WindowsFileSystem.cs" />
     <Compile Include="Sun\NIO\FS\WindowsPath.cs" />
     <Compile Include="Sun\NIO\FS\WindowsPathType.cs" />
-    <Compile Include="Beans\PropertyChangeEvent.cs" />
-    <Compile Include="Beans\PropertyChangeListener.cs" />
-    <Compile Include="FSUtils.cs" />
-    <Compile Include="NIO\File\Files.cs" />
-    <Compile Include="NIO\File\FileStore.cs" />
-    <Compile Include="NIO\File\FileSystem.cs" />
-    <Compile Include="NIO\File\FileSystems.cs" />
-    <Compile Include="NIO\File\FileVisitOption.cs" />
-    <Compile Include="NIO\File\FileVisitor.cs" />
-    <Compile Include="NIO\File\FileVisitResult.cs" />
-    <Compile Include="NIO\File\LinkOption.cs" />
-    <Compile Include="NIO\File\Path.cs" />
-    <Compile Include="NIO\File\Paths.cs" />
-    <Compile Include="NIO\File\SimpleFileVisitor.cs" />
-    <Compile Include="NIO\File\SPI\FileSystemProvider.cs" />
+    <Compile Include="Java\Beans\PropertyChangeEvent.cs" />
+    <Compile Include="Java\Beans\PropertyChangeListener.cs" />
+    <Compile Include="Java\NIO\File\Files.cs" />
+    <Compile Include="Java\NIO\File\FileStore.cs" />
+    <Compile Include="Java\NIO\File\FileSystem.cs" />
+    <Compile Include="Java\NIO\File\FileSystems.cs" />
+    <Compile Include="Java\NIO\File\FileVisitOption.cs" />
+    <Compile Include="Java\NIO\File\FileVisitor.cs" />
+    <Compile Include="Java\NIO\File\FileVisitResult.cs" />
+    <Compile Include="Java\NIO\File\LinkOption.cs" />
+    <Compile Include="Java\NIO\File\Path.cs" />
+    <Compile Include="Java\NIO\File\Paths.cs" />
+    <Compile Include="Java\NIO\File\SimpleFileVisitor.cs" />
+    <Compile Include="Java\NIO\File\SPI\FileSystemProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Swing\SwingWorker.cs" />
-    <Compile Include="Util\Concurrent\TimeUnit.cs" />
-    <Compile Include="Util\EventObject.cs" />
+    <Compile Include="Javax\Swing\SwingWorker.cs" />
+    <Compile Include="Java\Util\Concurrent\TimeUnit.cs" />
+    <Compile Include="Java\Util\EventObject.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Swing" />
+    <Folder Include="Java" />
+    <Folder Include="Javax" />
+    <Folder Include="Javax\Swing" />
+    <Folder Include="Microsoft" />
+    <Folder Include="Microsoft\NET" />
     <Folder Include="Sun" />
     <Folder Include="Sun\NIO" />
     <Folder Include="Sun\NIO\FS" />
-    <Folder Include="NIO\File" />
-    <Folder Include="NIO\File\SPI" />
-    <Folder Include="Util" />
-    <Folder Include="NIO" />
-    <Folder Include="Beans" />
-    <Folder Include="Util\Concurrent" />
+    <Folder Include="Java\NIO\File" />
+    <Folder Include="Java\NIO\File\SPI" />
+    <Folder Include="Java\Util" />
+    <Folder Include="Java\NIO" />
+    <Folder Include="Java\Beans" />
+    <Folder Include="Java\Util\Concurrent" />
   </ItemGroup>
 </Project>

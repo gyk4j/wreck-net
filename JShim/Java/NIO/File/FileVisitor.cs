@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace JShim.NIO.File
+namespace Java.NIO.File
 {
 	public interface FileVisitor
 	{
