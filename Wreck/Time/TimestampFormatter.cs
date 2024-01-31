@@ -5,6 +5,7 @@ using System.IO;
 using System.Security;
 using System.Security.Permissions;
 
+using Java.Time;
 using log4net;
 using log4net.Config;
 using Wreck.IO;
@@ -107,19 +108,19 @@ namespace Wreck.Time
 			if(date.Length == 10)
 			{
 				// https://stackoverflow.com/questions/3556144/how-to-create-a-net-datetime-from-iso-8601-format
-				DateTime dt = DateTime.Parse(date, null, DateTimeStyles.RoundtripKind);
+				DateTime dt = Instant.Parse(date);
 				DateTime d = dt.Date;
 				return new DateTime(d.Year, d.Month, d.Day);
 			}
 			// Date with local time without UTC Z
 			else if(date.Length >= 19 && !date.EndsWith("Z"))
 			{
-				DateTime dt = DateTime.Parse(date, null, DateTimeStyles.RoundtripKind);
+				DateTime dt = Instant.Parse(date);
 				return dt;
 			}
 			else
 			{
-				return DateTime.Parse(date, null, DateTimeStyles.RoundtripKind);
+				return Instant.Parse(date);
 			}
 		}
 
@@ -229,11 +230,7 @@ namespace Wreck.Time
 				
 				try
 				{
-					DateTime ldt = DateTime
-						.Parse(
-							mediaInfoValue, 
-							null, 
-							DateTimeStyles.RoundtripKind);
+					DateTime ldt = Instant.Parse(mediaInfoValue);
 					instant = ldt.ToUniversalTime();
 				}
 				catch(FormatException e)

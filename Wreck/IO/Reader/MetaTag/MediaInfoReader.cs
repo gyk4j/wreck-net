@@ -6,6 +6,7 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
+using Java.Time;
 using log4net;
 using MediaInfoLib;
 
@@ -109,7 +110,7 @@ namespace Wreck.IO.Reader.MetaTag
 				}
 
 				if(!"0000-00-00T00:00:00Z".Equals(temp.ToString()))
-					i = DateTime.Parse(temp.ToString(), null, DateTimeStyles.RoundtripKind);
+					i = Instant.Parse(temp.ToString());
 			}
 			else if(dateTime.Length == 4)
 			{

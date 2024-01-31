@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 
+using Java.Time;
 using Wreck.Resources;
 
 namespace Wreck.IO.Reader
@@ -122,7 +123,7 @@ namespace Wreck.IO.Reader
 			string val,
 			string time)
 		{
-			DateTime it = DateTime.Parse(time, null, DateTimeStyles.RoundtripKind);
+			DateTime it = Instant.Parse(time);
 			Add(metadata, key, val, it);
 		}
 		

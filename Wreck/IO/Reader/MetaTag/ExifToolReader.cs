@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 using ExifToolWrapper;
+using Java.Time;
 using log4net;
 using log4net.Config;
 
@@ -195,7 +196,7 @@ namespace Wreck.IO.Reader.MetaTag
 
 				if(!"0000-00-00T00:00:00Z".Equals(temp))
 				{
-					i = DateTime.Parse(temp, null, DateTimeStyles.RoundtripKind);
+					i = Instant.Parse(temp);
 				}
 			}
 
