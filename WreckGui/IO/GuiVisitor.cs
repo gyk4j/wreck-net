@@ -11,25 +11,17 @@ using Wreck.Util.Logging;
 
 namespace Wreck.IO
 {
-	class GuiVisitor : SimpleFileVisitor
+	class GuiVisitor : AbstractFileVisitor
 	{
 		private static readonly ILog LOG = LogManager.GetLogger(typeof(GuiVisitor));
 		private static readonly StatisticsCollector STATS = StatisticsCollector.Instance;
 		
 		GuiWorker progressWorker = null;
 		
-		private readonly List<DirectoryInfo> directories;
-		private readonly Dictionary<CorrectionEnum, DateTime> suggestions;
-		
 		public GuiVisitor(GuiWorker progressWorker) : base()
 		{
 			this.progressWorker = progressWorker;
-			this.directories = new List<DirectoryInfo>();
-			this.suggestions = new Dictionary<CorrectionEnum, DateTime>();
 		}
-		
-		public List<DirectoryInfo> Directories { get { return directories; } }
-		public Dictionary<CorrectionEnum, DateTime> Suggestions { get { return suggestions; } }
 		
 		public override FileVisitResult PreVisitDirectory(DirectoryInfo dir)
 		{
@@ -41,12 +33,7 @@ namespace Wreck.IO
 			FileVisit visit = new FileVisit(dir);
 			progressWorker.Publish(visit);
 			
-			STATS.Count(FileEvent.DirectoryFound);
-			STATS.Count(FileEvent.FileFound);
-			
-			Directories.Add(dir);
-			
-			Suggestions.Clear();
+			base.PreVisitDirectory(dir);
 			progressWorker.Task.PreVisitDirectory(Suggestions, dir);
 			progressWorker.UpdateFileList(dir, Suggestions);
 			
@@ -58,18 +45,8 @@ namespace Wreck.IO
 			if(progressWorker.IsCancelled())
 				return FileVisitResult.Terminate;
 			
-			if(exc != null)
-			{
-				LOG.Error(exc.ToString());
-				return FileVisitResult.Continue;
-			}
+			base.PostVisitDirectory(dir, exc);
 			
-			bool ok = Directories.Remove(dir);
-			
-			if(!ok)
-				LOG.WarnFormat("{0}: attrs = null", dir.FullName);
-			
-			Suggestions.Clear();
 			progressWorker.Task.PostVisitDirectory(Suggestions, dir);
 			progressWorker.UpdateFileList(dir, Suggestions);
 			
@@ -85,11 +62,11 @@ namespace Wreck.IO
 			        file.Name.Equals(R.strings.LOG_FILE_NAME))
 				return FileVisitResult.Continue;
 			
+			base.VisitFile(file);
+			
 			FileVisit visit = new FileVisit(file);
 			progressWorker.Publish(visit);
-			STATS.Count(FileEvent.FileFound);
 			
-			Suggestions.Clear();
 			progressWorker.Task.VisitFile(Suggestions, file);
 			progressWorker.UpdateFileList(file, Suggestions);
 			
@@ -102,8 +79,7 @@ namespace Wreck.IO
 			if(progressWorker.IsCancelled())
 				return FileVisitResult.Terminate;
 			
-			LOG.ErrorFormat("{0}: {1}", file.Name, exc.ToString());
-			STATS.Count(FileEvent.FileError);
+			base.VisitFileFailed(file, exc);
 			
 			progressWorker.Task.VisitFileFailed(Suggestions, file, exc);
 			progressWorker.UpdateFileList(file, Suggestions);
