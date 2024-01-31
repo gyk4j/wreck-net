@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Java\Beans\PropertyChangeSupport.cs" />
+    <Compile Include="Java\Time\Instant.cs" />
     <Compile Include="Microsoft\NET\FSUtils.cs" />
     <Compile Include="Sun\NIO\FS\WindowsFileStore.cs" />
     <Compile Include="Sun\NIO\FS\WindowsFileSystem.cs" />
@@ -68,6 +69,7 @@
     <Folder Include="Java" />
     <Folder Include="Javax" />
     <Folder Include="Javax\Swing" />
+    <Folder Include="Java\Time" />
     <Folder Include="Microsoft" />
     <Folder Include="Microsoft\NET" />
     <Folder Include="Sun" />
