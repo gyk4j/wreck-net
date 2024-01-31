@@ -29,7 +29,7 @@ namespace Wreck.IO
 		
 		public ITask Task { get { return task; } }
 		private FileSystemInfo StartPath { get { return startPath; } }
-		private CliVisitor Visitor { get { return visitor; } }
+		private AbstractFileVisitor Visitor { get { return visitor; } }
 		
 		public void Run()
 		{
