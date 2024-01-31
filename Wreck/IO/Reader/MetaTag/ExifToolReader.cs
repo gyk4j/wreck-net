@@ -202,15 +202,9 @@ namespace Wreck.IO.Reader.MetaTag
 
 			if(i == null)
 			{
-				DateTime l;
-				bool isParsed = DateTime.TryParseExact(
-					dateTime,
-					FMT1,
-					CultureInfo.InvariantCulture,
-					DateTimeStyles.RoundtripKind,
-					out l);
-
-				if(isParsed)
+				DateTime l = LocalDateTime.Parse(dateTime, FMT1);
+				
+				if(l != null)
 				{
 					i = l.ToUniversalTime();
 					LOG.InfoFormat("{0} -> {1}", dateTime, i.ToString());
@@ -221,15 +215,9 @@ namespace Wreck.IO.Reader.MetaTag
 
 			if(i == null)
 			{
-				DateTime l;
-				bool isParsed = DateTime.TryParseExact(
-					dateTime,
-					FMT2,
-					CultureInfo.InvariantCulture,
-					DateTimeStyles.RoundtripKind,
-					out l);
+				DateTime l = LocalDateTime.Parse(dateTime, FMT2);
 
-				if(isParsed)
+				if(l != null)
 				{
 					i = l.ToUniversalTime();
 					LOG.InfoFormat("{0} -> {1}", dateTime, i.ToString());
