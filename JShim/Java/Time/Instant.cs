@@ -72,7 +72,15 @@ namespace Java.Time
 		
 		public static Instant Parse(string s)
 		{
-			return new Instant(DateTime.Parse(s, null, DateTimeStyles.RoundtripKind));
+			DateTime parsed;
+			
+			bool ok = DateTime.TryParse(
+				s, 
+				null, 
+				DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal, 
+				out parsed);
+			
+			return ok ? new Instant(parsed) : null;
 		}
 		
 		public override string ToString()

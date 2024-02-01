@@ -27,7 +27,10 @@ namespace Wreck
 		{
 			//BasicConfigurator.Configure();
 			XmlConfigurator.Configure(new System.IO.FileInfo(LOG4NET_XML));
-			TestParse();
+			
+			string test = "2023-12-31T22:39:52";
+			Java.Time.Instant i = Java.Time.Instant.Parse(test);
+			log.DebugFormat("Instant: {0}", i != null? i.ToString(): "---");
 			
 //			ConsoleView view = new ConsoleView();
 //			view.Run(args);
