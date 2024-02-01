@@ -49,7 +49,7 @@ namespace Java.Time
 					s,
 					dateTimeFormatter,
 					CultureInfo.InvariantCulture,
-					DateTimeStyles.RoundtripKind,
+					DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeLocal,
 					out l);
 			
 			if(!isParsed)
