@@ -123,7 +123,7 @@ namespace Wreck.IO.Reader
 			string val,
 			string time)
 		{
-			DateTime it = Instant.Parse(time);
+			DateTime it = Instant.Parse(time).DateTime;
 			Add(metadata, key, val, it);
 		}
 		

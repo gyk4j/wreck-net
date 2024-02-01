@@ -149,7 +149,7 @@ namespace Wreck.IO.Reader.MetaTag
 
 		private DateTime Parse(string dateTime)
 		{
-			DateTime? i = null;
+			Instant i = null;
 
 			if("0".Equals(dateTime))
 			{
@@ -163,7 +163,7 @@ namespace Wreck.IO.Reader.MetaTag
 					if(yyyy >= DateTime.Now.Year-100 &&
 					   yyyy <= DateTime.Now.Year)
 					{
-						i = new DateTime(yyyy, 1, 1, 12, 0, 0, DateTimeKind.Utc);
+						i = Instant.From(new DateTime(yyyy, 1, 1, 12, 0, 0, DateTimeKind.Utc));
 					}
 				}
 				else
@@ -171,7 +171,7 @@ namespace Wreck.IO.Reader.MetaTag
 			}
 
 			Match m = REGEXP_VALUE.Match(dateTime);
-			if((!i.HasValue || i == null) && m.Success && m.Groups.Count == 6) {
+			if(i == null && m.Success && m.Groups.Count == 7) {
 				string month = m.Groups[2].Value, dayOfMonth = m.Groups[3].Value;
 
 				// If US date.
@@ -200,13 +200,26 @@ namespace Wreck.IO.Reader.MetaTag
 				}
 			}
 
-			if(i == null)
+			if(i != null)
 			{
-				DateTime l = LocalDateTime.Parse(dateTime, FMT1);
+				LocalDateTime l = LocalDateTime.Parse(dateTime, FMT1);
 				
 				if(l != null)
 				{
-					i = l.ToUniversalTime();
+					i = Instant.From(l);
+					LOG.InfoFormat("{0} -> {1}", dateTime, i.ToString());
+				}
+				else
+					i = null;
+			}
+
+			if(i != null)
+			{
+				LocalDateTime l = LocalDateTime.Parse(dateTime, FMT2);
+
+				if(l != null)
+				{
+					i = Instant.From(l);
 					LOG.InfoFormat("{0} -> {1}", dateTime, i.ToString());
 				}
 				else
@@ -214,24 +227,11 @@ namespace Wreck.IO.Reader.MetaTag
 			}
 
 			if(i == null)
-			{
-				DateTime l = LocalDateTime.Parse(dateTime, FMT2);
-
-				if(l != null)
-				{
-					i = l.ToUniversalTime();
-					LOG.InfoFormat("{0} -> {1}", dateTime, i.ToString());
-				}
-				else
-					i = null;
-			}
-
-			if(!i.HasValue || i == null)
 			{
 				throw new FormatException("Unparsable date time: " + dateTime);
 			}
 
-			return i.Value;
+			return i.DateTime;
 		}
 		
 		private const string ExifTool = "exiftool";

@@ -87,7 +87,7 @@ namespace Wreck.IO.Reader.MetaTag
 
 		private DateTime Parse(string dateTime)
 		{
-			DateTime? i = null;
+			Instant i = null;
 
 			Match m = REGEXP_VALUE.Match(dateTime);
 			if(m.Success)
@@ -122,19 +122,19 @@ namespace Wreck.IO.Reader.MetaTag
 					if(yyyy >= DateTime.Now.Year-100 &&
 					   yyyy <= DateTime.Now.Year)
 					{
-						i = new DateTime(yyyy, 1, 1, 12, 0, 0, DateTimeKind.Utc);
+						i = Instant.From(new DateTime(yyyy, 1, 1, 12, 0, 0, DateTimeKind.Utc));
 					}
 				}
 				else
 					i = null;
 			}
 
-			if(i == null || !i.HasValue)
+			if(i == null)
 			{
 				throw new FormatException("Unparseable date time: " + dateTime);
 			}
 
-			return i.Value;
+			return i.DateTime;
 		}
 	}
 }
