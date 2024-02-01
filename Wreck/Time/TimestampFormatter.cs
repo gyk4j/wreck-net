@@ -108,19 +108,19 @@ namespace Wreck.Time
 			if(date.Length == 10)
 			{
 				// https://stackoverflow.com/questions/3556144/how-to-create-a-net-datetime-from-iso-8601-format
-				DateTime dt = Instant.Parse(date);
-				DateTime d = dt.Date;
+				Instant dt = Instant.Parse(date);
+				DateTime d = dt.DateTime.Date;
 				return new DateTime(d.Year, d.Month, d.Day);
 			}
 			// Date with local time without UTC Z
 			else if(date.Length >= 19 && !date.EndsWith("Z"))
 			{
-				DateTime dt = Instant.Parse(date);
+				DateTime dt = Instant.Parse(date).DateTime;
 				return dt;
 			}
 			else
 			{
-				return Instant.Parse(date);
+				return Instant.Parse(date).DateTime;
 			}
 		}
 
@@ -230,7 +230,7 @@ namespace Wreck.Time
 				
 				try
 				{
-					DateTime ldt = Instant.Parse(mediaInfoValue);
+					DateTime ldt = Instant.Parse(mediaInfoValue).DateTime;
 					instant = ldt.ToUniversalTime();
 				}
 				catch(FormatException e)

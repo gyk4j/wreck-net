@@ -42,6 +42,8 @@
     <Compile Include="Java\Beans\PropertyChangeSupport.cs" />
     <Compile Include="Java\Time\Instant.cs" />
     <Compile Include="Java\Time\LocalDateTime.cs" />
+    <Compile Include="Java\Time\ZonedDateTime.cs" />
+    <Compile Include="Java\Time\ZoneId.cs" />
     <Compile Include="Microsoft\NET\FSUtils.cs" />
     <Compile Include="Sun\NIO\FS\WindowsFileStore.cs" />
     <Compile Include="Sun\NIO\FS\WindowsFileSystem.cs" />
