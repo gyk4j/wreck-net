@@ -8,11 +8,11 @@ namespace Java.Time
 	/// </summary>
 	public class ZoneId
 	{
-		private readonly TimeZoneInfo zoneInfo;
+//		private readonly TimeZoneInfo zoneInfo;
 		
 		private ZoneId(string zoneId)
 		{
-			zoneInfo = TimeZoneInfo.FindSystemTimeZoneById(zoneId);
+//			zoneInfo = TimeZoneInfo.FindSystemTimeZoneById(zoneId);
 		}
 		
 		public static ZoneId Of(string zoneId)
@@ -22,7 +22,7 @@ namespace Java.Time
 		
 		public static ZoneId SystemDefault()
 		{
-			return new ZoneId(TimeZoneInfo.Local.StandardName);
+			return new ZoneId(TimeZone.CurrentTimeZone.StandardName);
 		}
 	}
 }
