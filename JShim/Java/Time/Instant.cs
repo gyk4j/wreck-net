@@ -12,8 +12,8 @@ namespace Java.Time
 	public class Instant
 	{
 		public static readonly Instant EPOCH = new Instant(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc));
-		public static readonly Instant MAX = new Instant(new DateTime(1000000000, 12, 31, 23, 59, 59, 999999999, DateTimeKind.Utc));
-		public static readonly Instant MIN = new Instant(new DateTime(-1000000000, 1, 1, 0, 0, 0, DateTimeKind.Utc));
+		public static readonly Instant MAX = new Instant(new DateTime(9999, 12, 31, 23, 59, 59, 999, DateTimeKind.Utc));
+		public static readonly Instant MIN = new Instant(new DateTime(1, 1, 1, 0, 0, 0, DateTimeKind.Utc));
 		
 		private DateTime instant;
 		public DateTime DateTime
