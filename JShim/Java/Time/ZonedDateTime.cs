@@ -38,6 +38,18 @@ namespace Java.Time
 		{
 			ZonedDateTime zdt = new ZonedDateTime(instant.DateTime);
 			return zdt;
-		}		
+		}
+		
+		public LocalDateTime ToLocalDateTime()
+		{
+			DateTime dt = timeZone.ToLocalTime(dateTime);
+			return LocalDateTime.Of(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second);
+		}
+		
+		public override string ToString()
+		{
+			return dateTime.ToString("yyyy-MM-ddTHH:mm:sszzz") + 
+				"[" + timeZone.StandardName + "]";
+		}
 	}
 }
