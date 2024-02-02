@@ -46,6 +46,11 @@ namespace Java.Time
 			return LocalDateTime.Of(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second);
 		}
 		
+		public Instant ToInstant()
+		{
+			return Instant.From(dateTime);
+		}
+		
 		public override string ToString()
 		{
 			return dateTime.ToString("yyyy-MM-ddTHH:mm:sszzz") + 
