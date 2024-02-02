@@ -21,6 +21,8 @@ namespace Wreck.IO.Reader
 		private readonly FileSystemReader fileSystemReader;
 		private readonly CustomDateTimeReader customDateTimeReader;
 		
+		private readonly DirectoryReader directoryReader;
+		
 		public static bool IsInitialized()
 		{
 			return instance != null;
@@ -37,6 +39,8 @@ namespace Wreck.IO.Reader
 			// Secondary backup readers
 			fileSystemReader = new FileSystemReader();
 			customDateTimeReader = new CustomDateTimeReader();
+			
+			directoryReader = new DirectoryReader();
 		}
 		
 		public static ReaderFactory Instance
@@ -92,6 +96,11 @@ namespace Wreck.IO.Reader
 		public CustomDateTimeReader CustomDateTimeReader
 		{
 			get { return customDateTimeReader; }
+		}
+		
+		public DirectoryReader DirectoryReader
+		{
+			get { return directoryReader; }
 		}
 	}
 }
