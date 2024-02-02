@@ -62,6 +62,7 @@
     <Compile Include="IO\Metadata.cs" />
     <Compile Include="IO\MetadataBuilder.cs" />
     <Compile Include="IO\Reader\AbstractTimestampReader.cs" />
+    <Compile Include="IO\Reader\Fs\DirectoryReader.cs" />
     <Compile Include="IO\Reader\Fs\FileSystemReader.cs" />
     <Compile Include="IO\Reader\Fs\PathReader.cs" />
     <Compile Include="IO\Reader\ITimestampReader.cs" />

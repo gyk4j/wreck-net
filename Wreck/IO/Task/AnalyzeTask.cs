@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 using Java;
@@ -118,9 +119,8 @@ namespace Wreck.IO.Task
 			{
 				List<ITimestampReader> readers = new List<ITimestampReader>();
 				
-				// TODO: Add DirectoryReader
-//				if(sources.ContainsKey(SourceEnum.METADATA))
-//					readers.Add(readerFactory.DirectoryReader);
+				if(sources.ContainsKey(SourceEnum.METADATA))
+					readers.Add(readerFactory.DirectoryReader);
 				
 				// Use fallback option.
 				if(sources.ContainsKey(SourceEnum.FILE_SYSTEM))
@@ -179,8 +179,17 @@ namespace Wreck.IO.Task
 				readers,
 				writers);
 			
-			// TODO: Implement DirectoryReader
-//			readerFactory.DirectoryReader.Add(Path.GetDirectoryName(path.FullName), suggestions);
+			DirectoryInfo parent = null;
+			if(path is FileInfo)
+				parent = ((FileInfo) path).Directory;
+			else if(path is DirectoryInfo)
+				parent = ((DirectoryInfo) path).Parent;
+			else
+				LOG.ErrorFormat("Unknown type: {0}", path.FullName);
+			
+			Debug.Assert(parent != null);
+			
+			readerFactory.DirectoryReader.Add(parent, suggestions);
 			
 			LOG.InfoFormat("{0} C: {1}, M: {2}, A: {3} {4}",
 			         !FSUtils.IsDirectory(path) && !FSUtils.IsReparsePoint(path)? "<F>": "[D]",
