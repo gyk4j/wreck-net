@@ -94,13 +94,13 @@ namespace Wreck.IO.Reader.MetaTag
 
 				foreach(string s in CREATION)
 				{
-					if(key.EndsWith(s))
+					if(!key.StartsWith("System:") && key.EndsWith(s))
 						remove = false;
 				}
 
 				foreach(string s in MODIFIED)
 				{
-					if(key.EndsWith(s))
+					if(!key.StartsWith("System:") && key.EndsWith(s))
 						remove = false;
 				}
 
