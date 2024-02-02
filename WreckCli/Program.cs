@@ -28,12 +28,8 @@ namespace Wreck
 			//BasicConfigurator.Configure();
 			XmlConfigurator.Configure(new System.IO.FileInfo(LOG4NET_XML));
 			
-			string test = "2023-12-31T22:39:52";
-			Java.Time.Instant i = Java.Time.Instant.Parse(test);
-			log.DebugFormat("Instant: {0}", i != null? i.ToString(): "---");
-			
-//			ConsoleView view = new ConsoleView();
-//			view.Run(args);
+			ConsoleView view = new ConsoleView();
+			view.Run(args);
 			/*
 			Program app = new Program();
 			
@@ -85,6 +81,13 @@ namespace Wreck
 
 			log.DebugFormat("FMT1: {0}", d2t1 != null ? d2t1.ToString() : "-");
 			log.DebugFormat("FMT2: {0}", d2t2 != null ? d2t2.ToString() : "-");
+		}
+		
+		private static void TestParseInstant()
+		{
+			string test = "2023-12-31T22:39:52";
+			Java.Time.Instant i = Java.Time.Instant.Parse(test);
+			log.DebugFormat("Instant: {0}", i != null? i.ToString(): "---");
 		}
 	}
 }
