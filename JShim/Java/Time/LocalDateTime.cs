@@ -54,7 +54,7 @@ namespace Java.Time
 			
 			if(!isParsed)
 			{
-				LOG.WarnFormat("Parse failed: {0}", s);
+				LOG.WarnFormat("Parse failed: {0} - {1}", s, dateTimeFormatter);
 				return null;
 			}
 			else
