@@ -108,13 +108,16 @@ namespace Wreck.IO.Reader.MetaTag
 			}
 			catch(SevenZipLibraryException ex)
 			{
-				LOG.Error(ex.Message);
 				throw new ApplicationException("Failed to load 7z.dll", ex);
+			}
+			catch(SevenZipArchiveException ex)
+			{
+				LOG.ErrorFormat("{0}: {1}", file.Name, ex.Message);
 			}
 			catch(ArgumentException ex)
 			{
-				LOG.Error(ex.Message);
-				throw new ArgumentException(ex.Message, ex);
+				LOG.ErrorFormat("{0}: {1}", file.Name, ex.Message);
+//				throw new ArgumentException(ex.Message, ex);
 			}
 		}
 	}
