@@ -72,12 +72,12 @@ namespace Wreck.IO.Reader.MetaTag
 		{
 			if(!File.Exists(file.FullName))
 			{
-				LOG.WarnFormat("Skipped non-file: {0}", file.FullName);
+//				LOG.DebugFormat("Skipped non-file: {0}", file.FullName);
 				return;
 			}
 			else if(!IsSupportedFileExtension(file))
 			{
-				LOG.WarnFormat("Skipped unsupported format: {0}", file.Name);
+//				LOG.DebugFormat("Skipped unsupported format: {0}", file.Name);
 				return;
 			}
 			

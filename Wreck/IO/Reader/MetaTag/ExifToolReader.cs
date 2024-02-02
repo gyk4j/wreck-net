@@ -42,8 +42,8 @@ namespace Wreck.IO.Reader.MetaTag
 
 		protected const string FORMATTER = "yyyy:MM:dd HH:mm:ss[.SSS]";
 
-		private const string FMT1 = "EEE MMM dd yyyy HH:mm:ss";
-		private const string FMT2 = "EEE MMM dd HH:mm:ss yyyy";
+		private const string FMT1 = "ddd MMM dd yyyy HH:mm:ss";
+		private const string FMT2 = "ddd MMM dd HH:mm:ss yyyy";
 
 		private ExifTool exifTool = null;
 
@@ -161,6 +161,11 @@ namespace Wreck.IO.Reader.MetaTag
 			{
 				throw new FormatException("Unparsable date time: " + dateTime);
 			}
+			
+			if(i == null && "0000-00-00T00:00:00Z".Equals(dateTime))
+			{
+				throw new FormatException("Unparsable date time: " + dateTime);
+			}
 
 			if(i == null && dateTime.Length == 4) {
 				int yyyy;
@@ -200,10 +205,8 @@ namespace Wreck.IO.Reader.MetaTag
 					m.Groups[5].Value,
 					m.Groups[6].Value);
 
-				if(!"0000-00-00T00:00:00Z".Equals(temp))
-				{
-					i = Instant.Parse(temp);
-				}
+				
+				i = Instant.Parse(temp);
 			}
 
 			if(i == null)
