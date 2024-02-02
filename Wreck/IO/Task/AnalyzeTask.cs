@@ -213,7 +213,16 @@ namespace Wreck.IO.Task
 			IEnumerator<KeyValuePair<CorrectionEnum, DateTime>> e = metadata.GetEnumerator();
 			while(e.MoveNext())
 			{
-				suggestions.Add(e.Current.Key, e.Current.Value);
+				if(!suggestions.ContainsKey(e.Current.Key))
+					suggestions.Add(e.Current.Key, e.Current.Value);
+				else
+				{
+					LOG.WarnFormat("{0}: Overwrite {1} with {2}",
+					               e.Current.Key.Name,
+					               suggestions[e.Current.Key],
+					               e.Current.Value);
+					suggestions[e.Current.Key] = e.Current.Value;
+				}
 			}
 		}
 		
