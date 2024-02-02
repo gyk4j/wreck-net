@@ -111,7 +111,7 @@ namespace Wreck.IO.Reader.MetaTag
 			
 			// Now strip out the ignored tags.
 			removeables.ForEach(
-				s => 
+				s =>
 				{
 					output.Remove(s);
 				}
@@ -150,13 +150,19 @@ namespace Wreck.IO.Reader.MetaTag
 		private DateTime Parse(string dateTime)
 		{
 			Instant i = null;
-
-			if("0".Equals(dateTime))
+			
+			DateTime date;
+			if(ExifToolWrapper.ExifTool.TryParseDate(dateTime, DateTimeKind.Utc, out date))
+			{
+				i = Instant.From(date);
+			}
+			
+			if(i == null && "0".Equals(dateTime))
 			{
 				throw new FormatException("Unparsable date time: " + dateTime);
 			}
 
-			if(dateTime.Length == 4) {
+			if(i == null && dateTime.Length == 4) {
 				int yyyy;
 				if(int.TryParse(dateTime, out yyyy))
 				{
@@ -200,7 +206,7 @@ namespace Wreck.IO.Reader.MetaTag
 				}
 			}
 
-			if(i != null)
+			if(i == null)
 			{
 				LocalDateTime l = LocalDateTime.Parse(dateTime, FMT1);
 				
@@ -213,7 +219,7 @@ namespace Wreck.IO.Reader.MetaTag
 					i = null;
 			}
 
-			if(i != null)
+			if(i == null)
 			{
 				LocalDateTime l = LocalDateTime.Parse(dateTime, FMT2);
 
