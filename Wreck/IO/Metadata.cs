@@ -7,7 +7,7 @@ namespace Wreck.IO
 	/// <summary>
 	/// Description of Metadata.
 	/// </summary>
-	public class Metadata
+	public class Metadata : IComparable<Metadata>
 	{
 		private readonly string key;
 		private readonly string value;
