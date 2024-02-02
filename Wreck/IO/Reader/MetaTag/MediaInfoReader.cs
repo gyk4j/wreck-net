@@ -32,7 +32,7 @@ namespace Wreck.IO.Reader.MetaTag
 		};
 
 		private static readonly Regex REGEXP_VALUE = new Regex(
-			@"(UTC )?([\d]{4})-([\d]{2})-([\d]{2}) ([\d]{2}):([\d]{2}):([\d]{2})",
+			@"([\d]{4})-([\d]{2})-([\d]{2}) ([\d]{2}):([\d]{2}):([\d]{2})( UTC)?",
 			RegexOptions.Compiled);
 
 		protected const string FORMATTER = "[z ]yyyy-MM-dd HH:mm:ss[.SSS]";
@@ -88,15 +88,18 @@ namespace Wreck.IO.Reader.MetaTag
 		private DateTime Parse(string dateTime)
 		{
 			Instant i = null;
+			
+			if(dateTime.StartsWith("0000-00-00 00:00:00"))
+				throw new FormatException("Unparseable date time: " + dateTime);
 
 			Match m = REGEXP_VALUE.Match(dateTime);
 			if(m.Success)
 			{
 				StringBuilder temp = new StringBuilder(dateTime.Trim());
 
-				if(dateTime.StartsWith("UTC "))
+				if(dateTime.EndsWith(" UTC"))
 				{
-					temp.Remove(0, "UTC ".Length);
+					temp.Remove(temp.Length - " UTC".Length, " UTC".Length);
 				}
 
 				if(!dateTime.EndsWith("Z"))
@@ -109,8 +112,7 @@ namespace Wreck.IO.Reader.MetaTag
 					temp[10] = 'T';
 				}
 
-				if(!"0000-00-00T00:00:00Z".Equals(temp.ToString()))
-					i = Instant.Parse(temp.ToString());
+				i = Instant.Parse(temp.ToString());
 			}
 			else if(dateTime.Length == 4)
 			{

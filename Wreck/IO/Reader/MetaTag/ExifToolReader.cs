@@ -124,7 +124,14 @@ namespace Wreck.IO.Reader.MetaTag
 				{
 					string k = (string) e.Key;
 					string v = (string) e.Value;
-					Add(metadata, k, v, Parse(v));
+					try
+					{
+						Add(metadata, k, v, Parse(v));
+					}
+					catch(FormatException ex)
+					{
+						LOG.Error(ex.Message);
+					}
 				}
 			}
 			else
@@ -162,10 +169,11 @@ namespace Wreck.IO.Reader.MetaTag
 				throw new FormatException("Unparsable date time: " + dateTime);
 			}
 			
-			if(i == null && "0000-00-00T00:00:00Z".Equals(dateTime))
-			{
+			if(i == null && dateTime.IndexOf("0000-00-00T00:00:00") >= 0)
 				throw new FormatException("Unparsable date time: " + dateTime);
-			}
+			
+			if(i == null && dateTime.IndexOf("0000:00:00 00:00:00") >= 0)
+				throw new FormatException("Unparsable date time: " + dateTime);
 
 			if(i == null && dateTime.Length == 4) {
 				int yyyy;
