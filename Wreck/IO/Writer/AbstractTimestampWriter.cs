@@ -18,7 +18,7 @@ namespace Wreck.IO.Writer
 		private static readonly ILog LOG = LogManager.GetLogger(typeof(AbstractTimestampWriter));
 		private static readonly StatisticsCollector STATS = StatisticsCollector.Instance;
 		
-		protected DateTime WriteAttribute(
+		protected DateTime? WriteAttribute(
 			FileEvent required,
 			FileEvent none,
 			DateTime fileSystem,
@@ -37,7 +37,7 @@ namespace Wreck.IO.Writer
 				STATS.Count(required);
 				val = correct;
 			}
-			return val.Value;
+			return val;
 		}
 		
 		protected DateTime RestoreAttribute(

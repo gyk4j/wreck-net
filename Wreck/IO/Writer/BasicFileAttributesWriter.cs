@@ -26,38 +26,38 @@ namespace Wreck.IO.Writer
 			Dictionary<CorrectionEnum, DateTime> values)
 		{
 			
-			DateTime creation = WriteAttribute(
+			DateTime? creation = WriteAttribute(
 				FileEvent.CorrectibleCreation,
 				FileEvent.UncorrectibleCreation,
 				file.CreationTime,
 				values[CorrectionEnum.CREATION]);
 			
-			DateTime modified = WriteAttribute(
+			DateTime? modified = WriteAttribute(
 				FileEvent.CorrectibleModified,
 				FileEvent.UncorrectibleModified,
 				file.LastWriteTime,
 				values[CorrectionEnum.MODIFIED]);
 			
-			DateTime accessed = WriteAttribute(
+			DateTime? accessed = WriteAttribute(
 				FileEvent.CorrectibleAccessed,
 				FileEvent.UncorrectibleAccessed,
 				file.LastAccessTime,
 				values[CorrectionEnum.ACCESSED]);
 			
-			if(creation != null)
-				file.CreationTime = creation;
+			if(creation.HasValue)
+				file.CreationTime = creation.Value;
 			
-			if(modified != null)
-				file.LastWriteTime = modified;
+			if(modified.HasValue)
+				file.LastWriteTime = modified.Value;
 			
-			if(accessed != null)
-				file.LastAccessTime = accessed;
+			if(accessed.HasValue)
+				file.LastAccessTime = accessed.Value;
 			
 			LOG.InfoFormat("Updated {0}: {1}, {2}, {3}",
 			         file.FullName,
-			         creation,
-			         modified,
-			         accessed);
+			         creation.Value,
+			         modified.Value,
+			         accessed.Value);
 		}
 	}
 }

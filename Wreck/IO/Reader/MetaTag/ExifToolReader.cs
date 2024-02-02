@@ -57,7 +57,7 @@ namespace Wreck.IO.Reader.MetaTag
 			try
 			{
 				exifTool = new ExifTool();
-				LOG.Info("ExifTool library was initialized");
+				LOG.Info("ExifTool started");
 			}
 			catch(ApplicationException)
 			{
