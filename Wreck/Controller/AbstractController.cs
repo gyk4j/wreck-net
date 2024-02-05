@@ -54,6 +54,11 @@ namespace Wreck.Controller
 			get { return service; }
 		}
 		
+		public virtual void Error()
+		{
+			Console.Error.WriteLine(startPath + " is invalid.");
+		}
+		
 		public void Start(string startPath)
 		{
 			if(Directory.Exists(startPath))
@@ -61,10 +66,7 @@ namespace Wreck.Controller
 			else if(File.Exists(startPath))
 				this.startPath = new FileInfo(startPath);
 			else
-			{
-				LOG.Error(startPath + " is invalid.");
-				Environment.Exit(-1);
-			}
+				Error();
 			
 			if(this.startPath != null)
 			{
@@ -177,27 +179,64 @@ namespace Wreck.Controller
 		
 		public virtual void Analyze()
 		{
-			LOG.Error("Unimplemented");
+			Run(CorrectionMode.Analyze);
 		}
 		
 		public virtual void Backup()
 		{
-			LOG.Error("Unimplemented");
+			Run(CorrectionMode.BackupAttributes);
 		}
 		
 		public virtual void Repair()
 		{
-			LOG.Error("Unimplemented");
+			Run(CorrectionMode.SaveAttributes);
 		}
 		
 		public virtual void Restore()
 		{
-			LOG.Error("Unimplemented");
+			Run(CorrectionMode.RestoreAttributes);
 		}
 		
 		public virtual void Verify()
 		{
-			LOG.Error("Unimplemented");
+			Run(CorrectionMode.VerifyAttributes);
+		}
+		
+		private void Run(CorrectionMode mode)
+		{
+			string[] args = Environment.GetCommandLineArgs();
+			string[] dirs;
+			
+			if(args.Length > 1)
+			{
+				dirs = new string[args.Length-1];
+				Array.Copy(args, 1, dirs, 0, args.Length-1);
+			}
+			else
+			{
+				dirs = new string[0];
+				Error();
+			}
+			
+			foreach(string d in dirs)
+			{				
+				if(Directory.Exists(d))
+					Run(mode, new DirectoryInfo(d));
+				else if(File.Exists(d))
+					Run(mode, new FileInfo(d));
+				else
+					LOG.ErrorFormat("Unknown path type: {0}", d);
+			}
+			
+			Done();
+		}
+		
+		public virtual void Run(CorrectionMode mode, FileSystemInfo fsi)
+		{
+			LOG.InfoFormat("Mode: {0}, File: {1}", 
+			               Enum.GetName(typeof(CorrectionMode), mode), 
+			               fsi.FullName);
+			throw new NotImplementedException();
 		}
 		
 		// Update statistics
@@ -246,26 +285,10 @@ namespace Wreck.Controller
 			}
 		}
 		
-		protected virtual void UpdateForecastStatistics()
-		{
-			// No charts to update.
-		}
-		
-		protected virtual void UpdateRestoreState()
-		{
-			// No "Restore" button to enable or disable.
-		}
-		
 		public virtual void Done()
-		{
-//			View.GetScanningDialog().Close();
-			
+		{			
 			Stop();
-//			Worker = null;
-			UpdateRestoreState();
-			
 			UpdateStatistics();
-			UpdateForecastStatistics();
 			
 			/*
 			LOG.InfoFormat("Metadata: {0}, Last Modified: {1}, Custom: {2}",
