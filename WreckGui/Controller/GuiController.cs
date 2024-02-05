@@ -12,7 +12,7 @@ using Wreck.IO;
 using Wreck.IO.Task;
 using Wreck.Resources;
 using Wreck.Util.Logging;
-using WreckGui.Model;
+using Wreck.Model;
 
 namespace Wreck.Controller
 {
