@@ -56,9 +56,15 @@
     <Compile Include="Corrector\Applicator.cs" />
     <Compile Include="Corrector\ICorrector.cs" />
     <Compile Include="Corrector\Previewer.cs" />
+    <Compile Include="Entity\AboutBean.cs" />
+    <Compile Include="Entity\ExtensionStatisticsBean.cs" />
     <Compile Include="Entity\FileBean.cs" />
     <Compile Include="Entity\FileEntity.cs" />
+    <Compile Include="Entity\FileStatisticsBean.cs" />
     <Compile Include="Entity\FileVisit.cs" />
+    <Compile Include="Entity\LogEntry.cs" />
+    <Compile Include="Entity\MetadataBean.cs" />
+    <Compile Include="Entity\MetadataStatisticsBean.cs" />
     <Compile Include="IO\AbstractFileVisitor.cs" />
     <Compile Include="IO\Metadata.cs" />
     <Compile Include="IO\MetadataBuilder.cs" />
