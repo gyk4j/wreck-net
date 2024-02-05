@@ -35,9 +35,9 @@ namespace Wreck.View
 			log.Debug("Initialized ConsoleView");
 		}
 		
-		public void Run(string[] args)
+		public void Run()
 		{
-			((CliController) controller).Analyze(args);
+			((CliController) controller).Analyze();
 		}
 		
 		public void Version()

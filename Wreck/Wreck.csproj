@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\AbstractController.cs" />
     <Compile Include="Controller\IController.cs" />
     <Compile Include="Corrector\Applicator.cs" />
     <Compile Include="Corrector\ICorrector.cs" />
