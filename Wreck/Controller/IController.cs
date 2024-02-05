@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.IO;
+using Wreck.Resources;
 
 namespace Wreck.Controller
 {
@@ -9,6 +10,8 @@ namespace Wreck.Controller
 	/// </summary>
 	public interface IController
 	{
+		void Error();
+		void Run(CorrectionMode mode, FileSystemInfo fsi);
 		void Analyze();
 		void Backup();
 		void Repair();
