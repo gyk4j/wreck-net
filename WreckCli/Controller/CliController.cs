@@ -121,70 +121,71 @@ namespace Wreck.Controller
 		
 		private void Init()
 		{
-			
+			string title = startPath.FullName + " - " + R.strings.APP_TITLE;
+			LOG.InfoFormat("{0}\n", title);
 		}
 		
 		public void Version()
 		{
-			Console.WriteLine("{0} v{1}\n", Wreck.NAME, Wreck.VERSION);
+			LOG.InfoFormat("{0}\n", R.strings.APP_TITLE);
 		}
 		
 		public void UnknownPathType(string path)
 		{
-			Console.WriteLine("UnknownPathType: {0}", path);
+			LOG.WarnFormat("UnknownPathType: {0}", path);
 		}
 		
 		public void CurrentPath(string p)
 		{
-			Console.WriteLine("> {0}", p);
+			LOG.InfoFormat("> {0}", p);
 		}
 		
 		public void CurrentFile(FileInfo f)
 		{
-			Console.WriteLine("    - {0}", f.Name);
+			LOG.InfoFormat("    - {0}", f.Name);
 		}
 		
 		public void CurrentDirectory(DirectoryInfo d)
 		{
-			Console.WriteLine("  + {0}", d.FullName);
+			LOG.InfoFormat("  + {0}", d.FullName);
 		}
 		
 		public void SkipReparsePoint(DirectoryInfo d)
 		{
-			Console.WriteLine("Skipped reparse point: {0}", d.Name);
+			LOG.InfoFormat("Skipped reparse point: {0}", d.Name);
 		}
 		
 		public void SkipReparsePoint(FileInfo f)
 		{
-			Console.WriteLine("Skipped reparse point: {0}", f.Name);
+			LOG.InfoFormat("Skipped reparse point: {0}", f.Name);
 		}
 		
 		public void CorrectedByLastWriteMetadata(FileSystemInfo fsi, DateTime lastWrite)
 		{
-			Console.WriteLine("        MW: {0}", TextFormatter.Format(fsi.LastWriteTime.Subtract(lastWrite)));
+			LOG.InfoFormat("        MW: {0}", TextFormatter.Format(fsi.LastWriteTime.Subtract(lastWrite)));
 		}
 		
 		public void CorrectedByCreationMetadata(FileSystemInfo fsi, DateTime creation)
 		{
-			Console.WriteLine("        MC: {0}", TextFormatter.Format(fsi.CreationTime.Subtract(creation)));
+			LOG.InfoFormat("        MC: {0}", TextFormatter.Format(fsi.CreationTime.Subtract(creation)));
 		}
 		
 		public void CorrectedByLastAccessMetadata(FileSystemInfo fsi, DateTime lastAccess)
 		{
-			Console.WriteLine("        MA: {0}", TextFormatter.Format(fsi.LastAccessTime.Subtract(lastAccess)));
+			LOG.InfoFormat("        MA: {0}", TextFormatter.Format(fsi.LastAccessTime.Subtract(lastAccess)));
 		}
 		
 		public void CorrectedByLastWriteTime(FileSystemInfo fsi, DateTime creationOrLastAccess)
 		{
 			if(creationOrLastAccess == fsi.CreationTime)
-				Console.WriteLine("        LC: {0}", TextFormatter.Format(fsi.CreationTime.Subtract(fsi.LastWriteTime)));
+				LOG.InfoFormat("        LC: {0}", TextFormatter.Format(fsi.CreationTime.Subtract(fsi.LastWriteTime)));
 			else if(creationOrLastAccess == fsi.LastAccessTime)
-				Console.WriteLine("        LA: {0}", TextFormatter.Format(fsi.LastAccessTime.Subtract(fsi.LastWriteTime)));
+				LOG.InfoFormat("        LA: {0}", TextFormatter.Format(fsi.LastAccessTime.Subtract(fsi.LastWriteTime)));
 		}
 		
 		public void Statistics(Statistics stats)
 		{
-			Console.WriteLine("\n### Dirs: {0}, Files: {1}, Skipped: {2} ###\n",
+			LOG.InfoFormat("\n### Dirs: {0}, Files: {1}, Skipped: {2} ###\n",
 			                  stats.Directories,
 			                  stats.Files,
 			                  stats.Skipped);
@@ -192,7 +193,7 @@ namespace Wreck.Controller
 		
 		public void UnauthorizedAccessException(UnauthorizedAccessException ex)
 		{
-			Console.Error.WriteLine(ex.ToString());
+			LOG.ErrorFormat(ex.ToString());
 		}
 		
 		// Event Handlers
@@ -264,17 +265,20 @@ namespace Wreck.Controller
 		
 		private void UpdateStatistics()
 		{
-			
+			LOG.InfoFormat("Metadata: {0}, Last Modified: {1}, Custom: {2}",
+				STATS.Get(SelectionEvent.Metadata),
+				STATS.Get(SelectionEvent.LastModified),
+				STATS.Get(SelectionEvent.Custom));
 		}
 		
 		private void UpdateForecastStatistics()
 		{
-			
+			// No charts to update.
 		}
 		
 		private void UpdateRestoreState()
 		{
-			
+			// No "Restore" button to enable or disable. 
 		}
 		
 		public void Done()
@@ -287,13 +291,6 @@ namespace Wreck.Controller
 			
 			UpdateStatistics();
 			UpdateForecastStatistics();
-
-			/*
-			LOG.InfoFormat("Metadata: {0}, Last Modified: {1}, Custom: {2}",
-				STATS.get(SelectionEvent.METADATA),
-				STATS.get(SelectionEvent.LAST_MODIFIED),
-				STATS.get(SelectionEvent.CUSTOM));
-			 */
 		}
 	}
 }
