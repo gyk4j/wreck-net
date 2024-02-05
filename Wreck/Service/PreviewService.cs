@@ -61,10 +61,6 @@ namespace Wreck.Service
 					throw new ArgumentException("Unknown correction mode");
 			}
 			
-			// TODO: To update factory method to instantiate ProgressWorker sub-class implementations
-//			ProgressWorker pw = new ProgressWorker(task, startPath);
-//			pw.addPropertyChangeListener(pcl); // Belongs to Java Beans
-//			pw.execute(); // Belongs to Java SwingWorker
 			return task;
 		}
 	}

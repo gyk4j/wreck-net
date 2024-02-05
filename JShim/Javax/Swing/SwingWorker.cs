@@ -353,7 +353,7 @@ namespace Javax.Swing
 		{
 			foreach(V chunk in chunks)
 			{
-				// FIXME: Calculate the progress percentage.
+				// Progress percentage is updated in derived classes' Process.
 				backgroundWorker.ReportProgress(progress, chunk);
 			}
 		}
@@ -380,7 +380,6 @@ namespace Javax.Swing
 		/// </summary>
 		public void Run()
 		{
-			// TODO: Need to check difference between Execute() and Run().
 			if(!cancelled)
 				result = DoInBackground();
 		}
