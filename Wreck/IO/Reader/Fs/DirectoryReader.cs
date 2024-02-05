@@ -40,7 +40,7 @@ namespace Wreck.IO.Reader.Fs
 			return LATEST;
 		}
 		
-		// FIXME: Somehow using DirectoryInfo as key always fail to get. So using full path name string.
+		// HACK: get always fail with DirectoryInfo as key. Using full path name string as substitute.
 		private readonly IDictionary<string, List<DateTime>> fileTimes = new Dictionary<string, List<DateTime>>();
 
 		public void Add(DirectoryInfo dir, IDictionary<CorrectionEnum, DateTime> suggestions)

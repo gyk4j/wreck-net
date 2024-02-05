@@ -139,23 +139,17 @@ namespace Wreck.Controller
 		
 		public void CurrentPath(string p)
 		{
-			// TODO: Remove
-//			if(view.BackgroundWorker != null)
-//				view.BackgroundWorker.ReportProgress(0, p);
+			
 		}
 		
 		public void CurrentFile(FileInfo f)
 		{
-			// TODO: Remove
-//			if(view.BackgroundWorker != null)
-//				view.BackgroundWorker.ReportProgress(0, f);
+			
 		}
 		
 		public void CurrentDirectory(DirectoryInfo d)
 		{
-			// TODO: Remove
-//			if(view.BackgroundWorker != null)
-//				view.BackgroundWorker.ReportProgress(0, d);
+			
 		}
 		
 		public void SkipReparsePoint(DirectoryInfo d)
@@ -190,9 +184,7 @@ namespace Wreck.Controller
 		
 		public void Statistics(Statistics stats)
 		{
-			// TODO: Remove
-//			if(view.BackgroundWorker != null)
-//				view.BackgroundWorker.ReportProgress(0, stats);
+			
 		}
 		
 		public void UnauthorizedAccessException(UnauthorizedAccessException ex)
@@ -259,7 +251,6 @@ namespace Wreck.Controller
 					continue;
 				}
 				
-				// FIXME: More like MakeTask or CreateTask
 				Dictionary<SourceEnum, bool> sources = new Dictionary<SourceEnum, bool>();
 				foreach(SourceEnum s in SourceEnum.Values)
 				{

@@ -32,13 +32,6 @@ namespace Wreck
 		private TreeNode dirNode;
 		private TreeNode fileNode;
 		
-		// TODO: Remove
-//		private BackgroundWorker backgroundWorker = null;
-//		public BackgroundWorker BackgroundWorker
-//		{
-//			get { return backgroundWorker; }
-//		}
-		
 		// Based on the index assigned by imageList in Design mode.
 		private enum TreeViewIcon
 		{
@@ -78,107 +71,13 @@ namespace Wreck
 			SetAppState(false);
 			this.treeViewPaths.Nodes.Add(this.rootNode);
 			
-			// TODO: Remove
-//			backgroundWorker = new BackgroundWorker();
-			
 			log.Debug("Initialized MainForm");
 		}
-		
-		// TODO: Remove
-//		public void Run(string[] args)
-//		{
-//			using(Wreck wreck = new Wreck(logger, new Previewer()))
-//			{
-//				logger.Statistics(wreck.GetStatistics());
-//				foreach(string p in args)
-//				{
-//					logger.CurrentPath(p);
-//					wreck.Walk(p);
-//				}
-//				logger.Statistics(wreck.GetStatistics());
-//			}
-//		}
 		
 		void BtnRunClick(object sender, EventArgs e)
 		{
 			((GuiController) controller).Analyze();
-			// TODO: Remove
-//			if(!backgroundWorker.IsBusy)
-//			{
-//				backgroundWorker.DoWork += new DoWorkEventHandler(DoWork);
-//				backgroundWorker.ProgressChanged += new ProgressChangedEventHandler(ProgressChanged);
-//				backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(RunWorkerCompleted);
-//				backgroundWorker.WorkerReportsProgress = true;
-//				backgroundWorker.WorkerSupportsCancellation = false;
-//				backgroundWorker.RunWorkerAsync();
-//				SetAppState(true);
-//			}
 		}
-		
-		// TODO: Remove
-		/*
-		void DoWork(object sender, DoWorkEventArgs e)
-		{
-			log.Debug("DoWork");
-			string[] args = Environment.GetCommandLineArgs();
-			string[] dirs;
-			
-			if(args.Length > 1)
-			{
-				dirs = new string[args.Length-1];
-				Array.Copy(args, 1, dirs, 0, args.Length-1);
-			}
-			else
-			{
-				dirs = new string[]
-				{
-					Directory.GetCurrentDirectory()
-				};
-			}
-			
-			this.Run(dirs);
-		}
-		
-		void ProgressChanged(object sender, ProgressChangedEventArgs e)
-		{
-			//log.DebugFormat("Progress: {0} %", e.ProgressPercentage);
-			
-			if (e.UserState is String)
-			{
-				string p = (string) e.UserState;
-				CurrentPath(p);
-			}
-			else if(e.UserState is FileInfo)
-			{
-				FileInfo fi = (FileInfo) e.UserState;
-				CurrentFile(fi);
-			}
-			else if(e.UserState is DirectoryInfo)
-			{
-				DirectoryInfo di = (DirectoryInfo) e.UserState;
-				CurrentDirectory(di);
-			}
-			else if(e.UserState is Statistics)
-			{
-				Statistics stats = (Statistics) e.UserState;
-				Statistics(stats);
-			}
-			else
-			{
-				log.WarnFormat("{0}: {1}", e.UserState.GetType().FullName, e.UserState.ToString());
-				Debug.Assert(false);
-			}
-			
-		}
-		
-		void RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-		{
-			//log.Debug("RunWorkerCompleted");
-			SetCurrentFile(string.Empty);
-			SetAppState(false);
-			this.treeViewPaths.ExpandAll();
-		}
-		*/
 		
 		public void Version()
 		{

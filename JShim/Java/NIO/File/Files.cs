@@ -116,11 +116,6 @@ namespace Java.NIO.File
 				return result;
 			
 			return result;
-			
-			// TODO: Shift processing logic to FileVisitor
-//			DateTime? creation, lastWrite, lastAccess;
-//			Extract(dir, out creation, out lastWrite, out lastAccess);
-//			Correct(dir, creation, lastWrite, lastAccess);
 		}
 		
 		private static FileVisitResult VisitFile(FileInfo file, FileVisitor visitor)
@@ -135,37 +130,6 @@ namespace Java.NIO.File
 			
 			result = visitor.VisitFile(file);
 			return result;
-			
-			// TODO: Shift processing logic to FileVisitor
-			/*
-			DateTime? creation, lastWrite, lastAccess;
-			IEnumerator<IFileDateable> e = this.parsers.Values.GetEnumerator();
-			while(e.MoveNext())
-			{
-				IFileDateable parser = e.Current;
-				try
-				{
-					parser.GetDateTimes(file, out creation, out lastWrite, out lastAccess);
-				}
-				catch(ApplicationException ex)
-				{
-					creation = lastWrite = lastAccess = null;
-					log.Error(ex);
-				}
-				
-				if(creation.HasValue || lastWrite.HasValue || lastAccess.HasValue)
-				{
-					// Backup and restore Read-Only attribute prior to updating any
-					// timestamps.
-					bool readOnly = file.IsReadOnly;
-					file.IsReadOnly = false;
-					Correct(file, creation, lastWrite, lastAccess);
-					file.IsReadOnly = readOnly;
-				}
-				
-				creation = lastWrite = lastAccess = null;
-			}
-			 */
 		}
 	}
 }

@@ -238,18 +238,15 @@ namespace Wreck.Controller
 					continue;
 				}
 				
-				// FIXME: More like MakeTask or CreateTask
 				Dictionary<SourceEnum, bool> sources = new Dictionary<SourceEnum, bool>();
 				foreach(SourceEnum s in SourceEnum.Values)
 				{
-					// FIXME: To check GUI control checkbox
 					sources.Add(s, true);
 				}
 				
 				Dictionary<CorrectionEnum, bool> corrections = new Dictionary<CorrectionEnum, bool>();
 				foreach(CorrectionEnum c in CorrectionEnum.Values)
 				{
-					// FIXME: To check GUI control checkbox
 					corrections.Add(c, true);
 				}
 				
