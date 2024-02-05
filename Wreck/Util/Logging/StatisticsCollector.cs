@@ -14,7 +14,7 @@ namespace Wreck.Util.Logging
 		private readonly IDictionary<FileEvent, int> statistics = new SortedDictionary<FileEvent, int>();
 		private readonly IDictionary<string, int> metadataKeys = new SortedDictionary<string, int>();
 		private readonly IDictionary<string, ExtensionStatistics> fileExtensions = new SortedDictionary<string, ExtensionStatistics>();
-		private readonly IDictionary<SelectionEvent, int> selection = new SortedDictionary<SelectionEvent, int>();
+//		private readonly IDictionary<SelectionEvent, int> selection = new SortedDictionary<SelectionEvent, int>();
 		
 		private StatisticsCollector() : base()
 		{
@@ -118,35 +118,35 @@ namespace Wreck.Util.Logging
 			fileExtensions[e.ToString()] = ov;
 		}
 		
-		public IDictionary<SelectionEvent, int> Selection
-		{
-			get { return selection; }
-		}
-
-		public int Count(SelectionEvent e)
-		{
-			int val;
-			bool ok = selection.TryGetValue(e, out val);
-
-			val = ok ? ++val : 1;
-			selection[e] = val;
-
-			return val;
-		}
-
-		public int Get(SelectionEvent e)
-		{
-			int val;
-			bool found = selection.TryGetValue(e, out val);
-			return found ? val : 0;
-		}
+//		public IDictionary<SelectionEvent, int> Selection
+//		{
+//			get { return selection; }
+//		}
+//
+//		public int Count(SelectionEvent e)
+//		{
+//			int val;
+//			bool ok = selection.TryGetValue(e, out val);
+//
+//			val = ok ? ++val : 1;
+//			selection[e] = val;
+//
+//			return val;
+//		}
+//
+//		public int Get(SelectionEvent e)
+//		{
+//			int val;
+//			bool found = selection.TryGetValue(e, out val);
+//			return found ? val : 0;
+//		}
 		
 		public void Reset()
 		{
 			statistics.Clear();
 			metadataKeys.Clear();
 			fileExtensions.Clear();
-			selection.Clear();
+//			selection.Clear();
 		}
 	}
 }

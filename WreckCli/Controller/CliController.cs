@@ -23,37 +23,17 @@ namespace Wreck.Controller
 	/// <summary>
 	/// Description of CliController.
 	/// </summary>
-	public class CliController : IController
+	public class CliController : AbstractController
 	{
-		private static readonly ILog LOG = LogManager.GetLogger(typeof(CliController));
-		
-		private static readonly StatisticsCollector STATS = StatisticsCollector.Instance;
-		
-		private FileSystemInfo startPath;
 		private CliWorker worker;
 		
 		private readonly ConsoleModel model;
 		private readonly ConsoleView view;
-		private readonly PreviewService service;
 		
-		protected static CliController instance;
-		
-		public CliController(ConsoleView view)
+		public CliController(ConsoleView view) : base()
 		{
 			this.model = new ConsoleModel();
 			this.view = view;
-			this.service = new PreviewService();
-			instance = this;
-		}
-		
-		public static IController Instance
-		{
-			get
-			{
-				if (instance == null)
-					throw new NullReferenceException("CliController instance is uninitialized");
-				return instance;
-			}
 		}
 		
 		public ConsoleModel Model
@@ -66,166 +46,58 @@ namespace Wreck.Controller
 			get { return view; }
 		}
 		
-		public FileSystemInfo StartPath
-		{
-			get { return startPath; }
-		}
-		
 		public CliWorker Worker
 		{
 			get { return worker; }
 			set { worker = value; }
 		}
 		
-		public void Start(string startPath)
-		{
-			if(Directory.Exists(startPath))
-				this.startPath =  new DirectoryInfo(startPath);
-			else if(File.Exists(startPath))
-				this.startPath = new FileInfo(startPath);
-			else
-			{
-				LOG.Error(startPath + " is invalid.");
-				Environment.Exit(-1);
-			}
-			
-			if(this.startPath != null)
-			{
-				Init();
-//				View.GetPreviewDialog().Open();
-			}
-		}
-		
-		public void Stop()
-		{
-			LOG.Info("Stopping and cleaning up...");
-			try
-			{
-				if(WriterFactory.IsInitialized())
-				{
-					LOG.Info("Closing writers...");
-					WriterFactory.Instance.Dispose();
-				}
-				
-				if(ReaderFactory.IsInitialized())
-				{
-					LOG.Info("Closing readers...");
-					ReaderFactory.Instance.Dispose();
-				}
-			}
-			catch (Exception e)
-			{
-				LOG.Error(e.ToString());
-			}
-		}
-		
-		private void Init()
-		{
-			string title = startPath.FullName + " - " + R.strings.APP_TITLE;
-			LOG.InfoFormat("{0}\n", title);
-		}
-		
-		public void Version()
-		{
-			LOG.InfoFormat("{0}\n", R.strings.APP_TITLE);
-		}
-		
-		public void UnknownPathType(string path)
-		{
-			LOG.WarnFormat("UnknownPathType: {0}", path);
-		}
-		
-		public void CurrentPath(string p)
-		{
-			LOG.InfoFormat("> {0}", p);
-		}
-		
-		public void CurrentFile(FileInfo f)
-		{
-			LOG.InfoFormat("    - {0}", f.Name);
-		}
-		
-		public void CurrentDirectory(DirectoryInfo d)
-		{
-			LOG.InfoFormat("  + {0}", d.FullName);
-		}
-		
-		public void SkipReparsePoint(DirectoryInfo d)
-		{
-			LOG.InfoFormat("Skipped reparse point: {0}", d.Name);
-		}
-		
-		public void SkipReparsePoint(FileInfo f)
-		{
-			LOG.InfoFormat("Skipped reparse point: {0}", f.Name);
-		}
-		
-		public void CorrectedByLastWriteMetadata(FileSystemInfo fsi, DateTime lastWrite)
-		{
-			LOG.InfoFormat("        MW: {0}", TextFormatter.Format(fsi.LastWriteTime.Subtract(lastWrite)));
-		}
-		
-		public void CorrectedByCreationMetadata(FileSystemInfo fsi, DateTime creation)
-		{
-			LOG.InfoFormat("        MC: {0}", TextFormatter.Format(fsi.CreationTime.Subtract(creation)));
-		}
-		
-		public void CorrectedByLastAccessMetadata(FileSystemInfo fsi, DateTime lastAccess)
-		{
-			LOG.InfoFormat("        MA: {0}", TextFormatter.Format(fsi.LastAccessTime.Subtract(lastAccess)));
-		}
-		
-		public void CorrectedByLastWriteTime(FileSystemInfo fsi, DateTime creationOrLastAccess)
-		{
-			if(creationOrLastAccess == fsi.CreationTime)
-				LOG.InfoFormat("        LC: {0}", TextFormatter.Format(fsi.CreationTime.Subtract(fsi.LastWriteTime)));
-			else if(creationOrLastAccess == fsi.LastAccessTime)
-				LOG.InfoFormat("        LA: {0}", TextFormatter.Format(fsi.LastAccessTime.Subtract(fsi.LastWriteTime)));
-		}
-		
-		public void Statistics(Statistics stats)
-		{
-			LOG.InfoFormat("\n### Dirs: {0}, Files: {1}, Skipped: {2} ###\n",
-			                  stats.Directories,
-			                  stats.Files,
-			                  stats.Skipped);
-		}
-		
-		public void UnauthorizedAccessException(UnauthorizedAccessException ex)
-		{
-			LOG.ErrorFormat(ex.ToString());
-		}
-		
 		// Event Handlers
 		
-		public void Analyze(string[] args)
+		public override void Analyze()
 		{
-			Run(CorrectionMode.Analyze, args);
+			Run(CorrectionMode.Analyze);
 		}
 		
-		public void Backup(string[] args)
+		public override void Backup()
 		{
-			Run(CorrectionMode.BackupAttributes, args);
+			Run(CorrectionMode.BackupAttributes);
 		}
 		
-		public void Repair(string[] args)
+		public override void Repair()
 		{
-			Run(CorrectionMode.SaveAttributes, args);
+			Run(CorrectionMode.SaveAttributes);
 		}
 		
-		public void Restore(string[] args)
+		public override void Restore()
 		{
-			Run(CorrectionMode.RestoreAttributes, args);
+			Run(CorrectionMode.RestoreAttributes);
 		}
 		
-		public void Verify(string[] args)
+		public override void Verify()
 		{
-			Run(CorrectionMode.VerifyAttributes, args);
+			Run(CorrectionMode.VerifyAttributes);
 		}
-
-		private void Run(CorrectionMode mode, string[] args)
+		
+		private void Run(CorrectionMode mode)
 		{
-			foreach(string path in args)
+			string[] args = Environment.GetCommandLineArgs();
+			string[] dirs;
+			
+			if(args.Length > 1)
+			{
+				dirs = new string[args.Length-1];
+				Array.Copy(args, 1, dirs, 0, args.Length-1);
+			}
+			else
+			{
+				dirs = new string[]
+				{
+					Directory.GetCurrentDirectory()
+				};
+			}
+			
+			foreach(string path in dirs)
 			{
 				FileSystemInfo fsi;
 				
@@ -253,7 +125,7 @@ namespace Wreck.Controller
 				
 				DateTime customDateTime = DateTime.Now;
 				
-				ITask task = service.Run(fsi, mode, sources, corrections, customDateTime);
+				ITask task = Service.Run(fsi, mode, sources, corrections, customDateTime);
 				
 				CliWorker pw = new CliWorker(task, fsi);
 				pw.Run();
@@ -261,36 +133,10 @@ namespace Wreck.Controller
 			}
 		}
 		
-		// Update statistics
-		
-		private void UpdateStatistics()
+		public override void Done()
 		{
-			LOG.InfoFormat("Metadata: {0}, Last Modified: {1}, Custom: {2}",
-				STATS.Get(SelectionEvent.Metadata),
-				STATS.Get(SelectionEvent.LastModified),
-				STATS.Get(SelectionEvent.Custom));
-		}
-		
-		private void UpdateForecastStatistics()
-		{
-			// No charts to update.
-		}
-		
-		private void UpdateRestoreState()
-		{
-			// No "Restore" button to enable or disable. 
-		}
-		
-		public void Done()
-		{
-//			View.GetScanningDialog().Close();
-			
-			Stop();
+			base.Done();
 			Worker = null;
-			UpdateRestoreState();
-			
-			UpdateStatistics();
-			UpdateForecastStatistics();
 		}
 	}
 }

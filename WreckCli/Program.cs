@@ -29,7 +29,7 @@ namespace Wreck
 			XmlConfigurator.Configure(new System.IO.FileInfo(LOG4NET_XML));
 			
 			ConsoleView view = new ConsoleView();
-			view.Run(args);
+			view.Run();
 			/*
 			Program app = new Program();
 			
