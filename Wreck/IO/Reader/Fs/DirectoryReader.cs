@@ -40,7 +40,12 @@ namespace Wreck.IO.Reader.Fs
 			return LATEST;
 		}
 		
-		// HACK: get always fail with DirectoryInfo as key. Using full path name string as substitute.
+		/// <remarks>
+		/// Confirmed that DirectoryInfo *does not* override Equals and HashCode
+		/// which would two DirectoryInfo instances with the same path would
+		/// be deemed as equal, thereby serving as a key.
+		/// https://stackoverflow.com/questions/24661161/can-a-directoryinfo-object-be-safely-use-as-a-key-in-a-dictionary
+		/// </remarks>
 		private readonly IDictionary<string, List<DateTime>> fileTimes = new Dictionary<string, List<DateTime>>();
 
 		public void Add(DirectoryInfo dir, IDictionary<CorrectionEnum, DateTime> suggestions)
@@ -71,7 +76,6 @@ namespace Wreck.IO.Reader.Fs
 			
 			times.Sort();
 			
-			// FIXME: min = 01/01/1980 00:00:00 seems to be common occurrence.
 			DateTime min = times[0];
 			DateTime max = times[times.Count-1];
 			
