@@ -101,7 +101,7 @@
     <Compile Include="Resources\R.cs" />
     <Compile Include="Resources\SourceEnum.cs" />
     <Compile Include="Security\PasswordProvider.cs" />
-    <Compile Include="Service\PreviewService.cs" />
+    <Compile Include="Service\WreckService.cs" />
     <Compile Include="Statistics.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="Time\TimeOrder.cs" />

@@ -24,13 +24,13 @@ namespace Wreck.Controller
 		
 		private FileSystemInfo startPath;
 		
-		private readonly PreviewService service;
+		private readonly WreckService service;
 		
 		protected static IController instance;
 		
 		protected AbstractController()
 		{
-			this.service = new PreviewService();
+			this.service = new WreckService();
 			instance = this;
 		}
 		
@@ -49,7 +49,7 @@ namespace Wreck.Controller
 			get { return startPath; }
 		}
 		
-		public PreviewService Service
+		public WreckService Service
 		{
 			get { return service; }
 		}

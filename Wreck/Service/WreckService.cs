@@ -12,7 +12,7 @@ namespace Wreck.Service
 	/// <summary>
 	/// Description of PreviewService.
 	/// </summary>
-	public class PreviewService
+	public class WreckService
 	{
 		/*
 		public bool IsRestorable(FileSystemInfo startPath)
