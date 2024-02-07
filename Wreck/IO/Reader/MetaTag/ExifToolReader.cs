@@ -103,6 +103,10 @@ namespace Wreck.IO.Reader.MetaTag
 					if(!key.StartsWith("System:") && key.EndsWith(s))
 						remove = false;
 				}
+				
+				// Some ZIP based files (e.g. .docx) always return 01 Jan 1980 as placeholder value. 
+				if(!file.Extension.ToLower().Equals(".zip") && key.Equals("ZIP:ZipModifyDate"))
+					remove = true;
 
 				// To be removed if it is not in the list.
 				if(remove)
