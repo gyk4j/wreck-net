@@ -12,7 +12,7 @@ namespace Javax.Swing
 	/// <summary>
 	/// 
 	/// </summary>
-	public abstract class SwingWorker<T,V>
+	public abstract class SwingWorker<T,V> : RunnableFuture<T>
 	{
 		private static readonly ILog log = LogManager.GetLogger(typeof(SwingWorker<T,V>));
 		private readonly BackgroundWorker backgroundWorker;
