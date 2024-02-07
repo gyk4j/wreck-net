@@ -163,9 +163,21 @@ namespace Wreck.IO.Reader.MetaTag
 			Instant i = null;
 			
 			DateTime date;
-			if(ExifToolWrapper.ExifTool.TryParseDate(dateTime, DateTimeKind.Utc, out date))
+			// If format resembles "YYYY:MM:DD HH:MM:SS"
+			if(dateTime.Length >= 19)
 			{
-				i = Instant.From(date);
+				try
+				{
+					ExifToolWrapper.ExifTool.TryParseDate(
+						dateTime, 
+						DateTimeKind.Utc, 
+						out date);
+					i = Instant.From(date);
+				}
+				catch(IOException ex)
+				{
+					LOG.ErrorFormat("{0}: {1}", ex.Message, dateTime);
+				}
 			}
 			
 			if(i == null && "0".Equals(dateTime))
