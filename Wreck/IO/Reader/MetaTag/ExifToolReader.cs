@@ -138,8 +138,6 @@ namespace Wreck.IO.Reader.MetaTag
 					}
 				}
 			}
-			else
-				LOG.WarnFormat("No metadata found: {0}", file.Name);
 		}
 
 		public new void Dispose()

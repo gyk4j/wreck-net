@@ -70,7 +70,8 @@ namespace Wreck.IO.Reader.Fs
 			
 			if(!exist || times.Count == 0)
 			{
-				LOG.WarnFormat("Empty directory? {0}", dir.FullName);
+				// No files or sub-directories found.
+//				LOG.WarnFormat("Empty directory? {0}", dir.FullName);
 				return;
 			}
 			

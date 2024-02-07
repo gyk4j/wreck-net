@@ -104,7 +104,7 @@ namespace Wreck.IO.Reader.MetaTag
 					Add(metadata, R.strings._7Z_LAST_MODIFIED_TIME, modified.ToString(), modified);
 				}
 				
-				LOG.DebugFormat("OK {0}", file.Name);
+//				LOG.DebugFormat("OK {0}", file.Name);
 			}
 			catch(SevenZipLibraryException ex)
 			{
