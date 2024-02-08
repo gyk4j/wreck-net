@@ -131,8 +131,8 @@ namespace Wreck.IO
 		protected void FirePropertyChange(string propertyName, object oldValue,
 		                                  object newValue)
 		{
-			LOG.DebugFormat("FirePropertyChange: {0}, {1}, {2}",
-			                propertyName, oldValue, newValue);
+//			LOG.DebugFormat("FirePropertyChange: {0}, {1}, {2}",
+//			                propertyName, oldValue, newValue);
 			GetPropertyChangeSupport().FirePropertyChange(
 				propertyName,
 				oldValue, newValue);

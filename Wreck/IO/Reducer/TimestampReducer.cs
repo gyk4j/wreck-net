@@ -82,9 +82,21 @@ namespace Wreck.IO.Reducer
 				
 				// Last check: Between 1980-01-01 and current date time.
 				if(t.Value.CompareTo(TimeUtils.VALID_PERIOD_MIN) < 0)
-					t = TimeUtils.VALID_PERIOD_MIN;
+					t = fileSystem.Find(
+						md =>
+						{
+							return R.strings.FS_CREATION.Equals(md.Key);
+						})
+						.Time;
+				// TimeUtils.VALID_PERIOD_MIN;
 				else if(t.Value.CompareTo(TimeUtils.VALID_PERIOD_MAX) > 0)
-					t = TimeUtils.VALID_PERIOD_MAX;
+					t = fileSystem.Find(
+						md =>
+						{
+							return R.strings.FS_MODIFIED.Equals(md.Key);
+						})
+						.Time;
+				// TimeUtils.VALID_PERIOD_MAX;
 			}
 			
 			embedded.Clear();
