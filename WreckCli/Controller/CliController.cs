@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+using Java.Beans;
 using log4net;
+using Wreck.Entity;
 using Wreck.IO;
 using Wreck.IO.Task;
 using Wreck.Model;
@@ -73,8 +75,52 @@ namespace Wreck.Controller
 			
 			ITask task = Service.Run(fsi, mode, sources, corrections, customDateTime);
 			
+			PropertyChangeListener propertyChangeListener = new ProgressPropertyChangeListener(this);
+			
 			CliWorker pw = new CliWorker(task, fsi);
-			pw.Run();
+			pw.AddPropertyChangeListener(propertyChangeListener);
+			pw.Execute();
+		}
+		
+		private class ProgressPropertyChangeListener : PropertyChangeListener
+		{
+			CliController controller;
+			public ProgressPropertyChangeListener(CliController controller)
+			{
+				this.controller = controller;
+			}
+			
+			public void PropertyChange(PropertyChangeEvent evt)
+			{
+				if(R.strings.PROPERTY_STATE.Equals(evt.PropertyName))
+				{
+					CliWorker.StateValue state = (CliWorker.StateValue) evt.NewValue;
+					LOG.InfoFormat(
+						"State = {0}",
+						Enum.GetName(typeof(CliWorker.StateValue), state));
+				}
+				else if (R.strings.PROPERTY_PROGRESS.Equals(evt.PropertyName))
+				{
+					int progress = (int)evt.NewValue;
+					LOG.InfoFormat("{0}%", progress);
+				}
+				else if (R.strings.PROPERTY_VISITS.Equals(evt.PropertyName))
+				{
+					FileVisit visit = (FileVisit) evt.NewValue;
+					
+					LOG.InfoFormat("{0} - {1}%", visit.File.FullName, visit.Progress);
+				}
+				else if(R.strings.PROPERTY_BEAN.Equals(evt.PropertyName))
+				{
+					FileBean update = (FileBean) evt.NewValue;
+					LOG.InfoFormat("{0}, {1}, {2}, {3}, {4}",
+					               update.Creation.ToString(),
+					               update.Modified.ToString(),
+					               update.Metadata.ToString(),
+					               update.Period.ToString(),
+					               update.Path.FullName);
+				}
+			}
 		}
 	}
 }
