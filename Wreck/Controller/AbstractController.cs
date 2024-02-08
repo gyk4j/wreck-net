@@ -227,8 +227,6 @@ namespace Wreck.Controller
 				else
 					LOG.ErrorFormat("Unknown path type: {0}", d);
 			}
-			
-			Done();
 		}
 		
 		public virtual void Run(CorrectionMode mode, FileSystemInfo fsi)

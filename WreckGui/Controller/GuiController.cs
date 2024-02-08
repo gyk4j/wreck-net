@@ -88,10 +88,12 @@ namespace Wreck.Controller
 			GuiWorker pw = new GuiWorker(task, fsi);
 			pw.AddPropertyChangeListener(propertyChangeListener);
 			pw.Execute();
+			Worker = pw; // Need to save to Worker for cleanup later.
 		}
 		
 		private class ProgressPropertyChangeListener : PropertyChangeListener
 		{
+			private static readonly ILog LOG = LogManager.GetLogger(typeof(GuiController.ProgressPropertyChangeListener));
 			GuiController controller;
 			public ProgressPropertyChangeListener(GuiController controller)
 			{
@@ -112,18 +114,25 @@ namespace Wreck.Controller
 				else if (R.strings.PROPERTY_PROGRESS.Equals(evt.PropertyName))
 				{
 					int progress = (int)evt.NewValue;
+					LOG.InfoFormat("Progress: {0}%", progress);
 //					Model.GetScanningProgressModel().SetValue(progress);
 				}
 				else if (R.strings.PROPERTY_VISITS.Equals(evt.PropertyName))
 				{
 					FileVisit visit = (FileVisit) evt.NewValue;
-					
+					LOG.InfoFormat("Progress: {0}% - Visit: {0}", visit.Progress, visit.File.FullName);
 //					View.GetScanningDialog().SetProgress(visit.GetProgress());
 //					View.GetScanningDialog().GetAction().SetText(visit.GetFile().GetFileName().ToString());
 				}
 				else if(R.strings.PROPERTY_BEAN.Equals(evt.PropertyName))
 				{
 					FileBean update = (FileBean) evt.NewValue;
+					LOG.InfoFormat("FileBean: {0} {1} {2} {3} {4}",
+					               update.Path.Name,
+					               update.Creation.ToString(),
+					               update.Modified.ToString(),
+					               update.Metadata.ToString(),
+					               update.Period.ToString());
 //					Model.GetTableModel().AddRow(update);
 				}
 			}
