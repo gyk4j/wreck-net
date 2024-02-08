@@ -398,7 +398,7 @@ namespace Javax.Swing
 		{
 			int old = this.progress;
 			this.progress = progress;
-			FirePropertyChange("progress", old, state);
+			FirePropertyChange("progress", old, this.progress);
 		}
 		
 		public enum StateValue
