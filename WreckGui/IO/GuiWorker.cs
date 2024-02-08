@@ -104,6 +104,7 @@ namespace Wreck.IO
 			{
 				string result = Get();
 				LOG.DebugFormat("Done: {0}", result);
+				base.Done();
 			}
 			catch (Exception e)
 			{

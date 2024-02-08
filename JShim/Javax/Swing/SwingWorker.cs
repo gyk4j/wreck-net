@@ -126,6 +126,7 @@ namespace Javax.Swing
 		/// <seealso cref="#Get()">Get()</seealso>
 		protected virtual void Done()
 		{
+			SetState(StateValue.Done);
 			log.Debug("Done");
 		}
 		
@@ -159,6 +160,7 @@ namespace Javax.Swing
 			
 			log.DebugFormat("DoWork: {0}", e.ToString());
 			result = this.DoInBackground();
+			e.Result = result;
 		}
 		
 		void ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -167,7 +169,7 @@ namespace Javax.Swing
 			
 			// Publish would send only 1 chunk
 			V chunk = (V) e.UserState;
-			log.DebugFormat("ProgressChanged: {0}", chunk.ToString());
+//			log.DebugFormat("ProgressChanged: {0}", progress);
 			
 			// Simulate queuing and batching of chunks into a list.
 			List<V> chunks = new List<V>();
@@ -179,7 +181,6 @@ namespace Javax.Swing
 		
 		void RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
-			state = StateValue.Done;
 			log.DebugFormat("RunWorkerCompleted: {0}", e.ToString());
 			cancelled = e.Cancelled;
 			result = (T) e.Result;
@@ -206,8 +207,8 @@ namespace Javax.Swing
 		protected void FirePropertyChange(string propertyName, object oldValue,
 		                                  object newValue)
 		{
-			log.DebugFormat("FirePropertyChange: {0}, {1}, {2}",
-			                propertyName, oldValue, newValue);
+//			log.DebugFormat("FirePropertyChange: {0}, {1}, {2}",
+//			                propertyName, oldValue, newValue);
 			GetPropertyChangeSupport().FirePropertyChange(
 				propertyName,
 				oldValue, newValue);
@@ -395,7 +396,9 @@ namespace Javax.Swing
 		/// <param name="progress">the progress value to set</param>
 		protected void SetProgress(int progress)
 		{
+			int old = this.progress;
 			this.progress = progress;
+			FirePropertyChange("progress", old, state);
 		}
 		
 		public enum StateValue
