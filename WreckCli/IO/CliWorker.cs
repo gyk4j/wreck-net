@@ -9,6 +9,7 @@ using Java.Util.Concurrent;
 using log4net;
 using Wreck.Entity;
 using Wreck.IO.Task;
+using Wreck.Resources;
 using Wreck.Util.Logging;
 
 namespace Wreck.IO
@@ -31,6 +32,9 @@ namespace Wreck.IO
 		private readonly FileSystemInfo startPath;
 		
 		private readonly CliVisitor visitor;
+		
+		private FileVisit visit;
+//		private FileBean fileBean;
 		
 		public CliWorker(ITask task, FileSystemInfo startPath)
 		{
@@ -76,7 +80,7 @@ namespace Wreck.IO
 			chunks.ForEach(
 				v =>
 				{
-					LOG.Info(v.File.FullName);
+					SetFileVisit(v);
 				}
 			);
 		}
@@ -94,6 +98,13 @@ namespace Wreck.IO
 				LOG.Error(e.ToString());
 				LOG.Error(e.StackTrace);
 			}
+		}
+		
+		protected void SetFileVisit(FileVisit visit)
+		{
+			FileVisit old = this.visit;
+			this.visit = visit;
+			FirePropertyChange(R.strings.PROPERTY_VISITS, old, this.visit);
 		}
 		
 		public void AddPropertyChangeListener(PropertyChangeListener listener)
