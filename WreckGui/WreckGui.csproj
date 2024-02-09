@@ -63,8 +63,19 @@
     <Compile Include="Model\SampleTableModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScanningDialogForm.cs" />
+    <Compile Include="ScanningDialogForm.Designer.cs">
+      <DependentUpon>ScanningDialogForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Preview\Body\Settings\SettingsDialog.cs" />
+    <Compile Include="View\Preview\PreviewDialog.cs" />
+    <Compile Include="View\Preview\PreviewView.cs" />
+    <Compile Include="View\Scanning\ScanningDialog.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScanningDialogForm.resx">
+      <DependentUpon>ScanningDialogForm.Designer.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
@@ -92,6 +103,11 @@
     <Folder Include="Controller" />
     <Folder Include="IO" />
     <Folder Include="Model" />
+    <Folder Include="View" />
     <Folder Include="Resources" />
+    <Folder Include="View\Preview\Body" />
+    <Folder Include="View\Preview\Body\Settings" />
+    <Folder Include="View\Scanning" />
+    <Folder Include="View\Preview" />
   </ItemGroup>
 </Project>
