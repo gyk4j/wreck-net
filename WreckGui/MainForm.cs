@@ -46,6 +46,8 @@ namespace Wreck
 		private static readonly string APP_STATE_IDLE = "Idle";
 		private static readonly string APP_STATE_RUNNING = "Running";
 		
+		private ScanningDialogForm scanningDialogForm;
+		
 		public MainForm()
 		{
 			//
@@ -70,6 +72,8 @@ namespace Wreck
 			this.rootNode.Name = "rootNode";
 			SetAppState(false);
 			this.treeViewPaths.Nodes.Add(this.rootNode);
+			
+			scanningDialogForm = new ScanningDialogForm();
 			
 			log.Debug("Initialized MainForm");
 		}
