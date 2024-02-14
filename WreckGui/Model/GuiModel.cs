@@ -1,13 +1,14 @@
 ﻿
 using System;
 using Wreck.Entity;
+using WreckGui.Model;
 
 namespace Wreck.Model
 {
 	/// <summary>
 	/// Description of GuiModel.
 	/// </summary>
-	public class GuiModel
+	public class GuiModel : IModel
 	{
 //		private static readonly Pattern DIGITS = Pattern.compile("^[0-9]+$");
 		

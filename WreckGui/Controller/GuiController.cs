@@ -31,9 +31,9 @@ namespace Wreck.Controller
 		private readonly GuiModel model;
 		private readonly GuiView view;
 		
-		public GuiController(GuiView view) : base()
+		public GuiController(GuiModel model, GuiView view) : base()
 		{
-			this.model = new GuiModel();
+			this.model = model;
 			this.view = view;
 		}
 		
