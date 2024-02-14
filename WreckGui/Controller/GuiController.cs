@@ -10,9 +10,10 @@ using log4net;
 using Wreck.Entity;
 using Wreck.IO;
 using Wreck.IO.Task;
+using Wreck.Model;
 using Wreck.Resources;
 using Wreck.Util.Logging;
-using Wreck.Model;
+using WreckGui.View;
 
 namespace Wreck.Controller
 {
@@ -28,9 +29,9 @@ namespace Wreck.Controller
 		private GuiWorker worker;
 		
 		private readonly GuiModel model;
-		private readonly MainForm view;
+		private readonly GuiView view;
 		
-		public GuiController(MainForm view) : base()
+		public GuiController(GuiView view) : base()
 		{
 			this.model = new GuiModel();
 			this.view = view;
@@ -41,7 +42,7 @@ namespace Wreck.Controller
 			get { return model; }
 		}
 		
-		public MainForm View
+		public GuiView View
 		{
 			get { return view; }
 		}

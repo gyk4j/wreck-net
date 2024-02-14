@@ -24,7 +24,6 @@ namespace Wreck
 		private const string LOG4NET_XML = "log4net.xml";
 		
 		private static readonly ILog log = LogManager.GetLogger(typeof(MainForm));
-		private IController controller;
 		private Logger logger;
 		
 		private TreeNode rootNode;
@@ -46,8 +45,6 @@ namespace Wreck
 		private static readonly string APP_STATE_IDLE = "Idle";
 		private static readonly string APP_STATE_RUNNING = "Running";
 		
-		private ScanningDialogForm scanningDialogForm;
-		
 		public MainForm()
 		{
 			//
@@ -62,8 +59,6 @@ namespace Wreck
 			XmlConfigurator.Configure(new System.IO.FileInfo(LOG4NET_XML));
 			log.Debug("Initializing MainForm");
 			
-			this.controller = new GuiController(this);
-			
 			this.logger = new Logger(this);
 			logger.Version();
 			
@@ -73,14 +68,12 @@ namespace Wreck
 			SetAppState(false);
 			this.treeViewPaths.Nodes.Add(this.rootNode);
 			
-			scanningDialogForm = new ScanningDialogForm();
-			
 			log.Debug("Initialized MainForm");
 		}
 		
 		void BtnRunClick(object sender, EventArgs e)
 		{
-			((GuiController) controller).Analyze();
+			Program.Controller.Analyze();
 		}
 		
 		public void Version()
