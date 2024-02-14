@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Windows.Forms;
 
 using log4net;
-using Wreck.View.Scanning;
 
 namespace Wreck
 {
@@ -14,8 +13,6 @@ namespace Wreck
 	public partial class ScanningDialogForm : Form
 	{
 		private static readonly ILog log = LogManager.GetLogger(typeof(ScanningDialogForm));
-		
-		private readonly ScanningDialog scanningDialog;
 			
 		public ScanningDialogForm()
 		{
