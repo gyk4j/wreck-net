@@ -46,10 +46,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Javax\Swing\JDialog.cs" />
-    <Compile Include="Javax\Swing\JFrame.cs" />
     <Compile Include="Javax\Swing\WindowConstants.cs" />
-    <Compile Include="Java\AWT\Dialog.cs" />
     <Compile Include="Java\Beans\PropertyChangeSupport.cs" />
     <Compile Include="Java\Lang\Runnable.cs" />
     <Compile Include="Java\Time\Instant.cs" />
@@ -87,7 +84,6 @@
     <Folder Include="Javax" />
     <Folder Include="Javax\Swing" />
     <Folder Include="Java\Lang" />
-    <Folder Include="Java\AWT" />
     <Folder Include="Java\Time" />
     <Folder Include="Microsoft" />
     <Folder Include="Microsoft\NET" />
