@@ -100,13 +100,13 @@ namespace Wreck.Controller
 		
 		private void Init()
 		{
-			string title = startPath.FullName + " - " + R.strings.APP_TITLE;
+			string title = startPath.FullName + " - " + R.Strings.AppTitle;
 			LOG.InfoFormat("{0}\n", title);
 		}
 		
 		public void Version()
 		{
-			LOG.InfoFormat("{0}\n", R.strings.APP_TITLE);
+			LOG.InfoFormat("{0}\n", R.Strings.AppTitle);
 		}
 		
 		public void UnknownPathType(string path)

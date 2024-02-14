@@ -14,12 +14,12 @@ namespace Wreck.IO.Reader.Fs
 	{
 		protected static readonly string[] CREATION =
 		{
-			R.strings.FS_CREATION
+			R.Strings.FsCreation
 		};
 		
 		protected static readonly string[] MODIFIED =
 		{
-			R.strings.FS_MODIFIED
+			R.Strings.FsModified
 		};
 		
 		public FileSystemReader() : base()

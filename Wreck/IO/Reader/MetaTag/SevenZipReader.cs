@@ -20,7 +20,7 @@ namespace Wreck.IO.Reader.MetaTag
 		
 		protected static readonly string[] MODIFIED =
 		{
-			R.strings._7Z_LAST_MODIFIED_TIME
+			R.Strings._7zLastModifiedTime
 		};
 		
 		protected static readonly string[] SEVENZIP_EXTENSIONS =
@@ -101,7 +101,7 @@ namespace Wreck.IO.Reader.MetaTag
 							modified: afi.LastWriteTime;
 					}
 					
-					Add(metadata, R.strings._7Z_LAST_MODIFIED_TIME, modified.ToString(), modified);
+					Add(metadata, R.Strings._7zLastModifiedTime, modified.ToString(), modified);
 				}
 				
 //				LOG.DebugFormat("OK {0}", file.Name);

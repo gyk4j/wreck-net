@@ -104,7 +104,7 @@ namespace Wreck.IO
 		{
 			FileVisit old = this.visit;
 			this.visit = visit;
-			FirePropertyChange(R.strings.PROPERTY_VISITS, old, this.visit);
+			FirePropertyChange(R.Strings.PropertyVisits, old, this.visit);
 		}
 		
 		public void AddPropertyChangeListener(PropertyChangeListener listener)
