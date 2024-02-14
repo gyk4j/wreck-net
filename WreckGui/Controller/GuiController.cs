@@ -103,7 +103,7 @@ namespace Wreck.Controller
 			
 			public void PropertyChange(PropertyChangeEvent evt)
 			{
-				if(R.strings.PROPERTY_STATE.Equals(evt.PropertyName))
+				if(R.Strings.PropertyState.Equals(evt.PropertyName))
 				{
 					SwingWorker<int, FileVisit>.StateValue state = (SwingWorker<int, FileVisit>.StateValue) evt.NewValue;
 					if(SwingWorker<int, FileVisit>.StateValue.Done.Equals(state))
@@ -112,20 +112,20 @@ namespace Wreck.Controller
 							controller.Done();
 					}
 				}
-				else if (R.strings.PROPERTY_PROGRESS.Equals(evt.PropertyName))
+				else if (R.Strings.PropertyProgress.Equals(evt.PropertyName))
 				{
 					int progress = (int)evt.NewValue;
 					LOG.InfoFormat("Progress: {0}%", progress);
 //					Model.GetScanningProgressModel().SetValue(progress);
 				}
-				else if (R.strings.PROPERTY_VISITS.Equals(evt.PropertyName))
+				else if (R.Strings.PropertyVisits.Equals(evt.PropertyName))
 				{
 					FileVisit visit = (FileVisit) evt.NewValue;
-					LOG.InfoFormat("Progress: {0}% - Visit: {0}", visit.Progress, visit.File.FullName);
+					LOG.InfoFormat("Progress: {0}% - Visit: {1}", visit.Progress, visit.File.Name);
 //					View.GetScanningDialog().SetProgress(visit.GetProgress());
 //					View.GetScanningDialog().GetAction().SetText(visit.GetFile().GetFileName().ToString());
 				}
-				else if(R.strings.PROPERTY_BEAN.Equals(evt.PropertyName))
+				else if(R.Strings.PropertyBean.Equals(evt.PropertyName))
 				{
 					FileBean update = (FileBean) evt.NewValue;
 					LOG.InfoFormat("FileBean: {0} {1} {2} {3} {4}",

@@ -19,7 +19,7 @@ namespace Wreck.IO.Reader.Fs
 		
 		public static readonly string[] CREATION =
 		{
-			R.strings.PATH_NAME
+			R.Strings.PathName
 		};
 		
 		public const string DATE_PART_SEPARATOR = "[\\\\\\-_\\.:/]?";

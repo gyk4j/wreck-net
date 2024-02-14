@@ -17,7 +17,7 @@ namespace Wreck.IO.Reader.User
 
 		protected static readonly string[] USER =
 		{
-			R.strings.USER_CUSTOM_DATE_TIME
+			R.Strings.UserCustomDateTime
 		};
 		
 		private DateTime custom;

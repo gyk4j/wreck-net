@@ -17,12 +17,12 @@ namespace Wreck.IO.Reader.Fs
 		
 		protected static readonly string[] EARLIEST =
 		{
-			R.strings.DIR_EARLIEST
+			R.Strings.DirEarliest
 		};
 		
 		protected static readonly string[] LATEST =
 		{
-			R.strings.DIR_LATEST
+			R.Strings.DirLatest
 		};
 		
 		public override string[] Creation()

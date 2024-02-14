@@ -58,8 +58,8 @@ namespace Wreck.IO
 			// Stop immediately once cancelled
 			if(progressWorker.IsCancelled())
 				return FileVisitResult.Terminate;
-			else if(file.Name.Equals(R.strings.SKIP_DESKTOP_INI) ||
-			        file.Name.Equals(R.strings.LOG_FILE_NAME))
+			else if(file.Name.Equals(R.Strings.SkipDesktopIni) ||
+			        file.Name.Equals(R.Strings.LogFileName))
 				return FileVisitResult.Continue;
 			
 			base.VisitFile(file);

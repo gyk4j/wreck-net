@@ -23,8 +23,8 @@ namespace Wreck.IO
 		
 		public override FileVisitResult VisitFile(FileInfo file)
 		{
-			if(file.Name.Equals(R.strings.SKIP_DESKTOP_INI) ||
-			   file.Name.Equals(R.strings.LOG_FILE_NAME))
+			if(file.Name.Equals(R.Strings.SkipDesktopIni) ||
+			   file.Name.Equals(R.Strings.LogFileName))
 				return FileVisitResult.Continue;
 			
 			progressWorker.IncrementTotal();

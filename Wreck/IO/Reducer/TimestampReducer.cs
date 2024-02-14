@@ -39,23 +39,23 @@ namespace Wreck.IO.Reducer
 			
 			Metadata custom = metadata
 				.Find( md =>
-				      R.strings.USER_CUSTOM_DATE_TIME.Equals(md.Key));
+				      R.Strings.UserCustomDateTime.Equals(md.Key));
 			
 //			metadata.ForEach(md => LOG.DebugFormat("{0} = {1} {2}", md.Key, md.Value, md.Time));
 			
 			List<Metadata> embedded = metadata
 				.FindAll(md =>
-				         !R.strings.USER_CUSTOM_DATE_TIME.Equals(md.Key) &&
-				         !R.strings.FS_CREATION.Equals(md.Key) &&
-				         !R.strings.FS_MODIFIED.Equals(md.Key) &&
-				         !R.strings.BACKUP_CREATION_TIME.Equals(md.Key) &&
-				         !R.strings.BACKUP_LAST_MODIFIED_TIME.Equals(md.Key) &&
-				         !R.strings.BACKUP_LAST_ACCESSED_TIME.Equals(md.Key));
+				         !R.Strings.UserCustomDateTime.Equals(md.Key) &&
+				         !R.Strings.FsCreation.Equals(md.Key) &&
+				         !R.Strings.FsModified.Equals(md.Key) &&
+				         !R.Strings.BackupCreationTime.Equals(md.Key) &&
+				         !R.Strings.BackupLastModifiedTime.Equals(md.Key) &&
+				         !R.Strings.BackupLastAccessedTime.Equals(md.Key));
 			
 			List<Metadata> fileSystem = metadata
 				.FindAll(md =>
-				         R.strings.FS_CREATION.Equals(md.Key) ||
-				         R.strings.FS_MODIFIED.Equals(md.Key));
+				         R.Strings.FsCreation.Equals(md.Key) ||
+				         R.Strings.FsModified.Equals(md.Key));
 			
 			// High precision by attribute group (creation, modified, accessed).
 			s = embedded.FindAll(md => c.Equals(md.Group));
@@ -85,7 +85,7 @@ namespace Wreck.IO.Reducer
 					t = fileSystem.Find(
 						md =>
 						{
-							return R.strings.FS_CREATION.Equals(md.Key);
+							return R.Strings.FsCreation.Equals(md.Key);
 						})
 						.Time;
 				// TimeUtils.VALID_PERIOD_MIN;
@@ -93,7 +93,7 @@ namespace Wreck.IO.Reducer
 					t = fileSystem.Find(
 						md =>
 						{
-							return R.strings.FS_MODIFIED.Equals(md.Key);
+							return R.Strings.FsModified.Equals(md.Key);
 						})
 						.Time;
 				// TimeUtils.VALID_PERIOD_MAX;

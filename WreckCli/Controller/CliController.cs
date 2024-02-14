@@ -92,25 +92,25 @@ namespace Wreck.Controller
 			
 			public void PropertyChange(PropertyChangeEvent evt)
 			{
-				if(R.strings.PROPERTY_STATE.Equals(evt.PropertyName))
+				if(R.Strings.PropertyState.Equals(evt.PropertyName))
 				{
 					CliWorker.StateValue state = (CliWorker.StateValue) evt.NewValue;
 					LOG.InfoFormat(
 						"State = {0}",
 						Enum.GetName(typeof(CliWorker.StateValue), state));
 				}
-				else if (R.strings.PROPERTY_PROGRESS.Equals(evt.PropertyName))
+				else if (R.Strings.PropertyProgress.Equals(evt.PropertyName))
 				{
 					int progress = (int)evt.NewValue;
 					LOG.InfoFormat("{0}%", progress);
 				}
-				else if (R.strings.PROPERTY_VISITS.Equals(evt.PropertyName))
+				else if (R.Strings.PropertyVisits.Equals(evt.PropertyName))
 				{
 					FileVisit visit = (FileVisit) evt.NewValue;
 					
 					LOG.InfoFormat("{0} - {1}%", visit.File.FullName, visit.Progress);
 				}
-				else if(R.strings.PROPERTY_BEAN.Equals(evt.PropertyName))
+				else if(R.Strings.PropertyBean.Equals(evt.PropertyName))
 				{
 					FileBean update = (FileBean) evt.NewValue;
 					LOG.InfoFormat("{0}, {1}, {2}, {3}, {4}",

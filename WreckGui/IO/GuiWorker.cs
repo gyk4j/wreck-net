@@ -123,14 +123,14 @@ namespace Wreck.IO
 		{
 			FileVisit old = this.visit;
 			this.visit = visit;
-			FirePropertyChange(R.strings.PROPERTY_VISITS, old, this.visit);
+			FirePropertyChange(R.Strings.PropertyVisits, old, this.visit);
 		}
 		
 		protected void SetFileBean(FileBean fileBean)
 		{
 			FileBean old = this.fileBean;
 			this.fileBean = fileBean;
-			FirePropertyChange(R.strings.PROPERTY_BEAN, old, this.fileBean);
+			FirePropertyChange(R.Strings.PropertyBean, old, this.fileBean);
 		}
 		
 		public void UpdateFileList(FileSystemInfo file, IDictionary<CorrectionEnum, DateTime> suggestions)
