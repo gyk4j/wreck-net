@@ -70,35 +70,35 @@ namespace Wreck.Resources
 			public const Border BorderDebug = BorderFactory.CreateLineBorder(Color.CYAN, 2);
 			public const Border BorderBevelLowerSoft = BorderFactory.CreateLoweredSoftBevelBorder();
 			public const Border BorderEmpty4 = BorderFactory.CreateEmptyBorder(
-				R.integer.Border4, R.integer.Border4, R.integer.Border4, R.integer.Border4);
+				R.Integer.Border4, R.Integer.Border4, R.Integer.Border4, R.Integer.Border4);
 			public const Border BorderEmpty8 = BorderFactory.CreateEmptyBorder(
-				R.integer.Border8, R.integer.Border8, R.integer.Border8, R.integer.Border8);
+				R.Integer.Border8, R.Integer.Border8, R.Integer.Border8, R.Integer.Border8);
 			public const Border BorderForecast = BorderFactory.CreateEmptyBorder(
-				R.integer.Border32, 0, R.integer.Border32, 0);
+				R.Integer.Border32, 0, R.Integer.Border32, 0);
 			public const Border BorderEmpty8Left = BorderFactory.CreateEmptyBorder(
-				0, R.integer.Border8, 0, 0);
+				0, R.Integer.Border8, 0, 0);
 			public const Border BorderBevelLowerEmpty8 = BorderFactory.CreateCompoundBorder(
 				BorderFactory.CreateEmptyBorder(
-					R.integer.Border8, R.integer.Border8, R.integer.Border8, R.integer.Border8),
+					R.Integer.Border8, R.Integer.Border8, R.Integer.Border8, R.Integer.Border8),
 				BorderFactory.CreateBevelBorder(BevelBorder.Lowered));
 			*/
 		}
 		
 		public static class Dimen
 		{
-			public const int FRAME_WIDTH = 480;
-			public const int FRAME_HEIGHT = 640;
-			public const int DIALOG_WIDTH = 360;
-			public const int DIALOG_HEIGHT = 512;
-			public const int TABLE_ROW_HEIGHT = 20;
+			public const int FrameWidth = 480;
+			public const int FrameHeight = 640;
+			public const int DialogWidth = 360;
+			public const int DialogHeight = 512;
+			public const int TableRowHeight = 20;
 		}
 		
 		public static class Color
 		{
-			public static readonly Color TABLE_GRID_COLOR = Color.FromArgb(0xF0, 0xF0, 0xF0);
-			public static readonly Color CORRECTION_REQUIRED = Color.FromArgb(210, 202, 0);
-			public static readonly Color CORRECTION_NON_REQUIRED = Color.FromArgb(0, 211, 40);
-			public static readonly Color CORRECTION_NO_METADATA = Color.FromArgb(210, 0, 0);
+			public static readonly System.Drawing.Color TableGridColor = System.Drawing.Color.FromArgb(0xF0, 0xF0, 0xF0);
+			public static readonly System.Drawing.Color CorrectionRequired = System.Drawing.Color.FromArgb(210, 202, 0);
+			public static readonly System.Drawing.Color CorrectionNonRequired = System.Drawing.Color.FromArgb(0, 211, 40);
+			public static readonly System.Drawing.Color CorrectionNoMetadata = System.Drawing.Color.FromArgb(210, 0, 0);
 		}
 	}
 }
