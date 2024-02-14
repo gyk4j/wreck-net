@@ -84,7 +84,7 @@ namespace Wreck.Resources
 			*/
 		}
 		
-		public static class dimen
+		public static class Dimen
 		{
 			public const int FRAME_WIDTH = 480;
 			public const int FRAME_HEIGHT = 640;
@@ -93,7 +93,7 @@ namespace Wreck.Resources
 			public const int TABLE_ROW_HEIGHT = 20;
 		}
 		
-		public static class color
+		public static class Color
 		{
 			public static readonly Color TABLE_GRID_COLOR = Color.FromArgb(0xF0, 0xF0, 0xF0);
 			public static readonly Color CORRECTION_REQUIRED = Color.FromArgb(210, 202, 0);
