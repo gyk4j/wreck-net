@@ -29,6 +29,7 @@ namespace Wreck
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScanningDialogForm));
 			this.flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.lblIcon = new System.Windows.Forms.Label();
 			this.pgbProgress = new System.Windows.Forms.ProgressBar();
@@ -54,16 +55,19 @@ namespace Wreck
 			// 
 			this.lblIcon.AutoSize = true;
 			this.lblIcon.Dock = System.Windows.Forms.DockStyle.Left;
-			this.lblIcon.Location = new System.Drawing.Point(3, 0);
+			this.lblIcon.Image = ((System.Drawing.Image)(resources.GetObject("lblIcon.Image")));
+			this.lblIcon.Location = new System.Drawing.Point(8, 8);
+			this.lblIcon.Margin = new System.Windows.Forms.Padding(8);
+			this.lblIcon.MinimumSize = new System.Drawing.Size(32, 32);
 			this.lblIcon.Name = "lblIcon";
-			this.lblIcon.Size = new System.Drawing.Size(28, 13);
+			this.lblIcon.Size = new System.Drawing.Size(32, 32);
 			this.lblIcon.TabIndex = 0;
-			this.lblIcon.Text = "Icon";
+			
 			// 
 			// pgbProgress
 			// 
 			this.pgbProgress.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pgbProgress.Location = new System.Drawing.Point(3, 16);
+			this.pgbProgress.Location = new System.Drawing.Point(3, 51);
 			this.pgbProgress.Name = "pgbProgress";
 			this.pgbProgress.Size = new System.Drawing.Size(75, 23);
 			this.pgbProgress.TabIndex = 1;
@@ -72,7 +76,7 @@ namespace Wreck
 			// 
 			this.lblAction.AutoSize = true;
 			this.lblAction.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.lblAction.Location = new System.Drawing.Point(3, 42);
+			this.lblAction.Location = new System.Drawing.Point(3, 77);
 			this.lblAction.Name = "lblAction";
 			this.lblAction.Size = new System.Drawing.Size(75, 13);
 			this.lblAction.TabIndex = 2;
@@ -82,7 +86,7 @@ namespace Wreck
 			// 
 			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCancel.AutoSize = true;
-			this.btnCancel.Location = new System.Drawing.Point(3, 58);
+			this.btnCancel.Location = new System.Drawing.Point(3, 93);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(75, 23);
 			this.btnCancel.TabIndex = 3;
