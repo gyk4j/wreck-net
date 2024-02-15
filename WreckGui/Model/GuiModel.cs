@@ -1,5 +1,6 @@
 ﻿
 using System;
+using Javax.Swing;
 using Wreck.Entity;
 using WreckGui.Model;
 
@@ -33,7 +34,7 @@ namespace Wreck.Model
 		
 //		private readonly DefaultListModel<AboutBean> aboutModel;
 		
-//		private readonly BoundedRangeModel scanningProgressModel;
+		private readonly BoundedRangeModel scanningProgressModel;
 		
 		public GuiModel()
 		{
@@ -42,6 +43,8 @@ namespace Wreck.Model
 			this.fileStatisticsTableModel = new SampleTableModel<FileStatisticsBean>(typeof(FileStatisticsBean));
 			this.metadataStatisticsTableModel = new SampleTableModel<MetadataStatisticsBean>(typeof(MetadataStatisticsBean));
 			this.extensionStatisticsTableModel = new SampleTableModel<ExtensionStatisticsBean>(typeof(ExtensionStatisticsBean));
+		
+			this.scanningProgressModel = new DefaultBoundedRangeModel();
 		}
 		
 		public SampleTableModel<FileBean> TableModel
@@ -62,6 +65,11 @@ namespace Wreck.Model
 		public SampleTableModel<ExtensionStatisticsBean> ExtensionStatisticsTableModel
 		{
 			get { return extensionStatisticsTableModel; }
+		}
+		
+		public BoundedRangeModel GetScanningProgressModel()
+		{
+			return scanningProgressModel;
 		}
 	}
 }
