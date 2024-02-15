@@ -1,5 +1,6 @@
 ﻿
 using System;
+using Javax.Swing;
 
 namespace WreckGui.Model
 {
@@ -8,6 +9,6 @@ namespace WreckGui.Model
 	/// </summary>
 	public interface IModel
 	{
-		
+		BoundedRangeModel GetScanningProgressModel();
 	}
 }
