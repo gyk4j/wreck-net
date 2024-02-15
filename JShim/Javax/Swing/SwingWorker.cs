@@ -324,18 +324,7 @@ namespace Javax.Swing
 		/// Please refer to the publish(V...) method for more details.
 		/// </summary>
 		/// <param name="chunks">intermediate results to process</param>
-		protected virtual void Process(List<V> chunks)
-		{
-			// Does nothing but dump chunks for checking.
-			// However in actual usage, this Process should be overridden by
-			// sub-class and should be invoked instead.
-			chunks.ForEach(
-				chunk =>
-				{
-					log.DebugFormat("Process: {0}", chunk.ToString());
-				}
-			);
-		}
+		protected abstract void Process(List<V> chunks);
 		
 		/// <summary>
 		/// Sends data chunks to the process(java.util.List<V>) method. This
