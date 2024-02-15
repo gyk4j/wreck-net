@@ -33,8 +33,8 @@ namespace Wreck
 			AppRunning
 		}
 		
-		private static readonly string APP_STATE_IDLE = "Idle";
-		private static readonly string APP_STATE_RUNNING = "Running";
+		public const string AppStateIdle = "Idle";
+		public const string AppStateRunning = "Running";
 		
 		public MainForm()
 		{
@@ -80,7 +80,7 @@ namespace Wreck
 			);
 		}
 		
-		private void CurrentPath(string p)
+		public void CurrentPath(string p)
 		{
 			//log.InfoFormat("P: {0}", p);
 			SetCurrentFile(p);
@@ -105,7 +105,7 @@ namespace Wreck
 				log.Error("rootNode is null");
 		}
 		
-		private void CurrentFile(FileInfo fi)
+		public void CurrentFile(FileInfo fi)
 		{
 			//log.InfoFormat("F: {0}", fi.Name);
 			SetCurrentFile(fi.Name);
@@ -126,7 +126,7 @@ namespace Wreck
 			}
 		}
 		
-		private void CurrentDirectory(DirectoryInfo di)
+		public void CurrentDirectory(DirectoryInfo di)
 		{
 			//log.InfoFormat("D: {0}", di.FullName);
 			SetCurrentFile(di.Name);
@@ -182,7 +182,7 @@ namespace Wreck
 				log.DebugFormat("LA: {0} : {1} -> {2}", fsi.Name, fsi.LastAccessTime, fsi.LastWriteTime);
 		}
 		
-		private void Statistics(Statistics stats)
+		public void Statistics(Statistics stats)
 		{
 			ToolStripItem lblDirectoriesCount = statusStrip.Items["lblDirectoriesCount"];
 			lblDirectoriesCount.Text = string.Format("Directories: {0}", stats.Directories);
@@ -200,9 +200,9 @@ namespace Wreck
 			lblCurrentFile.Text = p;
 		}
 		
-		private void SetAppState(bool running)
+		public void SetAppState(bool running)
 		{
-			string text = running ? APP_STATE_RUNNING : APP_STATE_IDLE;
+			string text = running ? AppStateRunning : AppStateIdle;
 			int icon = running ?
 				(int) TreeViewIcon.AppRunning :
 				(int) TreeViewIcon.AppIdle;
