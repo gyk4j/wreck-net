@@ -53,6 +53,8 @@
     <Compile Include="Javax\Swing\Event\EventListenerList.cs" />
     <Compile Include="Javax\Swing\WindowConstants.cs" />
     <Compile Include="Java\Beans\PropertyChangeSupport.cs" />
+    <Compile Include="Java\IO\ObjectInputStream.cs" />
+    <Compile Include="Java\IO\ObjectOutputStream.cs" />
     <Compile Include="Java\Lang\Runnable.cs" />
     <Compile Include="Java\Time\Instant.cs" />
     <Compile Include="Java\Time\LocalDateTime.cs" />
@@ -60,6 +62,7 @@
     <Compile Include="Java\Time\ZoneId.cs" />
     <Compile Include="Java\Util\Concurrent\Future.cs" />
     <Compile Include="Java\Util\Concurrent\RunnableFuture.cs" />
+    <Compile Include="Java\Util\EventListener.cs" />
     <Compile Include="Microsoft\NET\FSUtils.cs" />
     <Compile Include="Sun\NIO\FS\WindowsFileStore.cs" />
     <Compile Include="Sun\NIO\FS\WindowsFileSystem.cs" />
@@ -90,6 +93,7 @@
     <Folder Include="Javax\Swing" />
     <Folder Include="Javax\Swing\Event" />
     <Folder Include="Java\Lang" />
+    <Folder Include="Java\IO" />
     <Folder Include="Java\Time" />
     <Folder Include="Microsoft" />
     <Folder Include="Microsoft\NET" />
