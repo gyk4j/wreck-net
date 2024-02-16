@@ -48,8 +48,10 @@
   <ItemGroup>
     <Compile Include="Javax\Swing\BoundedRangeModel.cs" />
     <Compile Include="Javax\Swing\DefaultBoundedRangeModel.cs" />
+    <Compile Include="Javax\Swing\Document.cs" />
     <Compile Include="Javax\Swing\Event\ChangeEvent.cs" />
     <Compile Include="Javax\Swing\Event\ChangeListener.cs" />
+    <Compile Include="Javax\Swing\Event\DocumentListener.cs" />
     <Compile Include="Javax\Swing\Event\EventListenerList.cs" />
     <Compile Include="Javax\Swing\WindowConstants.cs" />
     <Compile Include="Java\Beans\PropertyChangeSupport.cs" />
