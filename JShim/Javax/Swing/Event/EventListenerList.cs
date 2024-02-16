@@ -1,5 +1,10 @@
 ﻿
 using System;
+using System.IO;
+using System.Runtime.Serialization;
+
+using Java.IO;
+using Java.Util;
 
 namespace Javax.Swing.Event
 {
@@ -67,7 +72,7 @@ namespace Javax.Swing.Event
 	/// the same version of Swing.  As of 1.4, support for long term storage
 	/// of all JavaBeans&trade;
 	/// has been added to the <c>Java.Beans</c> namespace.
-	/// Please see {@link java.beans.XMLEncoder}.
+	/// Please see <see cref="java.beans.XMLEncoder"></see>.
 	/// </summary>
 	public class EventListenerList
 	{
@@ -105,13 +110,13 @@ namespace Javax.Swing.Event
 		/// </summary>
 		/// <param name="t"></param>
 		/// <returns>all of the listeners of the specified type.</returns>
-		public T[] GetListeners(Class<T> t) where T : EventListener
+		public T[] GetListeners<T>(Type t) where T : EventListener
 		{
 			object[] lList = listenerList;
 			int n = GetListenerCount(lList, t);
 			T[] result = (T[])Array.CreateInstance(t, n);
 			int j = 0;
-			for (int i = lList.length-2; i>=0; i-=2)
+			for (int i = lList.Length-2; i>=0; i-=2)
 			{
 				if (lList[i] == t)
 				{
@@ -127,7 +132,7 @@ namespace Javax.Swing.Event
 		/// <returns></returns>
 		public int GetListenerCount()
 		{
-			return listenerList.length/2;
+			return listenerList.Length/2;
 		}
 		
 		/**
@@ -163,7 +168,7 @@ namespace Javax.Swing.Event
 		/// </summary>
 		/// <param name="t">the type of the listener to be added</param>
 		/// <param name="l">the listener to be added</param>
-		public void Add(Type<T> t, T l) where T : EventListener
+		public void Add<T>(Type t, T l) where T : EventListener
 		{
 			if (l==null)
 			{
@@ -172,7 +177,7 @@ namespace Javax.Swing.Event
 				// something wrong
 				return;
 			}
-			if (!(l is t))
+			if (l.GetType() != t)
 			{
 				throw new ArgumentException("Listener " + l +
 				                            " is not of type " + t);
@@ -186,7 +191,7 @@ namespace Javax.Swing.Event
 			else
 			{
 				// Otherwise copy the array and add the new listener
-				int i = listenerList.length;
+				int i = listenerList.Length;
 				object[] tmp = new object[i+2];
 				Array.Copy(listenerList, 0, tmp, 0, i);
 
@@ -202,7 +207,7 @@ namespace Javax.Swing.Event
 		/// </summary>
 		/// <param name="t">the type of the listener to be removed</param>
 		/// <param name="l">the listener to be removed</param>
-		public void Remove(Type<T> t, T l) where T : EventListener
+		public void Remove<T>(Type t, T l) where T : EventListener
 		{
 			if (l ==null)
 			{
@@ -211,7 +216,7 @@ namespace Javax.Swing.Event
 				// something wrong
 				return;
 			}
-			if (!(l is t))
+			if (l.GetType() != t)
 			{
 				throw new ArgumentException("Listener " + l +
 				                            " is not of type " + t);
@@ -230,17 +235,17 @@ namespace Javax.Swing.Event
 			// If so,  remove it
 			if (index != -1)
 			{
-				object[] tmp = new object[listenerList.length-2];
+				object[] tmp = new object[listenerList.Length-2];
 				// Copy the list up to index
 				Array.Copy(listenerList, 0, tmp, 0, index);
 				// Copy from two past the index, up to
 				// the end of tmp (which is two elements
 				// shorter than the old list)
-				if (index < tmp.length)
+				if (index < tmp.Length)
 					Array.Copy(listenerList, index+2, tmp, index,
-					           tmp.length - index);
+					           tmp.Length - index);
 				// set the listener array to the new array or null
-				listenerList = (tmp.length == 0) ? NULL_ARRAY : tmp;
+				listenerList = (tmp.Length == 0) ? NULL_ARRAY : tmp;
 			}
 		}
 		
@@ -251,13 +256,13 @@ namespace Javax.Swing.Event
 			s.DefaultWriteObject();
 
 			// Save the non-null event listeners:
-			for (int i = 0; i < lList.length; i+=2)
+			for (int i = 0; i < lList.Length; i+=2)
 			{
-				Class<?> t = (Class)lList[i];
+				Type t = (Type)lList[i];
 				EventListener l = (EventListener)lList[i+1];
-				if ((l!=null) && (l instanceof Serializable))
+				if ((l!=null) && (l is ISerializable))
 				{
-					s.WriteObject(t.GetName());
+					s.WriteObject(t.FullName);
 					s.WriteObject(l);
 				}
 			}
@@ -273,11 +278,11 @@ namespace Javax.Swing.Event
 
 			while (null != (listenerTypeOrNull = s.ReadObject()))
 			{
-				ClassLoader cl = Thread.CurrentThread().GetContextClassLoader();
-				EventListener l = (EventListener)s.ReadObject();
-				string name = (string) listenerTypeOrNull;
-				ReflectUtil.CheckPackageAccess(name);
-				Add((Class<EventListener>)Class.forName(name, true, cl), l);
+//				ClassLoader cl = Thread.CurrentThread().GetContextClassLoader();
+//				EventListener l = (EventListener)s.ReadObject();
+//				string name = (string) listenerTypeOrNull;
+//				ReflectUtil.CheckPackageAccess(name);
+//				Add((Type<EventListener>)Type.forName(name, true, cl), l);
 			}
 		}
 		
@@ -285,14 +290,14 @@ namespace Javax.Swing.Event
 		/// Returns a string representation of the EventListenerList.
 		/// </summary>
 		/// <returns></returns>
-		public string ToString()
+		public override string ToString()
 		{
 			object[] lList = listenerList;
 			string s = "EventListenerList: ";
-			s += lList.length/2 + " listeners: ";
+			s += lList.Length/2 + " listeners: ";
 			for (int i = 0 ; i <= lList.Length-2 ; i+=2)
 			{
-				s += " type " + ((Class)lList[i]).GetName();
+				s += " type " + ((Type)lList[i]).FullName;
 				s += " listener " + lList[i+1];
 			}
 			return s;

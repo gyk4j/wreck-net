@@ -328,7 +328,7 @@ namespace Javax.Swing
 		/// <see cref="#RemoveChangeListener" />
 		public ChangeListener[] GetChangeListeners()
 		{
-			return listenerList.GetListeners(typeof(ChangeListener));
+			return listenerList.GetListeners<ChangeListener>(typeof(ChangeListener));
 		}
 		
 		/// <summary>
