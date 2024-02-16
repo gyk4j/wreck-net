@@ -278,11 +278,9 @@ namespace Javax.Swing.Event
 
 			while (null != (listenerTypeOrNull = s.ReadObject()))
 			{
-//				ClassLoader cl = Thread.CurrentThread().GetContextClassLoader();
-//				EventListener l = (EventListener)s.ReadObject();
-//				string name = (string) listenerTypeOrNull;
-//				ReflectUtil.CheckPackageAccess(name);
-//				Add((Type<EventListener>)Type.forName(name, true, cl), l);
+				EventListener l = (EventListener)s.ReadObject();
+				string name = (string) listenerTypeOrNull;
+				Add(Type.GetType(name, true, false), l);
 			}
 		}
 		
