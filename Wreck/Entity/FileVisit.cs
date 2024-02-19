@@ -12,9 +12,14 @@ namespace Wreck.Entity
 		private FileSystemInfo file;
 		private int progress;
 		
-		public FileVisit(FileSystemInfo file)
+		public FileVisit(FileSystemInfo file) : this(file, 0)
+		{
+		}
+
+		public FileVisit(FileSystemInfo file, int progress)
 		{
 			this.file = file;
+			this.progress = progress;
 		}
 		
 		public FileSystemInfo File

@@ -60,7 +60,7 @@ namespace Wreck
 			
 			controller = new GuiController(model, view);
 			
-			Application.Run(view.MainForm());
+			Application.Run(view.GetMain());
 		}
 		
 	}

@@ -48,5 +48,12 @@ namespace Wreck
 		{
 			get { return btnCancel; }
 		}
+		
+		public void SetProgress(int progress)
+		{
+			Progress.Value = progress;
+			Progress.Text = string.Format("{0}%", progress);
+		}
+		
 	}
 }

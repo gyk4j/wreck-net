@@ -116,14 +116,14 @@ namespace Wreck.Controller
 				{
 					int progress = (int)evt.NewValue;
 					LOG.InfoFormat("Progress: {0}% MessageLoop: {1}", progress, Application.MessageLoop);
-//					Model.GetScanningProgressModel().SetValue(progress);
+					controller.View.GetMain().SetProgress(progress);
 				}
 				else if (R.Strings.PropertyVisits.Equals(evt.PropertyName))
 				{
 					FileVisit visit = (FileVisit) evt.NewValue;
 					LOG.InfoFormat("Progress: {0}% - Visit: {1} MessageLoop: {2}", visit.Progress, visit.File.Name, Application.MessageLoop);
-//					View.GetScanningDialog().SetProgress(visit.GetProgress());
-//					View.GetScanningDialog().GetAction().SetText(visit.GetFile().GetFileName().ToString());
+					controller.View.GetMain().SetProgress(visit.Progress);
+					controller.View.GetMain().SetAction(visit);
 				}
 				else if(R.Strings.PropertyBean.Equals(evt.PropertyName))
 				{

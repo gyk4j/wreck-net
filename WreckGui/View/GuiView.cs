@@ -19,12 +19,12 @@ namespace WreckGui.View
 			this.scanningDialog = scanningDialog;
 		}
 		
-		public MainForm MainForm()
+		public MainForm GetMain()
 		{
 			return main;
 		}
 		
-		public ScanningDialogForm ScanningDialogForm()
+		public ScanningDialogForm GetScanningDialog()
 		{
 			return scanningDialog;
 		}

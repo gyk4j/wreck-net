@@ -1,7 +1,9 @@
 ﻿
 using System;
+using Java.Beans;
 using Javax.Swing;
 using Wreck.Entity;
+using Wreck.Resources;
 using WreckGui.Model;
 
 namespace Wreck.Model
@@ -36,8 +38,14 @@ namespace Wreck.Model
 		
 		private readonly BoundedRangeModel scanningProgressModel;
 		
+		private PropertyChangeSupport propertyChangeSupport;
+		
+		private int progress;
+		private FileVisit visit;
+		
 		public GuiModel()
 		{
+			this.propertyChangeSupport = new PropertyChangeSupport(this);
 			this.tableModel = new SampleTableModel<FileBean>(typeof(FileBean));
 			
 			this.fileStatisticsTableModel = new SampleTableModel<FileStatisticsBean>(typeof(FileStatisticsBean));
@@ -70,6 +78,43 @@ namespace Wreck.Model
 		public BoundedRangeModel GetScanningProgressModel()
 		{
 			return scanningProgressModel;
+		}
+		
+		protected PropertyChangeSupport GetPropertyChangeSupport()
+		{
+			return propertyChangeSupport;
+		}
+		
+		public void AddPropertyChangeListener(PropertyChangeListener listener)
+		{
+			GetPropertyChangeSupport().AddPropertyChangeListener(listener);
+		}
+		
+		public void RemovePropertyChangeListener(PropertyChangeListener listener)
+		{
+			GetPropertyChangeSupport().RemovePropertyChangeListener(listener);
+		}
+		
+		protected void FirePropertyChange(string propertyName, object oldValue,
+		                                  object newValue)
+		{
+			GetPropertyChangeSupport().FirePropertyChange(
+				propertyName,
+				oldValue, newValue);
+		}
+		
+		public void SetProgress(int progress)
+		{
+			int old = this.progress;
+			this.progress = progress;
+			FirePropertyChange(R.Strings.PropertyProgress, old, this.progress);
+		}
+		
+		public void SetFileVisit(FileVisit visit)
+		{
+			FileVisit old = this.visit;
+			this.visit = visit;
+			FirePropertyChange(R.Strings.PropertyVisits, old, this.visit);
 		}
 	}
 }
