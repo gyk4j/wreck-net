@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+using Java.NIO.File;
+using Java.NIO.File.Attribute;
 using log4net;
 using Wreck.Resources;
 using Wreck.Util.Logging;
@@ -39,33 +41,19 @@ namespace Wreck.IO.Writer
 				file.LastAccessTime,
 				values[CorrectionEnum.ACCESSED]);
 			
-			bool changed = false;
-			
-			if(creation.HasValue)
+			BasicFileAttributeView basicView = Files.GetFileAttributeView<BasicFileAttributeView>(file, typeof(BasicFileAttributeView));
+			try
 			{
-				file.CreationTime = creation.Value;
-				changed = true;
+				basicView.SetTimes(modified, accessed, creation);
+				LOG.DebugFormat("Updated {0}: {1}, {2}, {3}",
+				         file.FullName,
+				         creation.ToString(),
+				         modified.ToString(),
+				         accessed.ToString());
 			}
-			
-			if(modified.HasValue)
+			catch (IOException e)
 			{
-				file.LastWriteTime = modified.Value;
-				changed = true;
-			}
-			
-			if(accessed.HasValue)
-			{
-				file.LastAccessTime = accessed.Value;
-				changed = true;
-			}
-			
-			if(changed)
-			{
-				LOG.InfoFormat("Updated {0}: {1}, {2}, {3}",
-				               file.FullName,
-				               (creation.HasValue)? creation.Value.ToString() : "-",
-				               (modified.HasValue)? modified.Value.ToString() : "-",
-				               (accessed.HasValue)? accessed.Value.ToString() : "-");
+				LOG.ErrorFormat(e.ToString());
 			}
 		}
 	}
