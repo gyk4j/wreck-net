@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 
 using log4net;
+using Wreck.Entity;
 using Wreck.Logging;
 
 namespace Wreck
@@ -225,6 +226,38 @@ namespace Wreck
 				MessageBoxButtons.OK,
 				MessageBoxIcon.Error
 			);
+		}
+		
+		/// <summary>
+		/// For ProgressPropertyChangeListener to update UI
+		/// </summary>
+		/// <param name="progress"></param>
+		public void SetProgress(int progress)
+		{
+			log.DebugFormat("Progress = {0}%", progress);
+		}
+		
+		/// <summary>
+		/// For ProgressPropertyChangeListener to update UI
+		/// </summary>
+		/// <param name="visit"></param>
+		public void SetAction(FileVisit visit)
+		{
+			if(pathNode == null || !visit.File.FullName.StartsWith(pathNode.Text))
+			{
+				string path = visit.File.FullName;
+				this.CurrentPath(path);
+			}
+			else if(File.Exists(visit.File.FullName))
+			{
+				FileInfo fi = (FileInfo) visit.File;
+				this.CurrentFile(fi);
+			}
+			else if(Directory.Exists(visit.File.FullName))
+			{
+				DirectoryInfo di = (DirectoryInfo) visit.File;
+				this.CurrentDirectory(di);
+			}
 		}
 	}
 }

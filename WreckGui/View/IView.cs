@@ -9,7 +9,7 @@ namespace WreckGui.View
 	/// </summary>
 	public interface IView
 	{
-		MainForm MainForm();
-		ScanningDialogForm ScanningDialogForm();
+		MainForm GetMain();
+		ScanningDialogForm GetScanningDialog();
 	}
 }
