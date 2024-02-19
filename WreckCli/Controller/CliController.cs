@@ -79,6 +79,14 @@ namespace Wreck.Controller
 			
 			CliWorker pw = new CliWorker(task, fsi);
 			pw.AddPropertyChangeListener(propertyChangeListener);
+			
+			// HACK: Worker must save the reference before Execute as this is single-threaded. 
+			// Saving the Worker after Execute is useless as 
+			// PropertyChangeListener PropertyChange() will be triggered to do 
+			// cleanup immediately within Execute before the reference to the 
+			// worker is saved, which will cause controller.Done() call to be 
+			// skipped.
+			Worker = pw; // Need to save to Worker for cleanup later.
 			pw.Execute();
 		}
 		
@@ -98,6 +106,12 @@ namespace Wreck.Controller
 					LOG.InfoFormat(
 						"State = {0}",
 						Enum.GetName(typeof(CliWorker.StateValue), state));
+					
+					if(CliWorker.StateValue.Done.Equals(state))
+					{
+						if(controller.Worker != null && controller.Worker.IsDone())
+							controller.Done();
+					}
 				}
 				else if (R.Strings.PropertyProgress.Equals(evt.PropertyName))
 				{
