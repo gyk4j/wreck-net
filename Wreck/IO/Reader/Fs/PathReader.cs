@@ -23,8 +23,8 @@ namespace Wreck.IO.Reader.Fs
 		};
 		
 		public const string DATE_PART_SEPARATOR = "[\\\\\\-_\\.:/]?";
-		public const string YEAR_FULL_RANGE = "(?<year>19[8,9][0-9]|20([0-1][0-9]|2[0-3]))";
-		public const string YEAR_SHORT_RANGE = "(?<year>[8,9][0-9]|[0-1][0-9]|2[0-3])";
+		public const string YEAR_FULL_RANGE = "(?<year>19[8,9][0-9]|20([0-1][0-9]|2[0-4]))";
+		public const string YEAR_SHORT_RANGE = "(?<year>[8,9][0-9]|[0-1][0-9]|2[0-4])";
 		public const string MONTH_RANGE = "(?<month>0[1-9]|1[0-2])";
 		public const string DAY_RANGE = "(?<day>0[1-9]|[1,2][0-9]|3[0,1])";
 		
