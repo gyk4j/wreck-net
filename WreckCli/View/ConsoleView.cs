@@ -33,7 +33,7 @@ namespace Wreck.View
 		
 		public void Run()
 		{
-			((CliController) controller).Analyze();
+			((CliController) controller).Repair();
 		}
 		
 		public void Version()

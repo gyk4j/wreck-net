@@ -50,9 +50,9 @@ namespace Wreck.IO.Writer
 			
 			LOG.InfoFormat("Updated {0}: {1}, {2}, {3}",
 			         file.FullName,
-			         creation.Value,
-			         modified.Value,
-			         accessed.Value);
+			         (creation.HasValue)? creation.Value.ToString() : "-",
+			         (modified.HasValue)? modified.Value.ToString() : "-",
+			         (accessed.HasValue)? accessed.Value.ToString() : "-");
 		}
 	}
 }
