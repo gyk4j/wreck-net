@@ -88,3 +88,4 @@ namespace Wreck.Logging
 		}
 	}
 }
+

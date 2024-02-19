@@ -150,12 +150,12 @@ namespace Javax.Swing
 				backgroundWorker.WorkerReportsProgress = true;
 				backgroundWorker.WorkerSupportsCancellation = true;
 				backgroundWorker.RunWorkerAsync();
+				SetState(StateValue.Started);
 			}
 		}
 		
 		void DoWork(object sender, DoWorkEventArgs e)
 		{
-			state = StateValue.Started;
 			cancelled = e.Cancel;
 			
 			log.DebugFormat("DoWork: {0}", e.ToString());
