@@ -116,18 +116,18 @@ namespace Wreck.Controller
 				else if (R.Strings.PropertyProgress.Equals(evt.PropertyName))
 				{
 					int progress = (int)evt.NewValue;
-					LOG.InfoFormat("{0}%", progress);
+					LOG.DebugFormat("{0}%", progress);
 				}
 				else if (R.Strings.PropertyVisits.Equals(evt.PropertyName))
 				{
 					FileVisit visit = (FileVisit) evt.NewValue;
 					
-					LOG.InfoFormat("{0} - {1}%", visit.File.FullName, visit.Progress);
+					LOG.DebugFormat("{0} - {1}%", visit.File.FullName, visit.Progress);
 				}
 				else if(R.Strings.PropertyBean.Equals(evt.PropertyName))
 				{
 					FileBean update = (FileBean) evt.NewValue;
-					LOG.InfoFormat("{0}, {1}, {2}, {3}, {4}",
+					LOG.DebugFormat("{0}, {1}, {2}, {3}, {4}",
 					               update.Creation.ToString(),
 					               update.Modified.ToString(),
 					               update.Metadata.ToString(),
