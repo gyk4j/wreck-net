@@ -234,7 +234,9 @@ namespace Wreck
 		/// <param name="progress"></param>
 		public void SetProgress(int progress)
 		{
-			log.DebugFormat("Progress = {0}%", progress);
+			if(!toolStripProgressBar.Visible)
+				toolStripProgressBar.Visible = true;
+			this.toolStripProgressBar.Value = progress;
 		}
 		
 		/// <summary>
@@ -264,6 +266,7 @@ namespace Wreck
 		{
 			SetCurrentFile(string.Empty);
 			rootNode.ExpandAll();
+			toolStripProgressBar.Visible = false;
 		}
 	}
 }
