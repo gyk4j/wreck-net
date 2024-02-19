@@ -111,6 +111,9 @@ namespace Wreck.Controller
 						if(controller.Worker != null && controller.Worker.IsDone())
 							controller.Done();
 					}
+					
+					bool running = SwingWorker<int, FileVisit>.StateValue.Started.Equals(state);
+					controller.View.GetMain().SetAppState(running);
 				}
 				else if (R.Strings.PropertyProgress.Equals(evt.PropertyName))
 				{
@@ -166,8 +169,25 @@ namespace Wreck.Controller
 			UpdateForecastStatistics();
 			UpdateRestoreState();
 			
-//			View.GetScanningDialog().Close();
+			View.GetMain().Done();
 //			Worker = null;
+		}
+		
+		protected override void UpdateStatistics()
+		{
+			base.UpdateStatistics();
+			Statistics stats = new Statistics();
+			stats.Directories = STATS.Get(FileEvent.DirectoryFound);
+			stats.Files = STATS.Get(FileEvent.FileFound);
+			stats.Skipped = STATS.Get(FileEvent.FileError);
+			View.GetMain().Statistics(stats);
+			
+			LOG.DebugFormat("Dir  Found: {0}", STATS.Get(FileEvent.DirectoryFound));
+			LOG.DebugFormat("File Found: {0}", STATS.Get(FileEvent.FileFound));
+			LOG.DebugFormat("File Error: {0}", STATS.Get(FileEvent.FileError));
+			LOG.DebugFormat("Fixed Creation: {0}", STATS.Get(FileEvent.CorrectibleCreation));
+			LOG.DebugFormat("Fixed Modified: {0}", STATS.Get(FileEvent.CorrectibleModified));
+			LOG.DebugFormat("Fixed Accessed: {0}", STATS.Get(FileEvent.CorrectibleAccessed));
 		}
 	}
 }

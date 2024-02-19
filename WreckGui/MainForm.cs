@@ -248,16 +248,22 @@ namespace Wreck
 				string path = visit.File.FullName;
 				this.CurrentPath(path);
 			}
-			else if(File.Exists(visit.File.FullName))
+			else if(visit.File is FileInfo)
 			{
 				FileInfo fi = (FileInfo) visit.File;
 				this.CurrentFile(fi);
 			}
-			else if(Directory.Exists(visit.File.FullName))
+			else if(visit.File is DirectoryInfo)
 			{
 				DirectoryInfo di = (DirectoryInfo) visit.File;
 				this.CurrentDirectory(di);
 			}
+		}
+		
+		public void Done()
+		{
+			SetCurrentFile(string.Empty);
+			rootNode.ExpandAll();
 		}
 	}
 }
