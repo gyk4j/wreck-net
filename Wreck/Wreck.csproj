@@ -89,7 +89,6 @@
     <Compile Include="IO\Writer\ITimestampWriter.cs" />
     <Compile Include="IO\Writer\WriterFactory.cs" />
     <Compile Include="Logging\TextFormatter.cs" />
-    <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Parser\ExifToolParser.cs" />
     <Compile Include="Parser\IFileDateable.cs" />
     <Compile Include="Parser\SevenZipParser.cs" />

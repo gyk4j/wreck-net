@@ -16,7 +16,6 @@ namespace Wreck
 	public partial class MainForm : Form
 	{		
 		private static readonly ILog log = LogManager.GetLogger(typeof(MainForm));
-		private Logger logger;
 		
 		private TreeNode rootNode;
 		private TreeNode pathNode;
@@ -48,9 +47,6 @@ namespace Wreck
 			// TODO: Add constructor code after the InitializeComponent() call.
 			//
 			log.Debug("Initializing MainForm");
-			
-			this.logger = new Logger(this);
-			logger.Version();
 			
 			this.treeViewPaths.ImageList = this.imageList;
 			this.rootNode = new TreeNode();
