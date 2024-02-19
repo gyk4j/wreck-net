@@ -36,6 +36,7 @@ namespace Wreck
 			this.lblDirectoriesCount = new System.Windows.Forms.ToolStripStatusLabel();
 			this.lblFilesCount = new System.Windows.Forms.ToolStripStatusLabel();
 			this.lblSkippedCount = new System.Windows.Forms.ToolStripStatusLabel();
+			this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
 			this.lblCurrentFile = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStrip = new System.Windows.Forms.ToolStrip();
 			this.btnRun = new System.Windows.Forms.ToolStripButton();
@@ -59,6 +60,7 @@ namespace Wreck
 									this.lblDirectoriesCount,
 									this.lblFilesCount,
 									this.lblSkippedCount,
+									this.toolStripProgressBar,
 									this.lblCurrentFile});
 			this.statusStrip.Location = new System.Drawing.Point(364, 420);
 			this.statusStrip.Name = "statusStrip";
@@ -92,6 +94,12 @@ namespace Wreck
 			this.lblSkippedCount.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
 			this.lblSkippedCount.Name = "lblSkippedCount";
 			this.lblSkippedCount.Size = new System.Drawing.Size(4, 17);
+			// 
+			// toolStripProgressBar
+			// 
+			this.toolStripProgressBar.Name = "toolStripProgressBar";
+			this.toolStripProgressBar.Size = new System.Drawing.Size(100, 16);
+			this.toolStripProgressBar.Visible = false;
 			// 
 			// lblCurrentFile
 			// 
@@ -147,6 +155,7 @@ namespace Wreck
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
 		private System.Windows.Forms.ImageList imageList;
 		private System.Windows.Forms.ToolStrip toolStrip;
 		private System.Windows.Forms.ToolStripButton btnRun;
