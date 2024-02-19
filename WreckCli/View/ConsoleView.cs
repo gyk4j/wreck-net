@@ -16,7 +16,6 @@ namespace Wreck.View
 	{
 		private static readonly ILog log = LogManager.GetLogger(typeof(ConsoleView));
 		private IController controller;
-		private Logger logger;
 		
 		private const string APP_STATE_IDLE = "Idle";
 		private const string APP_STATE_RUNNING = "Running";
@@ -26,9 +25,6 @@ namespace Wreck.View
 			log.Debug("Initializing ConsoleView");
 			
 			this.controller = new CliController(this);
-			
-			this.logger = new Logger();
-			logger.Version();
 			
 			SetAppState(false);
 			

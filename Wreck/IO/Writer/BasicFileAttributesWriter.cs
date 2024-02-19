@@ -15,11 +15,6 @@ namespace Wreck.IO.Writer
 	public class BasicFileAttributesWriter : AbstractTimestampWriter
 	{
 		private static readonly ILog LOG = LogManager.GetLogger(typeof(BasicFileAttributesWriter));
-		/*
-		public BasicFileAttributesWriter()
-		{
-		}
-		 */
 		
 		public override void Write(
 			FileSystemInfo file,
