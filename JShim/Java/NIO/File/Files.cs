@@ -133,9 +133,9 @@ namespace Java.NIO.File
 			return result;
 		}
 		
-		public static T GetFileAttributeView<T>(FileSystemInfo fsi, Type type) where T : BasicFileAttributeView
+		public static V GetFileAttributeView<V>(FileSystemInfo fsi, Type type) where V : FileAttributeView
 		{
-			T view = (T) Activator.CreateInstance(type, new object[] { fsi });
+			V view = (V) Activator.CreateInstance(type, new object[] { fsi });
 			return view;
 		}
 	}

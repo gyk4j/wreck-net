@@ -6,11 +6,76 @@ using log4net;
 namespace Java.NIO.File.Attribute
 {
 	/// <summary>
-	/// Description of BasicFileAttributeView.
+	/// A file attribute view that provides a view of a basic set of file 
+	/// attributes common to many file systems. The basic set of file 
+	/// attributes consist of mandatory and optional file attributes as defined 
+	/// by the BasicFileAttributes interface.
+	/// 
+	/// The file attributes are retrieved from the file system as a bulk 
+	/// operation by invoking the readAttributes method. This class also 
+	/// defines the setTimes method to update the file's time attributes.
+	/// 
+	/// Where dynamic access to file attributes is required, the attributes 
+	/// supported by this attribute view have the following names and types:
+	/// <list type="table">
+	/// 	<listheader>
+	/// 		<term>Name</term>
+	/// 		<description>Type</description>
+	/// 	</listheader>
+	/// 	<item>
+	/// 		<term>"lastModifiedTime"</term>
+	/// 		<description><c>DateTime</c></description>
+	/// 	</item>
+	/// 	<item>
+	/// 		<term>"lastAccessTime"</term>
+	/// 		<description><c>DateTime</c></description>
+	/// 	</item>
+	/// 	<item>
+	/// 		<term>"creationTime"</term>
+	/// 		<description><c>DateTime</c></description>
+	/// 	</item>
+	/// 	<item>
+	/// 		<term>"size"</term>
+	/// 		<description><c>long</c></description>
+	/// 	</item>
+	/// 	<item>
+	/// 		<term>"isRegularFile"</term>
+	/// 		<description><c>bool</c></description>
+	/// 	</item>
+	/// 	<item>
+	/// 		<term>"isDirectory"</term>
+	/// 		<description><c>bool</c></description>
+	/// 	</item>
+	/// 	<item>
+	/// 		<term>"isSymbolicLink"</term>
+	/// 		<description><c>bool</c></description>
+	/// 	</item>
+	/// 	<item>
+	/// 		<term>"isOther"</term>
+	/// 		<description><c>bool</c></description>
+	/// 	</item>
+	/// 	<item>
+	/// 		<term>"fileKey"</term>
+	/// 		<description><c>object</c></description>
+	/// 	</item>
+	/// </list>
+	/// 
+	/// <para>
+	/// The <c>GetAttribute</c> method may be used to read any of these 
+	/// attributes as if by invoking the <c>ReadAttributes()</c> method.
+	/// </para>
+	/// 
+	/// <para>
+	/// The <c>SetAttribute</c> method may be used to update the file's last 
+	/// modified time, last access time or create time attributes as if by 
+	/// invoking the <c>SetTimes</c> method.
+	/// </para>
 	/// </summary>
-	public class BasicFileAttributeView
+	public class BasicFileAttributeView : FileAttributeView
 	{
 		private static readonly ILog LOG = LogManager.GetLogger(typeof(BasicFileAttributeView));
+		
+		public const string Basic = "basic";
 		
 		private FileSystemInfo file;
 		
@@ -69,6 +134,11 @@ namespace Java.NIO.File.Attribute
 				FileInfo fi = (FileInfo) file;
 				fi.IsReadOnly = writeProtect;
 			}
+		}
+		
+		public string Name()
+		{
+			return Basic;
 		}
 	}
 }

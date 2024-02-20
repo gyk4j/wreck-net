@@ -83,11 +83,7 @@ namespace Wreck.IO.Reader.MetaTag
 			
 			try
 			{
-				string password = passwordProvider.GetPassword(file);
-				
-				using(SevenZipExtractor sze = string.IsNullOrEmpty(password)?
-				      new SevenZipExtractor(file.FullName):
-				      new SevenZipExtractor(file.FullName, password))
+				using(SevenZipExtractor sze = Get7ZipExtractor((FileInfo) file))
 				{
 					DateTime modified = DateTime.MinValue;
 					for (int i = 0; i < sze.ArchiveFileData.Count; i++)
@@ -119,6 +115,33 @@ namespace Wreck.IO.Reader.MetaTag
 				LOG.ErrorFormat("{0}: {1}", file.Name, ex.Message);
 //				throw new ArgumentException(ex.Message, ex);
 			}
+		}
+		
+		private SevenZipExtractor Get7ZipExtractor(FileInfo file)
+		{
+			SevenZipExtractor sze;
+			
+			string password = passwordProvider.GetPassword(file);
+			
+			// HACK: Specify archive format for unrecognized extensions.
+			if(file.Extension.EndsWith(".cbr"))
+			{
+				// Format is specified. Tell 7-Zip to treat file as certain format.
+				InArchiveFormat rar = InArchiveFormat.Rar;
+				
+				sze = string.IsNullOrEmpty(password)?
+					new SevenZipExtractor(file.FullName, rar):
+					new SevenZipExtractor(file.FullName, password, rar);
+			}
+			else
+			{
+				// If no format is specified, use auto-detection by 7-Zip library.
+				sze = string.IsNullOrEmpty(password)?
+					new SevenZipExtractor(file.FullName):
+					new SevenZipExtractor(file.FullName, password);
+			}
+			
+			return sze;
 		}
 	}
 }
