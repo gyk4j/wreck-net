@@ -29,7 +29,7 @@
     
     <!-- Set root logger level to DEBUG and its only appender to A1 -->
     <root>
-        <level value="DEBUG" />
+        <level value="INFO" />
         <appender-ref ref="A1" />
     	<appender-ref ref="OutputDebugAppender" />
 		<!-- appender-ref ref="RollingFile" / -->
@@ -37,6 +37,6 @@
     
     <!-- Print only messages of level WARN or above in the package Wreck -->
     <logger name="Wreck">
-        <level value="DEBUG" />
+        <level value="INFO" />
     </logger>
 </log4net>

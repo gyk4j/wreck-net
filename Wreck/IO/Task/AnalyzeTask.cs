@@ -191,7 +191,7 @@ namespace Wreck.IO.Task
 			
 			readerFactory.DirectoryReader.Add(parent, suggestions);
 			
-			LOG.InfoFormat("{0} C: {1}, M: {2}, A: {3} {4}",
+			LOG.DebugFormat("{0} C: {1}, M: {2}, A: {3} {4}",
 			         !FSUtils.IsDirectory(path) && !FSUtils.IsReparsePoint(path)? "<F>": "[D]",
 			         suggestions[CorrectionEnum.CREATION],
 			         suggestions[CorrectionEnum.MODIFIED],

@@ -39,20 +39,34 @@ namespace Wreck.IO.Writer
 				file.LastAccessTime,
 				values[CorrectionEnum.ACCESSED]);
 			
+			bool changed = false;
+			
 			if(creation.HasValue)
+			{
 				file.CreationTime = creation.Value;
+				changed = true;
+			}
 			
 			if(modified.HasValue)
+			{
 				file.LastWriteTime = modified.Value;
+				changed = true;
+			}
 			
 			if(accessed.HasValue)
+			{
 				file.LastAccessTime = accessed.Value;
+				changed = true;
+			}
 			
-			LOG.InfoFormat("Updated {0}: {1}, {2}, {3}",
-			         file.FullName,
-			         (creation.HasValue)? creation.Value.ToString() : "-",
-			         (modified.HasValue)? modified.Value.ToString() : "-",
-			         (accessed.HasValue)? accessed.Value.ToString() : "-");
+			if(changed)
+			{
+				LOG.InfoFormat("Updated {0}: {1}, {2}, {3}",
+				               file.FullName,
+				               (creation.HasValue)? creation.Value.ToString() : "-",
+				               (modified.HasValue)? modified.Value.ToString() : "-",
+				               (accessed.HasValue)? accessed.Value.ToString() : "-");
+			}
 		}
 	}
 }
