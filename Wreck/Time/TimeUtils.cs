@@ -47,7 +47,9 @@ namespace Wreck.Time
 		
 		public static bool IsSameTime(DateTime a, DateTime b) 
 		{
-			if(a == null || b == null)
+			if(a == null && b == null)
+				return true;
+			else if(a == null || b == null)
 				return false;
 			
 			return a.Equals(b);

@@ -22,6 +22,16 @@ namespace Wreck.IO.Writer
 			FileSystemInfo file,
 			Dictionary<CorrectionEnum, DateTime> values)
 		{
+			// TODO: To be removed after tracing.
+			LOG.DebugFormat("--- {0} ---", file.FullName);
+			foreach(KeyValuePair<CorrectionEnum, DateTime> entry in values)
+			{
+				LOG.DebugFormat(
+					"{0} = {1}",
+					entry.Key.Name,
+					entry.Value.ToString());
+			}
+			// TODO: To be removed after tracing.
 			
 			DateTime? creation = WriteAttribute(
 				FileEvent.CorrectibleCreation,
@@ -46,10 +56,10 @@ namespace Wreck.IO.Writer
 			{
 				basicView.SetTimes(modified, accessed, creation);
 				LOG.DebugFormat("Updated {0}: {1}, {2}, {3}",
-				         file.FullName,
-				         creation.ToString(),
-				         modified.ToString(),
-				         accessed.ToString());
+				                file.FullName,
+				                creation.ToString(),
+				                modified.ToString(),
+				                accessed.ToString());
 			}
 			catch (IOException e)
 			{

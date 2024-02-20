@@ -32,7 +32,7 @@ namespace Wreck.IO.Writer
 			{
 				STATS.Count(none);
 			}
-			else if(TimeUtils.IsLaterThan(fileSystem, correct))
+			else if(!TimeUtils.IsSameTime(fileSystem, correct))
 			{
 				STATS.Count(required);
 				val = correct;
