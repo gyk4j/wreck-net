@@ -58,6 +58,7 @@
     <Compile Include="Java\IO\ObjectInputStream.cs" />
     <Compile Include="Java\IO\ObjectOutputStream.cs" />
     <Compile Include="Java\Lang\Runnable.cs" />
+    <Compile Include="Java\NIO\File\Attribute\BasicFileAttributeView.cs" />
     <Compile Include="Java\Time\Instant.cs" />
     <Compile Include="Java\Time\LocalDateTime.cs" />
     <Compile Include="Java\Time\ZonedDateTime.cs" />
@@ -96,6 +97,7 @@
     <Folder Include="Javax\Swing\Event" />
     <Folder Include="Java\Lang" />
     <Folder Include="Java\IO" />
+    <Folder Include="Java\NIO\File\Attribute" />
     <Folder Include="Java\Time" />
     <Folder Include="Microsoft" />
     <Folder Include="Microsoft\NET" />

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+using Java.NIO.File.Attribute;
 using log4net;
 using Microsoft.NET;
 
@@ -130,6 +131,12 @@ namespace Java.NIO.File
 			
 			result = visitor.VisitFile(file);
 			return result;
+		}
+		
+		public static T GetFileAttributeView<T>(FileSystemInfo fsi, Type type) where T : BasicFileAttributeView
+		{
+			T view = (T) Activator.CreateInstance(type, new object[] { fsi });
+			return view;
 		}
 	}
 }
