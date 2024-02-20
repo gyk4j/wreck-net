@@ -133,7 +133,7 @@ namespace Java.NIO.File
 			return result;
 		}
 		
-		public static V GetFileAttributeView<V>(FileSystemInfo fsi, Type type) where V : FileAttributeView
+		public static V GetFileAttributeView<V>(FileSystemInfo fsi, Type type, params LinkOption[] options) where V : FileAttributeView
 		{
 			V view = (V) Activator.CreateInstance(type, new object[] { fsi });
 			return view;
