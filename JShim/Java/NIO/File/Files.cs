@@ -138,5 +138,336 @@ namespace Java.NIO.File
 			V view = (V) Activator.CreateInstance(type, new object[] { fsi });
 			return view;
 		}
+		
+		/// <summary>
+		/// Tests if two paths locate the same file.
+		/// 
+		/// If both Path objects are equal then this method returns true 
+		/// without checking if the file exists. If the two Path objects are 
+		/// associated with different providers then this method returns false. 
+		/// Otherwise, this method checks if both Path objects locate the same 
+		/// file, and depending on the implementation, may require to open or 
+		/// access both files.
+		/// 
+		/// If the file system and files remain static, then this method 
+		/// implements an equivalence relation for non-null Paths.
+		/// 
+		/// <list type="">
+		/// 	<item>
+		/// 		<description>
+		/// 		It is reflexive: for Path f, isSameFile(f,f) should return true.
+		/// 		</description>
+		/// 	</item>
+		/// 	<item>
+		/// 		<description>
+		/// 			It is symmetric: for two Paths f and g, isSameFile(f,g) 
+		/// 			will equal isSameFile(g,f).
+		/// 		</description>
+		/// 	</item>
+		/// 	<item>
+		/// 		<description>
+		/// 			It is transitive: for three Paths f, g, and h, if 
+		/// 			isSameFile(f,g) returns true and isSameFile(g,h) 
+		/// 			returns true, then isSameFile(f,h) will return return 
+		/// 			true.
+		/// 		</description>
+		/// 	</item>
+		/// </list>
+		/// </summary>
+		/// <param name="path">one path to the file</param>
+		/// <param name="path2">the other path</param>
+		/// <returns>true if, and only if, the two paths locate the same file</returns>
+		public static bool IsSameFile(Path path, Path path2)
+		{
+			return false;
+		}
+		
+		/// <summary>
+		/// Tells whether or not a file is considered hidden. The exact 
+		/// definition of hidden is platform or provider dependent. On UNIX for 
+		/// example a file is considered to be hidden if its name begins with a 
+		/// period character ('.'). On Windows a file is considered hidden if 
+		/// it isn't a directory and the DOS hidden attribute is set.
+		/// 
+		/// Depending on the implementation this method may require to access 
+		/// the file system to determine if the file is considered hidden.
+		/// </summary>
+		/// <param name="path">the path to the file to test</param>
+		/// <returns>true if the file is considered hidden</returns>
+		public static bool IsHidden(Path path)
+		{
+			return false;
+		}
+		
+		/// <summary>
+		/// Tests whether a file is a symbolic link.
+		/// 
+		/// Where it is required to distinguish an I/O exception from the case 
+		/// that the file is not a symbolic link then the file attributes can 
+		/// be read with the <c>readAttributes</c> method and the file type 
+		/// tested with the <c>BasicFileAttributes.isSymbolicLink()</c> method.
+		/// </summary>
+		/// <param name="path">The path to the file</param>
+		/// <returns>
+		/// true if the file is a symbolic link; false if the file does not 
+		/// exist, is not a symbolic link, or it cannot be determined if the 
+		/// file is a symbolic link or not.
+		/// </returns>
+		public static bool IsSymbolicLink(Path path)
+		{
+			return false;
+		}
+		
+		/// <summary>
+		/// Tests whether a file is a directory.
+		/// 
+		/// The options array may be used to indicate how symbolic links are 
+		/// handled for the case that the file is a symbolic link. By default, 
+		/// symbolic links are followed and the file attribute of the final 
+		/// target of the link is read. If the option <c>NOFOLLOW_LINKS</c> is 
+		/// present then symbolic links are not followed.
+		/// 
+		/// Where it is required to distinguish an I/O exception from the case 
+		/// that the file is not a directory then the file attributes can be 
+		/// read with the <c>readAttributes</c> method and the file type tested 
+		/// with the <c>BasicFileAttributes.isDirectory()</c> method.
+		/// </summary>
+		/// <param name="path">the path to the file to test</param>
+		/// <param name="options">options indicating how symbolic links are handled</param>
+		/// <returns>
+		/// true if the file is a directory; false if the file does not exist, 
+		/// is not a directory, or it cannot be determined if the file is a 
+		/// directory or not.
+		/// </returns>
+		public static bool IsDirectory(Path path, params LinkOption[] options)
+		{
+			return false;
+		}
+		
+		/// <summary>
+		/// Tests whether a file is a regular file with opaque content.
+		/// 
+		/// The options array may be used to indicate how symbolic links are 
+		/// handled for the case that the file is a symbolic link. By default, 
+		/// symbolic links are followed and the file attribute of the final 
+		/// target of the link is read. If the option <c>NOFOLLOW_LINK</c>S is 
+		/// present then symbolic links are not followed.
+		/// 
+		/// Where it is required to distinguish an I/O exception from the case 
+		/// that the file is not a regular file then the file attributes can be 
+		/// read with the <c>readAttributes</c> method and the file type tested 
+		/// with the <c>BasicFileAttributes.isRegularFile()</c> method.
+		/// </summary>
+		/// <param name="path">the path to the file</param>
+		/// <param name="options">options indicating how symbolic links are handled</param>
+		/// <returns>
+		/// true if the file is a regular file; false if the file does not 
+		/// exist, is not a regular file, or it cannot be determined if the 
+		/// file is a regular file or not.
+		/// </returns>
+		public static bool IsRegularFile(Path path, params LinkOption[] options)
+		{
+			return false;
+		}
+		
+		/// <summary>
+		/// Returns a file's last modified time.
+		/// 
+		/// The options array may be used to indicate how symbolic links are 
+		/// handled for the case that the file is a symbolic link. By default, 
+		/// symbolic links are followed and the file attribute of the final 
+		/// target of the link is read. If the option NOFOLLOW_LINKS is present 
+		/// then symbolic links are not followed.
+		/// </summary>
+		/// <param name="path">the path to the file</param>
+		/// <param name="options">options indicating how symbolic links are handled</param>
+		/// <returns>
+		/// a DateTime representing the time the file was last modified, or an 
+		/// implementation specific default when a time stamp to indicate the 
+		/// time of last modification is not supported by the file system
+		/// </returns>
+		public static DateTime GetLastModifiedTime(Path path, params LinkOption[] options)
+		{
+			return DateTime.Now;
+		}
+		
+		/// <summary>
+		/// Updates a file's last modified time attribute. The file time is 
+		/// converted to the epoch and precision supported by the file system. 
+		/// Converting from finer to coarser granularities result in precision 
+		/// loss. The behavior of this method when attempting to set the last 
+		/// modified time when it is not supported by the file system or is 
+		/// outside the range supported by the underlying file store is not 
+		/// defined. It may or not fail by throwing an IOException.
+		/// 
+		/// Usage Example: Suppose we want to set the last modified time to the 
+		/// current time:
+		/// <code>
+		/// 	Path path = ...
+		///		FileTime now = FileTime.fromMillis(System.currentTimeMillis());
+		///		Files.setLastModifiedTime(path, now);
+		/// </code>
+		/// </summary>
+		/// <param name="path">the path to the file</param>
+		/// <param name="time">the new last modified time</param>
+		/// <returns>the path</returns>
+		public static Path SetLastModifiedTime(Path path, DateTime time)
+		{
+			return Paths.Get(".");
+		}
+		
+		/// <summary>
+		/// Returns the size of a file (in bytes). The size may differ from the 
+		/// actual size on the file system due to compression, support for 
+		/// sparse files, or other reasons. The size of files that are not 
+		/// regular files is implementation specific and therefore unspecified.
+		/// </summary>
+		/// <param name="path">the path to the file</param>
+		/// <returns>the file size, in bytes</returns>
+		public static long Size(Path path)
+		{
+			return 0;
+		}
+		
+		/// <summary>
+		/// Tests whether a file exists.
+		/// 
+		/// The options parameter may be used to indicate how symbolic links 
+		/// are handled for the case that the file is a symbolic link. By 
+		/// default, symbolic links are followed. If the option NOFOLLOW_LINKS 
+		/// is present then symbolic links are not followed.
+		/// 
+		/// Note that the result of this method is immediately outdated. If 
+		/// this method indicates the file exists then there is no guarantee 
+		/// that a subsequence access will succeed. Care should be taken when 
+		/// using this method in security sensitive applications.
+		/// </summary>
+		/// <param name="path">the path to the file to test</param>
+		/// <param name="options">options indicating how symbolic links are handled .</param>
+		/// <returns>
+		/// true if the file exists; false if the file does not exist or its 
+		/// existence cannot be determined.
+		/// </returns>
+		public static bool Exists(Path path, params LinkOption[] options)
+		{
+			return false;
+		}
+		
+		/// <summary>
+		/// Tests whether the file located by this path does not exist. This 
+		/// method is intended for cases where it is required to take action 
+		/// when it can be confirmed that a file does not exist.
+		/// 
+		/// The options parameter may be used to indicate how symbolic links 
+		/// are handled for the case that the file is a symbolic link. By 
+		/// default, symbolic links are followed. If the option NOFOLLOW_LINKS 
+		/// is present then symbolic links are not followed.
+		/// 
+		/// Note that this method is not the complement of the exists method. 
+		/// Where it is not possible to determine if a file exists or not then 
+		/// both methods return false. As with the exists method, the result of 
+		/// this method is immediately outdated. If this method indicates the 
+		/// file does exist then there is no guarantee that a subsequence 
+		/// attempt to create the file will succeed. Care should be taken when 
+		/// using this method in security sensitive applications.
+		/// </summary>
+		/// <param name="path">the path to the file to test</param>
+		/// <param name="options">options indicating how symbolic links are handled</param>
+		/// <returns>
+		/// true if the file does not exist; false if the file exists or its 
+		/// existence cannot be determined
+		/// </returns>
+		public static bool NotExists(Path path, params LinkOption[] options)
+		{
+			return true;
+		}
+		
+		/// <summary>
+		/// <para>
+		/// Tests whether a file is readable. This method checks that a file 
+		/// exists and that this Java virtual machine has appropriate 
+		/// privileges that would allow it open the file for reading. Depending 
+		/// on the implementation, this method may require to read file 
+		/// permissions, access control lists, or other file attributes in 
+		/// order to check the effective access to the file. Consequently, this 
+		/// method may not be atomic with respect to other file system 
+		/// operations.
+		/// </para>
+		/// <para>
+		/// Note that the result of this method is immediately outdated, there 
+		/// is no guarantee that a subsequent attempt to open the file for 
+		/// reading will succeed (or even that it will access the same file). 
+		/// Care should be taken when using this method in security sensitive 
+		/// applications.
+		/// </para>
+		/// </summary>
+		/// <param name="path">the path to the file to check</param>
+		/// <returns>
+		/// true if the file exists and is readable; false if the file does not 
+		/// exist, read access would be denied because the Java virtual machine 
+		/// has insufficient privileges, or access cannot be determined
+		/// </returns>
+		public static bool IsReadable(Path path)
+		{
+			return false;
+		}
+		
+		/// <summary>
+		/// Tests whether a file is writable. This method checks that a file 
+		/// exists and that this Java virtual machine has appropriate 
+		/// privileges that would allow it open the file for writing. Depending 
+		/// on the implementation, this method may require to read file 
+		/// permissions, access control lists, or other file attributes in 
+		/// order to check the effective access to the file. Consequently, this 
+		/// method may not be atomic with respect to other file system 
+		/// operations.
+		/// 
+		/// Note that result of this method is immediately outdated, there is 
+		/// no guarantee that a subsequent attempt to open the file for writing 
+		/// will succeed (or even that it will access the same file). Care 
+		/// should be taken when using this method in security sensitive 
+		/// applications.
+		/// </summary>
+		/// <param name="path">the path to the file to check</param>
+		/// <returns>
+		/// true if the file exists and is writable; false if the file does not 
+		/// exist, write access would be denied because the Java virtual 
+		/// machine has insufficient privileges, or access cannot be determined
+		/// </returns>
+		public static bool IsWritable(Path path)
+		{
+			return false;
+		}
+		
+		/// <summary>
+		/// Tests whether a file is executable. This method checks that a file 
+		/// exists and that this Java virtual machine has appropriate 
+		/// privileges to execute the file. The semantics may differ when 
+		/// checking access to a directory. For example, on UNIX systems, 
+		/// checking for execute access checks that the Java virtual machine 
+		/// has permission to search the directory in order to access file or 
+		/// subdirectories.
+		/// 
+		/// Depending on the implementation, this method may require to read 
+		/// file permissions, access control lists, or other file attributes in 
+		/// order to check the effective access to the file. Consequently, this 
+		/// method may not be atomic with respect to other file system 
+		/// operations.
+		/// 
+		/// Note that the result of this method is immediately outdated, there 
+		/// is no guarantee that a subsequent attempt to execute the file will 
+		/// succeed (or even that it will access the same file). Care should be 
+		/// taken when using this method in security sensitive applications.
+		/// </summary>
+		/// <param name="path">the path to the file to check</param>
+		/// <returns>
+		/// true if the file exists and is executable; false if the file does 
+		/// not exist, execute access would be denied because the Java virtual 
+		/// machine has insufficient privileges, or access cannot be determined
+		/// </returns>
+		public static bool IsExecutable(Path path)
+		{
+			return false;
+		}
 	}
 }
