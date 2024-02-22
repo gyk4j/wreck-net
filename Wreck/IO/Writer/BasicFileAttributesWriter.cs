@@ -63,7 +63,7 @@ namespace Wreck.IO.Writer
 			}
 			catch (IOException e)
 			{
-				LOG.ErrorFormat(e.ToString());
+				LOG.Error(e.Message);
 			}
 		}
 	}
