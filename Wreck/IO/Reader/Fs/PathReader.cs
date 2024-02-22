@@ -53,6 +53,10 @@ namespace Wreck.IO.Reader.Fs
 		public const string DATE_FORMATTER = "yyyyMMdd";
 		public const string TIME_FORMATTER = "HHmmss";
 		
+		public const int MAX_HH = 23;
+		public const int MAX_MM = 59;
+		public const int MAX_SS = 59;
+		
 		public PathReader() : base()
 		{
 		}
@@ -134,7 +138,7 @@ namespace Wreck.IO.Reader.Fs
 			{
 				DateTime instant = (localTime == null || !localTime.HasValue) ?
 					new DateTime(localDate.Value.Year, localDate.Value.Month, localDate.Value.Day,
-					             12, 0, 0):
+					             MAX_HH, MAX_MM, MAX_SS):
 					new DateTime(localDate.Value.Year, localDate.Value.Month, localDate.Value.Day,
 					             localTime.Value.Hour, localTime.Value.Minute, localTime.Value.Second, localTime.Value.Millisecond);
 
