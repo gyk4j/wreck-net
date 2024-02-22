@@ -120,7 +120,10 @@ namespace Wreck.IO.Task
 				List<ITimestampReader> readers = new List<ITimestampReader>();
 				
 				if(sources.ContainsKey(SourceEnum.METADATA))
+				{
 					readers.Add(readerFactory.DirectoryReader);
+					readers.Add(readerFactory.PathReader);
+				}
 				
 				// Use fallback option.
 				if(sources.ContainsKey(SourceEnum.FILE_SYSTEM))
