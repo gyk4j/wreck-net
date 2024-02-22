@@ -196,7 +196,7 @@ namespace Wreck.IO.Reader.MetaTag
 					if(yyyy >= DateTime.Now.Year-100 &&
 					   yyyy <= DateTime.Now.Year)
 					{
-						i = Instant.From(new DateTime(yyyy, 1, 1, 12, 0, 0, DateTimeKind.Utc));
+						i = Instant.From(new DateTime(yyyy, 1, 1, 0, 0, 0, DateTimeKind.Utc));
 					}
 				}
 				else
