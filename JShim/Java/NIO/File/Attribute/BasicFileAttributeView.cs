@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.IO;
+using Java.Time;
 using log4net;
 
 namespace Java.NIO.File.Attribute
@@ -104,9 +105,9 @@ namespace Java.NIO.File.Attribute
 			{
 				LOG.InfoFormat("Updated {0}: {1}, {2}, {3}",
 				               file.FullName,
-				               (creation.HasValue)? creation.Value.ToString() : "-",
-				               (modified.HasValue)? modified.Value.ToString() : "-",
-				               (accessed.HasValue)? accessed.Value.ToString() : "-");
+				               (creation.HasValue)? Instant.From(creation.Value).ToString() : "-",
+				               (modified.HasValue)? Instant.From(modified.Value).ToString() : "-",
+				               (accessed.HasValue)? Instant.From(accessed.Value).ToString() : "-");
 			}
 		}
 		

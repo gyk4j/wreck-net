@@ -85,7 +85,7 @@ namespace Java.Time
 		
 		public override string ToString()
 		{
-			return instant.ToString("yyyy-MM-ddTHH:mm:ssZ");
+			return string.Format("{0:s}Z", instant); //instant.ToString("yyyy-MM-ddTHH:mm:ssZ");
 		}
 	}
 }
