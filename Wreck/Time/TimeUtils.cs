@@ -12,7 +12,7 @@ namespace Wreck.Time
 		// Safe to assume that any legit file time should be after that.
 		// Anything other than that are likely some placeholder or fake values.
 		public static readonly DateTime VALID_PERIOD_MIN = 
-			new DateTime(1980, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+			new DateTime(1980, 1, 1, 0, 0, 0, DateTimeKind.Local);
 	
 		// No file should be created, modified or accessed beyond the current latest time.
 		// Any future date time values found are likely placeholder values.
@@ -65,10 +65,12 @@ namespace Wreck.Time
 				instant = time; // Java requires FileTime to Instant conversion
 			}
 			// Fallback for older format zip archive without the extended attributes.
-			else if(epochTime > 0) {
-				instant = new DateTime(epochTime, DateTimeKind.Utc);			
+			else if(epochTime > 0)
+			{
+				instant = new DateTime(epochTime, DateTimeKind.Local);
 			}
-			else {
+			else
+			{
 				instant = null;
 			}
 			

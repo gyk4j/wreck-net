@@ -188,7 +188,8 @@ namespace Wreck.Time
 		private const string FORMATTER_EXIFTOOL_LOCAL = "EEE MMM dd HH:mm:ss yyyy";
 		private const string FORMATTER_EXIFTOOL_ENUS = "yyyy[:dd:MM HH:mm:ss[XXX][X]]";
 		private const string FORMATTER_EXIFTOOL_ENSG = "yyyy[:MM:dd HH:mm:ss[XXX][X]]";
-		public static DateTime? GetExifToolInstant(string v) {
+		public static DateTime? GetExifToolInstant(string v)
+		{
 			DateTime? instant = new DateTime?();
 			
 			if(v.IndexOf("0000:00:00 00:00:00") > -1 || v.IndexOf("1970-01-01 00:00:00") > -1)
@@ -198,7 +199,7 @@ namespace Wreck.Time
 			bool isNumberic = int.TryParse(v, out n);
 			
 			if(v.Length == 4 && isNumberic)
-				instant = new DateTime(n, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+				instant = new DateTime(n, 1, 1, 0, 0, 0, DateTimeKind.Local);
 			
 			if(!instant.HasValue)
 			{
