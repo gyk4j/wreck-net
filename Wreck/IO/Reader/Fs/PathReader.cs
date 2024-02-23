@@ -55,7 +55,7 @@ namespace Wreck.IO.Reader.Fs
 		
 		public const int MAX_HH = 23;
 		public const int MAX_MM = 59;
-		public const int MAX_SS = 59;
+		public const int MAX_SS = 00;
 		
 		public PathReader() : base()
 		{
