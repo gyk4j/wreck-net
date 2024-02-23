@@ -85,42 +85,7 @@ namespace Wreck.IO.Reader.MetaTag
 			Dictionary<string, string> output = new Dictionary<string, string>();
 			// GetProperties extracts ALL tags found with no filtering/selection.
 			exifTool.GetProperties(file.FullName, output);
-
-			List<string> removeables = new List<string>();
-			// Filter out unwanted tags.
-			foreach(string key in output.Keys)
-			{
-				bool remove = true;
-
-				foreach(string s in CREATION)
-				{
-					if(!key.StartsWith("System:") && key.EndsWith(s))
-						remove = false;
-				}
-
-				foreach(string s in MODIFIED)
-				{
-					if(!key.StartsWith("System:") && key.EndsWith(s))
-						remove = false;
-				}
-				
-				// Some ZIP based files (e.g. .docx) always return 01 Jan 1980 as placeholder value. 
-				if(!file.Extension.ToLower().Equals(".zip") && key.Equals("ZIP:ZipModifyDate"))
-					remove = true;
-
-				// To be removed if it is not in the list.
-				if(remove)
-					removeables.Add(key);
-			}
 			
-			// Now strip out the ignored tags.
-			removeables.ForEach(
-				s =>
-				{
-					output.Remove(s);
-				}
-			);
-
 			if(output.Count > 0)
 			{
 				IDictionaryEnumerator e = output.GetEnumerator();
@@ -128,13 +93,29 @@ namespace Wreck.IO.Reader.MetaTag
 				{
 					string k = (string) e.Key;
 					string v = (string) e.Value;
-					try
+					
+					// If not found, set first character as start.
+					int namePos = k.LastIndexOf(':')+1;
+					
+					string group = namePos > 0? k.Substring(0, namePos-1) : string.Empty;
+					string tag = k.Substring(namePos);
+					
+					// Filter out
+					if(!"System".Equals(group) &&
+					   (
+					   	Array.Exists<string>(Creation(), s => s.Equals(tag)) ||
+					   	Array.Exists<string>(Modified(), s => s.Equals(tag))
+					   )
+					  )
 					{
-						Add(metadata, k, v, Parse(v));
-					}
-					catch(FormatException ex)
-					{
-						LOG.Error(ex.Message);
+						try
+						{
+							Add(metadata, tag, v, Parse(v));
+						}
+						catch(FormatException ex)
+						{
+							LOG.Error(ex.Message);
+						}
 					}
 				}
 			}
@@ -167,8 +148,8 @@ namespace Wreck.IO.Reader.MetaTag
 				try
 				{
 					ExifToolWrapper.ExifTool.TryParseDate(
-						dateTime, 
-						DateTimeKind.Utc, 
+						dateTime,
+						DateTimeKind.Local,
 						out date);
 					i = Instant.From(date);
 				}
@@ -196,7 +177,7 @@ namespace Wreck.IO.Reader.MetaTag
 					if(yyyy >= DateTime.Now.Year-100 &&
 					   yyyy <= DateTime.Now.Year)
 					{
-						i = Instant.From(new DateTime(yyyy, 1, 1, 0, 0, 0, DateTimeKind.Utc));
+						i = Instant.From(new DateTime(yyyy, 1, 1, 0, 0, 0, DateTimeKind.Local));
 					}
 				}
 				else
