@@ -179,7 +179,7 @@ namespace Java.NIO.File
 		/// <returns>true if, and only if, the two paths locate the same file</returns>
 		public static bool IsSameFile(Path path, Path path2)
 		{
-			return false;
+			throw new NotImplementedException();
 		}
 		
 		/// <summary>
@@ -196,7 +196,7 @@ namespace Java.NIO.File
 		/// <returns>true if the file is considered hidden</returns>
 		public static bool IsHidden(Path path)
 		{
-			return false;
+			throw new NotImplementedException();
 		}
 		
 		/// <summary>
@@ -215,7 +215,7 @@ namespace Java.NIO.File
 		/// </returns>
 		public static bool IsSymbolicLink(Path path)
 		{
-			return false;
+			throw new NotImplementedException();
 		}
 		
 		/// <summary>
@@ -241,7 +241,7 @@ namespace Java.NIO.File
 		/// </returns>
 		public static bool IsDirectory(Path path, params LinkOption[] options)
 		{
-			return false;
+			throw new NotImplementedException();
 		}
 		
 		/// <summary>
@@ -267,7 +267,7 @@ namespace Java.NIO.File
 		/// </returns>
 		public static bool IsRegularFile(Path path, params LinkOption[] options)
 		{
-			return false;
+			throw new NotImplementedException();
 		}
 		
 		/// <summary>
@@ -288,7 +288,7 @@ namespace Java.NIO.File
 		/// </returns>
 		public static DateTime GetLastModifiedTime(Path path, params LinkOption[] options)
 		{
-			return DateTime.Now;
+			throw new NotImplementedException();
 		}
 		
 		/// <summary>
@@ -313,7 +313,7 @@ namespace Java.NIO.File
 		/// <returns>the path</returns>
 		public static Path SetLastModifiedTime(Path path, DateTime time)
 		{
-			return Paths.Get(".");
+			throw new NotImplementedException();
 		}
 		
 		/// <summary>
@@ -326,7 +326,7 @@ namespace Java.NIO.File
 		/// <returns>the file size, in bytes</returns>
 		public static long Size(Path path)
 		{
-			return 0;
+			throw new NotImplementedException();
 		}
 		
 		/// <summary>
@@ -350,7 +350,7 @@ namespace Java.NIO.File
 		/// </returns>
 		public static bool Exists(Path path, params LinkOption[] options)
 		{
-			return false;
+			throw new NotImplementedException();
 		}
 		
 		/// <summary>
@@ -379,7 +379,7 @@ namespace Java.NIO.File
 		/// </returns>
 		public static bool NotExists(Path path, params LinkOption[] options)
 		{
-			return true;
+			throw new NotImplementedException();
 		}
 		
 		/// <summary>
@@ -409,7 +409,7 @@ namespace Java.NIO.File
 		/// </returns>
 		public static bool IsReadable(Path path)
 		{
-			return false;
+			throw new NotImplementedException();
 		}
 		
 		/// <summary>
@@ -436,7 +436,7 @@ namespace Java.NIO.File
 		/// </returns>
 		public static bool IsWritable(Path path)
 		{
-			return false;
+			throw new NotImplementedException();
 		}
 		
 		/// <summary>
@@ -467,7 +467,7 @@ namespace Java.NIO.File
 		/// </returns>
 		public static bool IsExecutable(Path path)
 		{
-			return false;
+			throw new NotImplementedException();
 		}
 	}
 }
