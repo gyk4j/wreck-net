@@ -58,6 +58,7 @@
     <Compile Include="Java\IO\ObjectInputStream.cs" />
     <Compile Include="Java\IO\ObjectOutputStream.cs" />
     <Compile Include="Java\Lang\Runnable.cs" />
+    <Compile Include="Java\NIO\File\AccessMode.cs" />
     <Compile Include="Java\NIO\File\Attribute\AttributeView.cs" />
     <Compile Include="Java\NIO\File\Attribute\BasicFileAttributeView.cs" />
     <Compile Include="Java\NIO\File\Attribute\FileAttributeView.cs" />
