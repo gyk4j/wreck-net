@@ -61,6 +61,7 @@
     <Compile Include="Java\NIO\File\Attribute\AttributeView.cs" />
     <Compile Include="Java\NIO\File\Attribute\BasicFileAttributeView.cs" />
     <Compile Include="Java\NIO\File\Attribute\FileAttributeView.cs" />
+    <Compile Include="Java\NIO\File\StandardCopyOption.cs" />
     <Compile Include="Java\Time\Instant.cs" />
     <Compile Include="Java\Time\LocalDateTime.cs" />
     <Compile Include="Java\Time\ZonedDateTime.cs" />
