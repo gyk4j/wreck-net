@@ -123,7 +123,7 @@ namespace Sun.NIO.FS
 		
 		public Path GetFileName()
 		{
-			throw new NotImplementedException();
+			return System.IO.Path.GetFileName(this.path);
 		}
 		
 		public FileSystem GetFileSystem()
@@ -133,12 +133,14 @@ namespace Sun.NIO.FS
 		
 		public Path GetName(int index)
 		{
-			throw new NotImplementedException();
+			string[] names = this.path.Split(Separators);
+			return names[index];
 		}
 		
 		public int GetNameCount()
 		{
-			throw new NotImplementedException();
+			string[] names = this.path.Split(Separators);
+			return names.Length;
 		}
 		
 		public Path GetParent()
