@@ -10,6 +10,8 @@ namespace Sun.NIO.FS
 	/// </summary>
 	public class WindowsPath : Path
 	{
+		public const string DefaultRoot = @"C:\";
+		
 		// The maximum path that does not require long path prefix. On Windows
 		// the maximum path is 260 minus 1 (NUL) but for directories it is 260
 		// minus 12 minus 1 (to allow for the creation of a 8.3 file in the
@@ -134,12 +136,16 @@ namespace Sun.NIO.FS
 		
 		public Path GetParent()
 		{
-			throw new NotImplementedException();
+			string abs = System.IO.Path.Combine(root, path);
+			string parent = System.IO.Path.GetDirectoryName(abs);
+			string file = System.IO.Path.GetFileName(abs);
+			return new WindowsPath(fs, WindowsPathType.Absolute, parent, file);
 		}
 		
 		public Path GetRoot()
 		{
-			throw new NotImplementedException();
+			string root = System.IO.Path.GetPathRoot(this.root);
+			return new WindowsPath(fs, WindowsPathType.Absolute, root, string.Empty);
 		}
 		
 		public override int GetHashCode()
@@ -200,7 +206,8 @@ namespace Sun.NIO.FS
 		
 		public bool StartsWith(string other)
 		{
-			throw new NotImplementedException();
+			string p = ToString();
+			return p.StartsWith(other);
 		}
 		
 		public Path SubPath(int beginIndex, int endIndex)
@@ -209,20 +216,36 @@ namespace Sun.NIO.FS
 		}
 		
 		public Path ToAbsolutePath()
-		{
-			System.IO.DriveInfo[] drives = System.IO.DriveInfo.GetDrives();
-			System.IO.DirectoryInfo rootDefault = drives[0].RootDirectory;
-			
+		{			
 			string root = !string.IsNullOrEmpty(this.root)?
 				this.root :
-				rootDefault.FullName;
+				DefaultRoot;
+			
+			string path = this.path.StartsWith(root)? 
+				this.path.Replace(root, string.Empty) : 
+				this.path;
 
 			return new WindowsPath(fs, WindowsPathType.Absolute, root, path);
 		}
 		
 		public System.IO.FileSystemInfo ToFile()
 		{
-			throw new NotImplementedException();
+			System.IO.FileSystemInfo fsi;
+			
+			string p = ToString();
+			if(System.IO.Directory.Exists(p))
+				fsi = new System.IO.DirectoryInfo(p);
+			else if(System.IO.File.Exists(p))
+				fsi = new System.IO.FileInfo(p);
+			else
+			{
+				if(!string.IsNullOrEmpty(System.IO.Path.GetExtension(p)))
+					fsi = new System.IO.FileInfo(p);
+				else
+					fsi = new System.IO.DirectoryInfo(p);
+			}
+			
+			return fsi;
 		}
 		
 		/// <summary>
@@ -238,6 +261,13 @@ namespace Sun.NIO.FS
 		public Uri ToURI()
 		{
 			throw new NotImplementedException();
+		}
+		
+		public override string ToString()
+		{
+			return string.IsNullOrEmpty(this.root)?
+				System.IO.Path.Combine(DefaultRoot, this.path) :
+				System.IO.Path.Combine(this.root, this.path);
 		}
 	}
 }
