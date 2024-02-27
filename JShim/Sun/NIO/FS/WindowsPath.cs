@@ -178,37 +178,71 @@ namespace Sun.NIO.FS
 		
 		public Path Normalize()
 		{
-			throw new NotImplementedException();
+			return ToAbsolutePath();
 		}
 		
 		public Path Relativize(Path other)
 		{
-			throw new NotImplementedException();
+			string[] s = ToString().Split(Separators);
+			string[] o = other.ToString().Split(Separators);
+			
+			// Ignore the common subpaths
+			int max = Math.Max(s.Length, o.Length);
+			List<string> sd = new List<string>();
+			List<string> od = new List<string>();
+			for(int i = 0; i < max; i++)
+			{
+				if(i < s.Length && i < o.Length && s[i].Equals(o[i]))
+					continue;
+				
+				if(i < s.Length)
+					sd.Add(s[i]);
+				
+				if(i < o.Length)
+					od.Add(o[i]);
+			}
+			
+			StringBuilder sb = new StringBuilder();
+			for(int i = 0; i < sd.Count; i++)
+			{
+				sb.Append(System.IO.Path.DirectorySeparatorChar);
+				sb.Append("..");
+			}
+			
+			foreach(string op in od)
+			{
+				sb.Append(System.IO.Path.DirectorySeparatorChar);
+				sb.Append(op);
+			}
+			
+			string path = sb.ToString();
+			
+			return new WindowsPath(fs, WindowsPathType.Relative, root, path);
 		}
 		
 		public Path Resolve(Path other)
 		{
-			throw new NotImplementedException();
+			return Resolve(other.ToString());
 		}
 		
 		public Path Resolve(string other)
 		{
-			throw new NotImplementedException();
+			return null;
 		}
 		
 		public Path ResolveSibling(Path other)
 		{
-			throw new NotImplementedException();
+			return ResolveSibling(other.ToString());
 		}
 		
 		public Path ResolveSibling(string other)
 		{
-			throw new NotImplementedException();
+			return null;
 		}
 		
 		public bool StartsWith(Path other)
 		{
-			throw new NotImplementedException();
+			return StartsWith(other.ToString());
 		}
 		
 		public bool StartsWith(string other)
