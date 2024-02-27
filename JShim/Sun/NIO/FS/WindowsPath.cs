@@ -1,6 +1,8 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Text;
+
 using Java.NIO.File;
 
 namespace Sun.NIO.FS
@@ -11,6 +13,11 @@ namespace Sun.NIO.FS
 	public class WindowsPath : Path
 	{
 		public const string DefaultRoot = @"C:\";
+		public static readonly char[] Separators =
+		{
+			System.IO.Path.DirectorySeparatorChar,
+			System.IO.Path.AltDirectorySeparatorChar
+		};
 		
 		// The maximum path that does not require long path prefix. On Windows
 		// the maximum path is 260 minus 1 (NUL) but for directories it is 260
@@ -212,17 +219,25 @@ namespace Sun.NIO.FS
 		
 		public Path SubPath(int beginIndex, int endIndex)
 		{
-			throw new NotImplementedException();
+			string[] subpaths = this.path.Split(Separators);
+			StringBuilder sb = new StringBuilder();
+			for(int i = beginIndex; i < endIndex; i++)
+			{
+				sb.Append(System.IO.Path.DirectorySeparatorChar);
+				sb.Append(subpaths[i]);
+			}
+			string path = sb.ToString();
+			return new WindowsPath(fs, type, root, path);
 		}
 		
 		public Path ToAbsolutePath()
-		{			
+		{
 			string root = !string.IsNullOrEmpty(this.root)?
 				this.root :
 				DefaultRoot;
 			
-			string path = this.path.StartsWith(root)? 
-				this.path.Replace(root, string.Empty) : 
+			string path = this.path.StartsWith(root)?
+				this.path.Replace(root, string.Empty) :
 				this.path;
 
 			return new WindowsPath(fs, WindowsPathType.Absolute, root, path);
