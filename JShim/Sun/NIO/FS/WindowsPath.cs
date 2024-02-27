@@ -144,8 +144,19 @@ namespace Sun.NIO.FS
 		public Path GetParent()
 		{
 			string abs = System.IO.Path.Combine(root, path);
-			string parent = System.IO.Path.GetDirectoryName(abs);
-			string file = System.IO.Path.GetFileName(abs);
+			string parent = null;
+			string file = null;
+			if(System.IO.File.Exists(abs))
+			{
+				parent = System.IO.Path.GetDirectoryName(abs);
+				file = System.IO.Path.GetFileName(abs);
+			}
+			else if(System.IO.Directory.Exists(abs))
+			{
+				parent = System.IO.Directory.GetParent(abs).FullName;
+				file = System.IO.Path.GetDirectoryName(abs);
+			}
+			 
 			return new WindowsPath(fs, WindowsPathType.Absolute, parent, file);
 		}
 		
@@ -168,7 +179,8 @@ namespace Sun.NIO.FS
 		
 		public bool IsAbsolute()
 		{
-			throw new NotImplementedException();
+			bool isAbsolute = System.IO.Path.IsPathRooted(ToString());
+			return isAbsolute;
 		}
 		
 		public IEnumerable<Path> Iterator()
