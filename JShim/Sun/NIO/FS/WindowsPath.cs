@@ -58,19 +58,58 @@ namespace Sun.NIO.FS
 			this.path = path;
 		}
 		
+		/// <summary>
+		/// Compares two abstract paths lexicographically.
+		/// </summary>
+		/// <param name="other"></param>
+		/// <returns></returns>
 		public int CompareTo(Path other)
 		{
-			throw new NotImplementedException();
+			return 0;
 		}
 		
+		/// <summary>
+		/// Tests if this path ends with the given path.
+		/// </summary>
+		/// <param name="other"></param>
+		/// <returns></returns>
 		public bool EndsWith(Path other)
 		{
 			throw new NotImplementedException();
 		}
 		
+		/// <summary>
+		/// Tests if this path ends with a Path, constructed by converting the
+		/// given path string, in exactly the manner specified by the
+		/// <c>endsWith(Path)</c> method.
+		/// </summary>
+		/// <param name="other"></param>
+		/// <returns></returns>
 		public bool EndsWith(string other)
 		{
 			throw new NotImplementedException();
+		}
+		
+		/// <summary>
+		/// Tests this path for equality with the given object.
+		/// </summary>
+		/// <param name="other"></param>
+		/// <returns></returns>
+		public override bool Equals(object other)
+		{
+			return Equals(other as WindowsPath);
+		}
+		
+		/// <summary>
+		/// Tests this path for equality with the given object.
+		/// </summary>
+		/// <param name="other"></param>
+		/// <returns></returns>
+		public bool Equals(WindowsPath other)
+		{
+			return other != null &&
+				root.Equals(other.root) &&
+				path.Equals(other.path);
 		}
 		
 		public Path GetFileName()
@@ -103,9 +142,15 @@ namespace Sun.NIO.FS
 			throw new NotImplementedException();
 		}
 		
-		public int HashCode()
+		public override int GetHashCode()
 		{
-			throw new NotImplementedException();
+			unchecked // Allow arithmetic overflow, numbers will just "wrap around"
+			{
+				int hashcode = 1430287;
+				hashcode = hashcode * 7302013 ^ root.GetHashCode();
+				hashcode = hashcode * 7302013 ^ path.GetHashCode();
+				return hashcode;
+			}
 		}
 		
 		public bool IsAbsolute()
@@ -165,7 +210,14 @@ namespace Sun.NIO.FS
 		
 		public Path ToAbsolutePath()
 		{
-			throw new NotImplementedException();
+			System.IO.DriveInfo[] drives = System.IO.DriveInfo.GetDrives();
+			System.IO.DirectoryInfo rootDefault = drives[0].RootDirectory;
+			
+			string root = !string.IsNullOrEmpty(this.root)?
+				this.root :
+				rootDefault.FullName;
+
+			return new WindowsPath(fs, WindowsPathType.Absolute, root, path);
 		}
 		
 		public System.IO.FileSystemInfo ToFile()
@@ -173,6 +225,11 @@ namespace Sun.NIO.FS
 			throw new NotImplementedException();
 		}
 		
+		/// <summary>
+		/// Returns the real path of an existing file.
+		/// </summary>
+		/// <param name="options"></param>
+		/// <returns></returns>
 		public Path ToRealPath(params LinkOption[] options)
 		{
 			throw new NotImplementedException();

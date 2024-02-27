@@ -8,9 +8,9 @@ namespace Java.NIO.File
 	/// <summary>
 	/// Description of Path.
 	/// </summary>
-	public interface Path
+	public interface Path : IComparable<Path>
 	{
-		int	CompareTo(Path other);
+		//int	CompareTo(Path other);
 		bool EndsWith(Path other);
 		bool EndsWith(string other);
 		bool Equals(object other);
@@ -20,7 +20,7 @@ namespace Java.NIO.File
 		int GetNameCount();
 		Path GetParent();
 		Path GetRoot();
-		int HashCode();
+		//int GetHashCode();
 		bool IsAbsolute();
 		IEnumerable<Path> Iterator();
 		Path Normalize();
