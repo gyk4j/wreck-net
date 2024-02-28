@@ -123,7 +123,8 @@ namespace Sun.NIO.FS
 		
 		public Path GetFileName()
 		{
-			return System.IO.Path.GetFileName(this.path);
+			return new WindowsPath(fs, WindowsPathType.Relative, this.root,
+			                       System.IO.Path.GetFileName(this.path));
 		}
 		
 		public FileSystem GetFileSystem()
@@ -134,7 +135,8 @@ namespace Sun.NIO.FS
 		public Path GetName(int index)
 		{
 			string[] names = this.path.Split(Separators);
-			return names[index];
+			return new WindowsPath(fs, WindowsPathType.Relative, this.root,
+			                       names[index]);
 		}
 		
 		public int GetNameCount()
@@ -158,7 +160,7 @@ namespace Sun.NIO.FS
 				parent = System.IO.Directory.GetParent(abs).FullName;
 				file = System.IO.Path.GetDirectoryName(abs);
 			}
-			 
+			
 			return new WindowsPath(fs, WindowsPathType.Absolute, parent, file);
 		}
 		
