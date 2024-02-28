@@ -84,7 +84,7 @@ namespace Sun.NIO.FS
 		/// <returns></returns>
 		public bool EndsWith(Path other)
 		{
-			throw new NotImplementedException();
+			return EndsWith(other.ToString());
 		}
 		
 		/// <summary>
@@ -96,7 +96,7 @@ namespace Sun.NIO.FS
 		/// <returns></returns>
 		public bool EndsWith(string other)
 		{
-			throw new NotImplementedException();
+			return ToString().EndsWith(other);
 		}
 		
 		/// <summary>
