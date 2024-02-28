@@ -320,7 +320,50 @@ namespace Sun.NIO.FS
 		/// <returns></returns>
 		public Path ToRealPath(params LinkOption[] options)
 		{
-			throw new NotImplementedException();
+			bool noFollowLinks = false;
+			
+			foreach(LinkOption o in options)
+			{
+				if(o == LinkOption.NoFollowLinks)
+				{
+					noFollowLinks = true;
+					break;
+				}
+			}				
+			
+			string fp = System.IO.Path.GetFullPath(this.path);
+			System.IO.FileSystemInfo fsi;
+			
+			if(System.IO.File.Exists(fp))
+				fsi = new System.IO.FileInfo(fp);
+			else if(System.IO.Directory.Exists(fp))
+				fsi = new System.IO.DirectoryInfo(fp);
+			else
+				throw new ApplicationException("Unknown file system object type: " + fp);
+			
+			if(noFollowLinks && Microsoft.NET.FSUtils.IsReparsePoint(fsi))
+				return null;
+			
+			WindowsPathType type;
+			string root, path;
+			
+			int volumePos = fp.IndexOf(System.IO.Path.VolumeSeparatorChar);
+			if(volumePos < 0)
+			{
+				// Has no root/volume (path with no drive)
+				type = WindowsPathType.Relative;
+				root = null;
+				path = fp;
+			}
+			else
+			{
+				// Has root/volume
+				type = WindowsPathType.Absolute;
+				root = fp.Substring(0, volumePos+1);
+				path = fp.Substring(volumePos+1);
+			}
+			
+			return new WindowsPath(fs, type, root, path);
 		}
 		
 		public Uri ToURI()
