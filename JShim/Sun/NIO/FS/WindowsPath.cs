@@ -325,7 +325,8 @@ namespace Sun.NIO.FS
 		
 		public Uri ToURI()
 		{
-			throw new NotImplementedException();
+			UriBuilder ub = new UriBuilder("file", "localhost", -1, ToString());
+			return ub.Uri;
 		}
 		
 		public override string ToString()
