@@ -74,7 +74,7 @@ namespace Sun.NIO.FS
 		/// <returns></returns>
 		public int CompareTo(Path other)
 		{
-			return 0;
+			return ToString().CompareTo(other.ToString());
 		}
 		
 		/// <summary>
