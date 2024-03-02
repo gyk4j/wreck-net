@@ -127,7 +127,6 @@
     <Folder Include="IO\Reader" />
     <Folder Include="IO\Reader\MetaTag" />
     <Folder Include="IO\Reader\Fs" />
-    <Folder Include="IO\Reader\File" />
     <Folder Include="IO\Reader\User" />
     <Folder Include="Logging" />
     <Folder Include="IO" />
