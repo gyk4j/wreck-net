@@ -119,7 +119,7 @@ namespace Wreck.IO.Reader.Fs
 				}
 
 				int end = matcher.Index + matcher.Length; // Start searching after the date.
-				matcher = FILENAME_PATTERN_TIME.Match(filename.Substring(end));
+				matcher = FILENAME_PATTERN_TIME.Match(file.FullName.Substring(end));
 				if (matcher.Success)
 				{
 					time = matcher.Value;
