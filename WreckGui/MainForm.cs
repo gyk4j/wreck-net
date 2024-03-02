@@ -59,7 +59,7 @@ namespace Wreck
 		
 		void BtnRunClick(object sender, EventArgs e)
 		{
-			Program.Controller.Analyze();
+			Program.Controller.Repair();
 		}
 		
 		public void Version()
