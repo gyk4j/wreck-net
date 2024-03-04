@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
@@ -14,10 +15,11 @@ namespace Wreck
 	/// Description of MainForm.
 	/// </summary>
 	public partial class MainForm : Form
-	{		
+	{
 		private static readonly ILog log = LogManager.GetLogger(typeof(MainForm));
 		
 		private TreeNode rootNode;
+		private IDictionary<string, TreeNode> pathNodes;
 		private TreeNode pathNode;
 		private TreeNode dirNode;
 		private TreeNode fileNode;
@@ -53,6 +55,9 @@ namespace Wreck
 			this.rootNode.Name = "rootNode";
 			SetAppState(false);
 			this.treeViewPaths.Nodes.Add(this.rootNode);
+			this.treeViewPaths.ExpandAll();
+			
+			this.pathNodes = new Dictionary<string, TreeNode>();
 			
 			log.Debug("Initialized MainForm");
 		}
@@ -77,21 +82,40 @@ namespace Wreck
 			);
 		}
 		
+		public void AddPath(string p)
+		{
+			if(!pathNodes.ContainsKey(p))
+			{
+				TreeNode pathArgNode = new TreeNode();
+				pathArgNode.Name = p;
+				pathArgNode.Text = p;
+				
+				pathArgNode.ImageIndex = (int) TreeViewIcon.Start;
+				pathArgNode.SelectedImageIndex = (int) TreeViewIcon.Start;
+				
+				if(rootNode != null)
+				{
+					rootNode.Nodes.Add(pathArgNode);
+				}
+				else
+					log.Error("rootNode is null");
+				
+				pathNodes.Add(p, pathArgNode);
+			}
+			else
+			{
+				log.WarnFormat("Skipped possible duplicate path argument: {0}", p);
+			}
+		}
+		
 		public void CurrentPath(string p)
 		{
 			//log.InfoFormat("P: {0}", p);
 			SetCurrentFile(p);
 			
-			pathNode = new TreeNode();
-			pathNode.Name = p;
-			pathNode.Text = p;
-			
-			pathNode.ImageIndex = (int) TreeViewIcon.Start;
-			pathNode.SelectedImageIndex = (int) TreeViewIcon.Start;
-			
-			if(rootNode != null)
+			if(pathNodes.ContainsKey(p))
 			{
-				rootNode.Nodes.Add(pathNode);
+				pathNode = pathNodes[p];
 				
 				if(Directory.Exists(p))
 					dirNode = pathNode;
@@ -99,7 +123,9 @@ namespace Wreck
 					fileNode = pathNode;
 			}
 			else
-				log.Error("rootNode is null");
+			{
+				log.ErrorFormat("Non-existent path node: {0}", p);
+			}
 		}
 		
 		public void CurrentFile(FileInfo fi)
@@ -241,9 +267,27 @@ namespace Wreck
 		/// <param name="visit"></param>
 		public void SetAction(FileVisit visit)
 		{
-			if(pathNode == null || !visit.File.FullName.StartsWith(pathNode.Text))
+			// Update the current path node being processed?
+			if(pathNode == null && pathNodes.ContainsKey(visit.File.FullName))
 			{
-				string path = visit.File.FullName;
+				pathNode = pathNodes[visit.File.FullName];
+			}
+			else if(pathNode != null && !visit.File.FullName.StartsWith(pathNode.Text))
+			{
+				string p = visit.File.FullName;
+				
+				do
+				{
+					if(p != null && pathNodes.ContainsKey(p))
+						pathNode = pathNodes[p];
+					else
+						p = Path.GetDirectoryName(p);
+				} while(p != null && !pathNodes.ContainsKey(p));
+			}
+			
+			if(pathNode != null)
+			{
+				string path = pathNode.Text;
 				this.CurrentPath(path);
 			}
 			else if(visit.File is FileInfo)
