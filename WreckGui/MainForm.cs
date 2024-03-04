@@ -285,7 +285,7 @@ namespace Wreck
 				} while(p != null && !pathNodes.ContainsKey(p));
 			}
 			
-			if(pathNode != null)
+			if(pathNode != null && pathNode.Name.Equals(visit.File.FullName))
 			{
 				string path = pathNode.Text;
 				this.CurrentPath(path);
