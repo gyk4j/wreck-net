@@ -308,5 +308,15 @@ namespace Wreck
 			rootNode.ExpandAll();
 			toolStripProgressBar.Visible = false;
 		}
+		
+		public void Error(string startPath)
+		{
+			MessageBox.Show(
+				startPath + " is invalid.",
+				"Invalid path",
+				MessageBoxButtons.OK,
+				MessageBoxIcon.Error);
+			Application.Exit();
+		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using Java.Beans;
 using Javax.Swing;
 using Wreck.Entity;
@@ -17,14 +18,10 @@ namespace Wreck.Model
 		
 		private readonly SampleTableModel<FileBean> tableModel;
 //		private readonly ButtonModel metadataModel;
-//		private readonly IDictionary<SourceEnum, ButtonModel> sourceModel;
-//		private readonly Document dateTimeDocument;
-//		private readonly SpinnerNumberModel customDateTimeYearModel;
-//		private readonly SpinnerNumberModel customDateTimeMonthModel;
-//		private readonly SpinnerNumberModel customDateTimeDayModel;
-//		private readonly SpinnerDateModel customDateTimeModel;
+		private IDictionary<SourceEnum, Boolean> sourceModel;
+		private DateTime customDateTimeModel;
 		
-//		private readonly IDictionary<CorrectionEnum, ButtonModel> correctionModel;
+		private IDictionary<CorrectionEnum, Boolean> correctionModel;
 		
 //		private readonly DefaultButtonModel backupModel;
 //		private readonly DefaultButtonModel restoreModel;
@@ -48,11 +45,33 @@ namespace Wreck.Model
 			this.propertyChangeSupport = new PropertyChangeSupport(this);
 			this.tableModel = new SampleTableModel<FileBean>(typeof(FileBean));
 			
+			this.sourceModel = new Dictionary<SourceEnum, Boolean>();
+			this.customDateTimeModel = new DateTime();
+			this.correctionModel = new Dictionary<CorrectionEnum, Boolean>();
+			
 			this.fileStatisticsTableModel = new SampleTableModel<FileStatisticsBean>(typeof(FileStatisticsBean));
 			this.metadataStatisticsTableModel = new SampleTableModel<MetadataStatisticsBean>(typeof(MetadataStatisticsBean));
 			this.extensionStatisticsTableModel = new SampleTableModel<ExtensionStatisticsBean>(typeof(ExtensionStatisticsBean));
 		
 			this.scanningProgressModel = new DefaultBoundedRangeModel();
+		}
+		
+		public IDictionary<SourceEnum, bool> SourceModel
+		{
+			get { return sourceModel; }
+			set { sourceModel = value; }
+		}
+		
+		public DateTime CustomDateTimeModel
+		{
+			get { return customDateTimeModel; }
+			set { customDateTimeModel = value; }
+		}
+		
+		public IDictionary<CorrectionEnum, bool> CorrectionModel
+		{
+			get { return correctionModel; }
+			set { correctionModel = value; }
 		}
 		
 		public SampleTableModel<FileBean> TableModel
