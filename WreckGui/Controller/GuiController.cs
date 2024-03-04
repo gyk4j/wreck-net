@@ -35,6 +35,7 @@ namespace Wreck.Controller
 		{
 			this.model = model;
 			this.view = view;
+			PrefillPaths();
 		}
 		
 		public GuiModel Model
@@ -62,6 +63,32 @@ namespace Wreck.Controller
 				MessageBoxIcon.Error);
 			Application.Exit();
 		}
+		
+		private void PrefillPaths()
+		{
+			string[] args = Environment.GetCommandLineArgs();
+			string[] paths;
+			
+			// First arg is always null/empty.
+			if(args.Length > 1)
+			{
+				paths = new string[args.Length-1];
+				Array.Copy(args, 1, paths, 0, args.Length-1);
+			}
+			else
+			{
+				paths = new string[0];
+				Error();
+			}
+			
+			foreach(string p in paths)
+			{
+				if(Directory.Exists(p) || File.Exists(p))
+					View.GetMain().AddPath(p);
+				else
+					LOG.ErrorFormat("Unknown path type: {0}", p);
+			}
+		}
 
 		public override void Run(CorrectionMode mode, FileSystemInfo fsi)
 		{
@@ -81,7 +108,7 @@ namespace Wreck.Controller
 			
 			// FIXME: To check GUI control checkbox and textbox
 			DateTime customDateTime = DateTime.Now;
-			
+				
 			ITask task = Service.Run(fsi, mode, sources, corrections, customDateTime);
 			
 			PropertyChangeListener propertyChangeListener = new ProgressPropertyChangeListener(this);
