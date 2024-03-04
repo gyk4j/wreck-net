@@ -22,7 +22,7 @@ namespace Wreck.Controller
 		
 		private static readonly StatisticsCollector STATS = StatisticsCollector.Instance;
 		
-		private FileSystemInfo startPath;
+		protected FileSystemInfo startPath;
 		
 		private readonly WreckService service;
 		
@@ -59,7 +59,7 @@ namespace Wreck.Controller
 			Console.Error.WriteLine(startPath + " is invalid.");
 		}
 		
-		public void Start(string startPath)
+		public virtual void Start(string startPath)
 		{
 			if(Directory.Exists(startPath))
 				this.startPath =  new DirectoryInfo(startPath);
@@ -75,7 +75,7 @@ namespace Wreck.Controller
 			}
 		}
 		
-		public void Stop()
+		public virtual void Stop()
 		{
 			LOG.Info("Stopping and cleaning up...");
 			try

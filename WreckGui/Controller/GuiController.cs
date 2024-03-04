@@ -2,16 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
 
 using Java.Beans;
 using Javax.Swing;
 using log4net;
 using Wreck.Entity;
 using Wreck.IO;
+using Wreck.IO.Reader;
 using Wreck.IO.Task;
+using Wreck.IO.Writer;
 using Wreck.Model;
 using Wreck.Resources;
+using Wreck.Time;
 using Wreck.Util.Logging;
 using WreckGui.View;
 
@@ -54,14 +56,54 @@ namespace Wreck.Controller
 			set { worker = value; }
 		}
 		
+		/*
+		public override void Start(string startPath)
+		{
+			try
+			{
+				this.startPath = TimestampFormatter.IsValidPath(startPath);
+				Init();
+				View.GetMain().Show();
+			}
+			catch(Exception e)
+			{
+				LOG.ErrorFormat("Invalid path: {0}", e.Message);
+				Application.Exit();
+			}
+		}
+		
+		public override void Stop()
+		{
+			LOG.Info("Stopping and cleaning up...");
+			try
+			{
+				if(WriterFactory.IsInitialized())
+				{
+					LOG.Info("Closing writers...");
+					WriterFactory.Instance.Dispose();
+				}
+				
+				if(ReaderFactory.IsInitialized()) {
+					LOG.Info("Closing readers...");
+					ReaderFactory.Instance.Dispose();
+				}
+			}
+			catch (Exception e)
+			{
+				LOG.Error(e.StackTrace);
+			}
+		}
+		*/
+		
+		private void Init()
+		{
+			string title = startPath.FullName + " - " + R.Strings.AppTitle;
+			
+		}
+		
 		public override void Error()
 		{
-			MessageBox.Show(
-				StartPath + " is invalid.",
-				"Invalid path",
-				MessageBoxButtons.OK,
-				MessageBoxIcon.Error);
-			Application.Exit();
+			View.GetMain().Error(StartPath.FullName);
 		}
 		
 		private void PrefillPaths()
@@ -108,7 +150,7 @@ namespace Wreck.Controller
 			
 			// FIXME: To check GUI control checkbox and textbox
 			DateTime customDateTime = DateTime.Now;
-				
+			
 			ITask task = Service.Run(fsi, mode, sources, corrections, customDateTime);
 			
 			PropertyChangeListener propertyChangeListener = new ProgressPropertyChangeListener(this);
@@ -145,13 +187,13 @@ namespace Wreck.Controller
 				else if (R.Strings.PropertyProgress.Equals(evt.PropertyName))
 				{
 					int progress = (int)evt.NewValue;
-					LOG.InfoFormat("Progress: {0}% MessageLoop: {1}", progress, Application.MessageLoop);
+					LOG.InfoFormat("Progress: {0}%", progress);
 					controller.View.GetMain().SetProgress(progress);
 				}
 				else if (R.Strings.PropertyVisits.Equals(evt.PropertyName))
 				{
 					FileVisit visit = (FileVisit) evt.NewValue;
-					LOG.InfoFormat("Progress: {0}% - Visit: {1} MessageLoop: {2}", visit.Progress, visit.File.Name, Application.MessageLoop);
+					LOG.InfoFormat("Progress: {0}% - Visit: {1}", visit.Progress, visit.File.Name);
 					controller.View.GetMain().SetProgress(visit.Progress);
 					controller.View.GetMain().SetAction(visit);
 				}
