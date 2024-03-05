@@ -165,61 +165,85 @@ namespace Wreck.Model
 			if (PropertyChanged != null)
 			{
 				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-				
-				bool v;
-				if(propertyName.Equals("MetadataTags"))
-					v = MetadataTags;
-				else if(propertyName.Equals("FileSystemAttributes"))
-					v = FileSystemAttributes;
-				else if(propertyName.Equals("Custom"))
-					v = Custom;
-				else if(propertyName.Equals("Creation"))
-					v = Creation;
-				else if(propertyName.Equals("Modified"))
-					v = Modified;
-				else if(propertyName.Equals("Accessed"))
-					v = Accessed;
-				else
-					v = false;
-				
-				LOG.InfoFormat("{0} = {1}", propertyName, v);
 			}
 		}
 		
 		public bool MetadataTags
 		{
 			get { return SourceModel[SourceEnum.METADATA]; }
-			set { SourceModel[SourceEnum.METADATA] = value; }
+			set
+			{
+				if (value != SourceModel[SourceEnum.METADATA])
+				{
+					SourceModel[SourceEnum.METADATA] = value;
+					NotifyPropertyChanged("MetadataTags");
+				}
+			}
 		}
 		
 		public bool FileSystemAttributes
 		{
 			get { return SourceModel[SourceEnum.FILE_SYSTEM]; }
-			set { SourceModel[SourceEnum.FILE_SYSTEM] = value; }
+			set
+			{
+				if (value != SourceModel[SourceEnum.FILE_SYSTEM])
+				{
+					SourceModel[SourceEnum.FILE_SYSTEM] = value;
+					NotifyPropertyChanged("FileSystemAttributes");
+				}
+			}
 		}
 		
 		public bool Custom
 		{
 			get { return SourceModel[SourceEnum.CUSTOM]; }
-			set { SourceModel[SourceEnum.CUSTOM] = value; }
+			set
+			{
+				if (value != SourceModel[SourceEnum.CUSTOM])
+				{
+					SourceModel[SourceEnum.CUSTOM] = value;
+					NotifyPropertyChanged("Custom");
+				}
+			}
 		}
 		
 		public bool Creation
 		{
 			get { return CorrectionModel[CorrectionEnum.CREATION]; }
-			set { CorrectionModel[CorrectionEnum.CREATION] = value; }
+			set
+			{
+				if (value != CorrectionModel[CorrectionEnum.CREATION])
+				{
+					CorrectionModel[CorrectionEnum.CREATION] = value;
+					NotifyPropertyChanged("Creation");
+				}
+			}
 		}
 		
 		public bool Modified
 		{
 			get { return CorrectionModel[CorrectionEnum.MODIFIED]; }
-			set { CorrectionModel[CorrectionEnum.MODIFIED] = value; }
+			set
+			{
+				if (value != CorrectionModel[CorrectionEnum.MODIFIED])
+				{
+					CorrectionModel[CorrectionEnum.MODIFIED] = value;
+					NotifyPropertyChanged("Modified");
+				}
+			}
 		}
 		
 		public bool Accessed
 		{
 			get { return CorrectionModel[CorrectionEnum.ACCESSED]; }
-			set { CorrectionModel[CorrectionEnum.ACCESSED] = value; }
+			set
+			{
+				if (value != CorrectionModel[CorrectionEnum.ACCESSED])
+				{
+					CorrectionModel[CorrectionEnum.ACCESSED] = value;
+					NotifyPropertyChanged("Accessed");
+				}
+			}
 		}
 		
 		public string GetBindingDataMember(SourceEnum s)
