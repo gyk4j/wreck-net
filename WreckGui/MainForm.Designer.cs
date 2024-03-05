@@ -41,21 +41,25 @@ namespace Wreck
 			this.toolStrip = new System.Windows.Forms.ToolStrip();
 			this.btnRun = new System.Windows.Forms.ToolStripButton();
 			this.imageList = new System.Windows.Forms.ImageList(this.components);
-			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+			this.flowSettings = new System.Windows.Forms.FlowLayoutPanel();
 			this.grpTimestampSources = new System.Windows.Forms.GroupBox();
-			this.customSpinner = new System.Windows.Forms.DateTimePicker();
-			this.cbxCustom = new System.Windows.Forms.CheckBox();
-			this.cbxFileSystemAttributes = new System.Windows.Forms.CheckBox();
+			this.flowSources = new System.Windows.Forms.FlowLayoutPanel();
 			this.cbxMetadataTags = new System.Windows.Forms.CheckBox();
+			this.cbxFileSystemAttributes = new System.Windows.Forms.CheckBox();
+			this.cbxCustom = new System.Windows.Forms.CheckBox();
+			this.customSpinner = new System.Windows.Forms.DateTimePicker();
 			this.grpCorrectionTargets = new System.Windows.Forms.GroupBox();
-			this.cbxLastAccessed = new System.Windows.Forms.CheckBox();
-			this.cbxLastModified = new System.Windows.Forms.CheckBox();
+			this.flowTargets = new System.Windows.Forms.FlowLayoutPanel();
 			this.cbxCreation = new System.Windows.Forms.CheckBox();
+			this.cbxLastModified = new System.Windows.Forms.CheckBox();
+			this.cbxLastAccessed = new System.Windows.Forms.CheckBox();
 			this.statusStrip.SuspendLayout();
 			this.toolStrip.SuspendLayout();
-			this.flowLayoutPanel1.SuspendLayout();
+			this.flowSettings.SuspendLayout();
 			this.grpTimestampSources.SuspendLayout();
+			this.flowSources.SuspendLayout();
 			this.grpCorrectionTargets.SuspendLayout();
+			this.flowTargets.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// treeViewPaths
@@ -151,111 +155,146 @@ namespace Wreck
 			this.imageList.Images.SetKeyName(4, "app_idle.ico");
 			this.imageList.Images.SetKeyName(5, "app_running.ico");
 			// 
-			// flowLayoutPanel1
+			// flowSettings
 			// 
-			this.flowLayoutPanel1.Controls.Add(this.grpTimestampSources);
-			this.flowLayoutPanel1.Controls.Add(this.grpCorrectionTargets);
-			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(364, 25);
-			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(340, 395);
-			this.flowLayoutPanel1.TabIndex = 4;
+			this.flowSettings.Controls.Add(this.grpTimestampSources);
+			this.flowSettings.Controls.Add(this.grpCorrectionTargets);
+			this.flowSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.flowSettings.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+			this.flowSettings.Location = new System.Drawing.Point(364, 25);
+			this.flowSettings.Name = "flowSettings";
+			this.flowSettings.Size = new System.Drawing.Size(340, 395);
+			this.flowSettings.TabIndex = 4;
 			// 
 			// grpTimestampSources
 			// 
-			this.grpTimestampSources.Controls.Add(this.customSpinner);
-			this.grpTimestampSources.Controls.Add(this.cbxCustom);
-			this.grpTimestampSources.Controls.Add(this.cbxFileSystemAttributes);
-			this.grpTimestampSources.Controls.Add(this.cbxMetadataTags);
+			this.grpTimestampSources.AutoSize = true;
+			this.grpTimestampSources.Controls.Add(this.flowSources);
+			this.grpTimestampSources.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.grpTimestampSources.Location = new System.Drawing.Point(3, 3);
 			this.grpTimestampSources.Name = "grpTimestampSources";
-			this.grpTimestampSources.Size = new System.Drawing.Size(325, 122);
+			this.grpTimestampSources.Size = new System.Drawing.Size(331, 114);
 			this.grpTimestampSources.TabIndex = 0;
 			this.grpTimestampSources.TabStop = false;
 			this.grpTimestampSources.Text = "Timestamp Sources";
 			// 
-			// customSpinner
+			// flowSources
 			// 
-			this.customSpinner.CustomFormat = "yyyy/MM/dd HH:mm:ss";
-			this.customSpinner.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-			this.customSpinner.Location = new System.Drawing.Point(13, 90);
-			this.customSpinner.Name = "customSpinner";
-			this.customSpinner.Size = new System.Drawing.Size(306, 20);
-			this.customSpinner.TabIndex = 3;
-			// 
-			// cbxCustom
-			// 
-			this.cbxCustom.Location = new System.Drawing.Point(13, 60);
-			this.cbxCustom.Name = "cbxCustom";
-			this.cbxCustom.Size = new System.Drawing.Size(104, 24);
-			this.cbxCustom.TabIndex = 2;
-			this.cbxCustom.Text = "Custom";
-			this.cbxCustom.UseVisualStyleBackColor = true;
-			// 
-			// cbxFileSystemAttributes
-			// 
-			this.cbxFileSystemAttributes.Location = new System.Drawing.Point(13, 40);
-			this.cbxFileSystemAttributes.Name = "cbxFileSystemAttributes";
-			this.cbxFileSystemAttributes.Size = new System.Drawing.Size(138, 24);
-			this.cbxFileSystemAttributes.TabIndex = 1;
-			this.cbxFileSystemAttributes.Text = "File system attributes";
-			this.cbxFileSystemAttributes.UseVisualStyleBackColor = true;
+			this.flowSources.AutoSize = true;
+			this.flowSources.Controls.Add(this.cbxMetadataTags);
+			this.flowSources.Controls.Add(this.cbxFileSystemAttributes);
+			this.flowSources.Controls.Add(this.cbxCustom);
+			this.flowSources.Controls.Add(this.customSpinner);
+			this.flowSources.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.flowSources.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+			this.flowSources.Location = new System.Drawing.Point(3, 16);
+			this.flowSources.Name = "flowSources";
+			this.flowSources.Size = new System.Drawing.Size(325, 95);
+			this.flowSources.TabIndex = 4;
 			// 
 			// cbxMetadataTags
 			// 
-			this.cbxMetadataTags.Location = new System.Drawing.Point(13, 19);
+			this.cbxMetadataTags.AutoSize = true;
+			this.cbxMetadataTags.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.cbxMetadataTags.Location = new System.Drawing.Point(3, 3);
 			this.cbxMetadataTags.Name = "cbxMetadataTags";
-			this.cbxMetadataTags.Size = new System.Drawing.Size(104, 24);
+			this.cbxMetadataTags.Size = new System.Drawing.Size(319, 17);
 			this.cbxMetadataTags.TabIndex = 0;
 			this.cbxMetadataTags.Text = "Metadata tags";
 			this.cbxMetadataTags.UseVisualStyleBackColor = true;
 			// 
+			// cbxFileSystemAttributes
+			// 
+			this.cbxFileSystemAttributes.AutoSize = true;
+			this.cbxFileSystemAttributes.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.cbxFileSystemAttributes.Location = new System.Drawing.Point(3, 26);
+			this.cbxFileSystemAttributes.Name = "cbxFileSystemAttributes";
+			this.cbxFileSystemAttributes.Size = new System.Drawing.Size(319, 17);
+			this.cbxFileSystemAttributes.TabIndex = 1;
+			this.cbxFileSystemAttributes.Text = "File system attributes";
+			this.cbxFileSystemAttributes.UseVisualStyleBackColor = true;
+			// 
+			// cbxCustom
+			// 
+			this.cbxCustom.AutoSize = true;
+			this.cbxCustom.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.cbxCustom.Location = new System.Drawing.Point(3, 49);
+			this.cbxCustom.Name = "cbxCustom";
+			this.cbxCustom.Size = new System.Drawing.Size(319, 17);
+			this.cbxCustom.TabIndex = 2;
+			this.cbxCustom.Text = "Custom";
+			this.cbxCustom.UseVisualStyleBackColor = true;
+			// 
+			// customSpinner
+			// 
+			this.customSpinner.CustomFormat = "yyyy-MM-dd HH:mm:ss";
+			this.customSpinner.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+			this.customSpinner.Location = new System.Drawing.Point(3, 72);
+			this.customSpinner.Name = "customSpinner";
+			this.customSpinner.Size = new System.Drawing.Size(319, 20);
+			this.customSpinner.TabIndex = 3;
+			// 
 			// grpCorrectionTargets
 			// 
-			this.grpCorrectionTargets.Controls.Add(this.cbxLastAccessed);
-			this.grpCorrectionTargets.Controls.Add(this.cbxLastModified);
-			this.grpCorrectionTargets.Controls.Add(this.cbxCreation);
-			this.grpCorrectionTargets.Location = new System.Drawing.Point(3, 131);
+			this.grpCorrectionTargets.AutoSize = true;
+			this.grpCorrectionTargets.Controls.Add(this.flowTargets);
+			this.grpCorrectionTargets.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.grpCorrectionTargets.Location = new System.Drawing.Point(3, 123);
 			this.grpCorrectionTargets.Name = "grpCorrectionTargets";
-			this.grpCorrectionTargets.Size = new System.Drawing.Size(325, 115);
+			this.grpCorrectionTargets.Size = new System.Drawing.Size(331, 88);
 			this.grpCorrectionTargets.TabIndex = 1;
 			this.grpCorrectionTargets.TabStop = false;
 			this.grpCorrectionTargets.Text = "Correction Targets";
 			// 
-			// cbxLastAccessed
+			// flowTargets
 			// 
-			this.cbxLastAccessed.Location = new System.Drawing.Point(13, 59);
-			this.cbxLastAccessed.Name = "cbxLastAccessed";
-			this.cbxLastAccessed.Size = new System.Drawing.Size(104, 24);
-			this.cbxLastAccessed.TabIndex = 2;
-			this.cbxLastAccessed.Text = "Last accessed";
-			this.cbxLastAccessed.UseVisualStyleBackColor = true;
+			this.flowTargets.AutoSize = true;
+			this.flowTargets.Controls.Add(this.cbxCreation);
+			this.flowTargets.Controls.Add(this.cbxLastModified);
+			this.flowTargets.Controls.Add(this.cbxLastAccessed);
+			this.flowTargets.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.flowTargets.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+			this.flowTargets.Location = new System.Drawing.Point(3, 16);
+			this.flowTargets.Name = "flowTargets";
+			this.flowTargets.Size = new System.Drawing.Size(325, 69);
+			this.flowTargets.TabIndex = 3;
+			// 
+			// cbxCreation
+			// 
+			this.cbxCreation.AutoSize = true;
+			this.cbxCreation.Location = new System.Drawing.Point(3, 3);
+			this.cbxCreation.Name = "cbxCreation";
+			this.cbxCreation.Size = new System.Drawing.Size(65, 17);
+			this.cbxCreation.TabIndex = 0;
+			this.cbxCreation.Text = "Creation";
+			this.cbxCreation.UseVisualStyleBackColor = true;
 			// 
 			// cbxLastModified
 			// 
-			this.cbxLastModified.Location = new System.Drawing.Point(13, 38);
+			this.cbxLastModified.AutoSize = true;
+			this.cbxLastModified.Location = new System.Drawing.Point(3, 26);
 			this.cbxLastModified.Name = "cbxLastModified";
-			this.cbxLastModified.Size = new System.Drawing.Size(104, 24);
+			this.cbxLastModified.Size = new System.Drawing.Size(88, 17);
 			this.cbxLastModified.TabIndex = 1;
 			this.cbxLastModified.Text = "Last modified";
 			this.cbxLastModified.UseVisualStyleBackColor = true;
 			// 
-			// cbxCreation
+			// cbxLastAccessed
 			// 
-			this.cbxCreation.Location = new System.Drawing.Point(13, 19);
-			this.cbxCreation.Name = "cbxCreation";
-			this.cbxCreation.Size = new System.Drawing.Size(104, 24);
-			this.cbxCreation.TabIndex = 0;
-			this.cbxCreation.Text = "Creation";
-			this.cbxCreation.UseVisualStyleBackColor = true;
+			this.cbxLastAccessed.AutoSize = true;
+			this.cbxLastAccessed.Location = new System.Drawing.Point(3, 49);
+			this.cbxLastAccessed.Name = "cbxLastAccessed";
+			this.cbxLastAccessed.Size = new System.Drawing.Size(95, 17);
+			this.cbxLastAccessed.TabIndex = 2;
+			this.cbxLastAccessed.Text = "Last accessed";
+			this.cbxLastAccessed.UseVisualStyleBackColor = true;
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(704, 442);
-			this.Controls.Add(this.flowLayoutPanel1);
+			this.Controls.Add(this.flowSettings);
 			this.Controls.Add(this.toolStrip);
 			this.Controls.Add(this.statusStrip);
 			this.Controls.Add(this.treeViewPaths);
@@ -266,12 +305,22 @@ namespace Wreck
 			this.statusStrip.PerformLayout();
 			this.toolStrip.ResumeLayout(false);
 			this.toolStrip.PerformLayout();
-			this.flowLayoutPanel1.ResumeLayout(false);
+			this.flowSettings.ResumeLayout(false);
+			this.flowSettings.PerformLayout();
 			this.grpTimestampSources.ResumeLayout(false);
+			this.grpTimestampSources.PerformLayout();
+			this.flowSources.ResumeLayout(false);
+			this.flowSources.PerformLayout();
 			this.grpCorrectionTargets.ResumeLayout(false);
+			this.grpCorrectionTargets.PerformLayout();
+			this.flowTargets.ResumeLayout(false);
+			this.flowTargets.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.FlowLayoutPanel flowSettings;
+		private System.Windows.Forms.FlowLayoutPanel flowTargets;
+		private System.Windows.Forms.FlowLayoutPanel flowSources;
 		private System.Windows.Forms.CheckBox cbxCreation;
 		private System.Windows.Forms.CheckBox cbxLastModified;
 		private System.Windows.Forms.CheckBox cbxLastAccessed;
@@ -281,7 +330,6 @@ namespace Wreck
 		private System.Windows.Forms.CheckBox cbxMetadataTags;
 		private System.Windows.Forms.CheckBox cbxFileSystemAttributes;
 		private System.Windows.Forms.CheckBox cbxCustom;
-		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
 		private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
 		private System.Windows.Forms.ImageList imageList;
 		private System.Windows.Forms.ToolStrip toolStrip;
