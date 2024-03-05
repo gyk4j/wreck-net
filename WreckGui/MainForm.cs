@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 using log4net;
 using Wreck.Entity;
-using Wreck.Logging;
+using Wreck.Resources;
 
 namespace Wreck
 {
@@ -38,6 +38,9 @@ namespace Wreck
 		public const string AppStateIdle = "Idle";
 		public const string AppStateRunning = "Running";
 		
+		// This BindingSource binds the list to the DataGridView control.
+		private IDictionary<Control, BindingSource> bindings;
+		
 		public MainForm()
 		{
 			//
@@ -53,13 +56,73 @@ namespace Wreck
 			this.treeViewPaths.ImageList = this.imageList;
 			this.rootNode = new TreeNode();
 			this.rootNode.Name = "rootNode";
-			SetAppState(false);
+			
 			this.treeViewPaths.Nodes.Add(this.rootNode);
-			this.treeViewPaths.ExpandAll();
 			
 			this.pathNodes = new Dictionary<string, TreeNode>();
 			
+			bindings = new Dictionary<Control, BindingSource>();
+			
 			log.Debug("Initialized MainForm");
+		}
+		
+		void MainForm_Load(object sender, EventArgs e)
+		{
+			SetAppState(false);
+			this.treeViewPaths.ExpandAll();
+		}
+		
+		public void Bind(object source, SourceEnum type, string member)
+		{
+			Control control;
+			
+			if(type.Name.Equals(SourceEnum.METADATA.Name))
+			{
+				control = cbxMetadataTags;
+			}
+			else if(type.Name.Equals(SourceEnum.FILE_SYSTEM.Name))
+			{
+				control = cbxFileSystemAttributes;
+				
+			}
+			else if(type.Name.Equals(SourceEnum.CUSTOM.Name))
+			{
+				control = cbxCustom;
+			}
+			else
+			{
+				log.ErrorFormat("Unsupported member: {0}", Enum.GetName(typeof(SourceEnum), type));
+				throw new ArgumentException(type.Name);
+			}
+			
+			Binding binding = new Binding("Checked", source, member);
+			control.DataBindings.Add(binding);
+		}
+		
+		public void Bind(object source, CorrectionEnum type, string member)
+		{
+			Control control;
+			
+			if(type.Name.Equals(CorrectionEnum.CREATION.Name))
+			{
+				control = cbxCreation;
+			}
+			else if(type.Name.Equals(CorrectionEnum.MODIFIED.Name))
+			{
+				control = cbxLastModified;
+			}
+			else if(type.Name.Equals(CorrectionEnum.ACCESSED.Name))
+			{
+				control = cbxLastAccessed;
+			}
+			else
+			{
+				log.ErrorFormat("Unsupported member: {0}", Enum.GetName(typeof(CorrectionEnum), type));
+				throw new ArgumentException(type.Name);
+			}
+			
+			Binding binding = new Binding("Checked", source, member);
+			control.DataBindings.Add(binding);
 		}
 		
 		void BtnRunClick(object sender, EventArgs e)
