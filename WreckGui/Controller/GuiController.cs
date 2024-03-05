@@ -38,6 +38,7 @@ namespace Wreck.Controller
 			this.model = model;
 			this.view = view;
 			PrefillPaths();
+			Init();
 		}
 		
 		public GuiModel Model
@@ -95,10 +96,21 @@ namespace Wreck.Controller
 		}
 		*/
 		
-		private void Init()
+		protected override void Init()
 		{
-			string title = startPath.FullName + " - " + R.Strings.AppTitle;
+//			base.Init();
 			
+			foreach(SourceEnum s in SourceEnum.Values)
+			{
+				string member = Model.GetBindingDataMember(s);
+				View.GetMain().Bind(Model, s, member);
+			}
+			
+			foreach(CorrectionEnum c in CorrectionEnum.Values)
+			{
+				string member = Model.GetBindingDataMember(c);
+				View.GetMain().Bind(Model, c, member);
+			}
 		}
 		
 		public override void Error()

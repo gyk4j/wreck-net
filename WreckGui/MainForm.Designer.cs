@@ -261,6 +261,7 @@ namespace Wreck
 			this.Controls.Add(this.treeViewPaths);
 			this.Name = "MainForm";
 			this.Text = "WreckGui";
+			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.statusStrip.ResumeLayout(false);
 			this.statusStrip.PerformLayout();
 			this.toolStrip.ResumeLayout(false);

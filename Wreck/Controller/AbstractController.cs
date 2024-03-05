@@ -98,7 +98,7 @@ namespace Wreck.Controller
 			}
 		}
 		
-		private void Init()
+		protected virtual void Init()
 		{
 			string title = startPath.FullName + " - " + R.Strings.AppTitle;
 			LOG.InfoFormat("{0}\n", title);
