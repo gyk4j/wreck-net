@@ -95,7 +95,13 @@ namespace Wreck
 				throw new ArgumentException(type.Name);
 			}
 			
-			Binding binding = new Binding("Checked", source, member);
+			Binding binding = new Binding(
+				"Checked",
+				source,
+				member,
+				false,
+				DataSourceUpdateMode.OnPropertyChanged);
+			
 			control.DataBindings.Add(binding);
 		}
 		
@@ -121,7 +127,13 @@ namespace Wreck
 				throw new ArgumentException(type.Name);
 			}
 			
-			Binding binding = new Binding("Checked", source, member);
+			Binding binding = new Binding(
+				"Checked",
+				source,
+				member,
+				false,
+				DataSourceUpdateMode.OnPropertyChanged);
+			
 			control.DataBindings.Add(binding);
 		}
 		
