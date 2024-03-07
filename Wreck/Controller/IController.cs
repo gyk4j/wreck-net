@@ -11,7 +11,7 @@ namespace Wreck.Controller
 	public interface IController
 	{
 		void Error();
-		void Run(CorrectionMode mode, FileSystemInfo fsi);
+		void Run(CorrectionMode mode, string[] paths);
 		void Analyze();
 		void Backup();
 		void Repair();

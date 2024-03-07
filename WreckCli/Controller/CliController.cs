@@ -54,7 +54,7 @@ namespace Wreck.Controller
 			Environment.Exit(-1);
 		}
 		
-		public override void Run(CorrectionMode mode, FileSystemInfo fsi)
+		public override void Run(CorrectionMode mode, string[] paths)
 		{
 			Dictionary<SourceEnum, bool> sources = new Dictionary<SourceEnum, bool>();
 			foreach(SourceEnum s in SourceEnum.Values)
@@ -73,11 +73,11 @@ namespace Wreck.Controller
 			// FIXME: To check command line parameters
 			DateTime customDateTime = DateTime.Now;
 			
-			ITask task = Service.Run(fsi, mode, sources, corrections, customDateTime);
+			List<ITask> tasks = Service.Run(paths, mode, sources, corrections, customDateTime);
 			
 			PropertyChangeListener propertyChangeListener = new ProgressPropertyChangeListener(this);
 			
-			CliWorker pw = new CliWorker(task, fsi);
+			CliWorker pw = new CliWorker(tasks, paths);
 			pw.AddPropertyChangeListener(propertyChangeListener);
 			
 			// HACK: Worker must save the reference before Execute as this is single-threaded. 

@@ -205,35 +205,27 @@ namespace Wreck.Controller
 		private void Run(CorrectionMode mode)
 		{
 			string[] args = Environment.GetCommandLineArgs();
-			string[] dirs;
+			string[] paths;
 			
 			if(args.Length > 1)
 			{
-				dirs = new string[args.Length-1];
-				Array.Copy(args, 1, dirs, 0, args.Length-1);
+				paths = new string[args.Length-1];
+				Array.Copy(args, 1, paths, 0, args.Length-1);
 			}
 			else
 			{
-				dirs = new string[0];
+				paths = new string[0];
 				Error();
 			}
 			
-			foreach(string d in dirs)
-			{				
-				if(Directory.Exists(d))
-					Run(mode, new DirectoryInfo(d));
-				else if(File.Exists(d))
-					Run(mode, new FileInfo(d));
-				else
-					LOG.ErrorFormat("Unknown path type: {0}", d);
-			}
+			Run(mode, paths);
 		}
 		
-		public virtual void Run(CorrectionMode mode, FileSystemInfo fsi)
+		public virtual void Run(CorrectionMode mode, string[] paths)
 		{
 			LOG.InfoFormat("Mode: {0}, File: {1}", 
 			               Enum.GetName(typeof(CorrectionMode), mode), 
-			               fsi.FullName);
+			               string.Join(", ", paths));
 			throw new NotImplementedException();
 		}
 		

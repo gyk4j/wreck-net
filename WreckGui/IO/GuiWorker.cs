@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
@@ -20,11 +21,8 @@ namespace Wreck.IO
 	{
 		private static readonly ILog LOG = LogManager.GetLogger(typeof(GuiWorker));
 		
-		private readonly ITask task;
-		private readonly FileSystemInfo startPath;
-		
-		private readonly GuiCountVisitor countVisitor;
-		private readonly GuiVisitor visitor;
+		private readonly List<ITask> tasks;
+		private readonly string[] startPaths;
 		
 		private long total;
 		private int count;
@@ -32,20 +30,17 @@ namespace Wreck.IO
 		private FileVisit visit;
 		private FileBean fileBean;
 		
-		public GuiWorker(ITask task, FileSystemInfo startPath)
+		public GuiWorker(List<ITask> tasks, string[] startPaths)
 		{
 			this.total = 0;
 			this.count = 0;
-			this.task = task;
-			this.startPath = startPath;
-			this.countVisitor = new GuiCountVisitor(this);
-			this.visitor = new GuiVisitor(this);
+			this.tasks = tasks;
+			this.startPaths = startPaths;
 		}
 		
-		public ITask Task { get { return task; } }
-		private FileSystemInfo StartPath { get { return startPath; } }
-		private GuiCountVisitor CountVisitor { get { return countVisitor; } }
-		private GuiVisitor Visitor { get { return visitor; } }
+		public List<ITask> Tasks { get { return tasks; } }
+		private string[] StartPaths { get { return startPaths; } }
+		
 		private long Total
 		{
 			get { return total; }
@@ -69,15 +64,39 @@ namespace Wreck.IO
 			Total = 0;
 			Count = 0;
 			
-			Files.WalkFileTree(
-				StartPath,
-				CountVisitor);
+			Debug.Assert(StartPaths.Length == Tasks.Count);
+			
+			int len = Math.Min(StartPaths.Length, Tasks.Count);
+			
+			for(int i = 0; i < len; i++)
+			{
+				string p = StartPaths[i];
+				FileSystemInfo startPath;
+				
+				if(Directory.Exists(p))
+					startPath = new DirectoryInfo(p);
+				else if(File.Exists(p))
+					startPath = new FileInfo(p);
+				else
+					throw new IOException("Unsupported file type: " + p);
+				
+				ITask task = Tasks[i];
+				
+				GuiCountVisitor countVisitor = new GuiCountVisitor(this);
+				
+				Files.WalkFileTree(
+					startPath,
+					countVisitor);
 
-			LOG.InfoFormat("{0} total files detected.", Total);
+				LOG.InfoFormat("{0} total files detected.", Total);
+				
+				
+				GuiVisitor visitor = new GuiVisitor(this, task);
 
-			Files.WalkFileTree(
-				StartPath,
-				Visitor);
+				Files.WalkFileTree(
+					startPath,
+					visitor);
+			}
 			
 			// Return if background worker is cancelled by user.
 			return IsCancelled()? "Cancelled" : "Done";
