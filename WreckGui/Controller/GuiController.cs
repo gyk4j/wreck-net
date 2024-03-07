@@ -144,7 +144,7 @@ namespace Wreck.Controller
 			}
 		}
 
-		public override void Run(CorrectionMode mode, FileSystemInfo fsi)
+		public override void Run(CorrectionMode mode, string[] paths)
 		{
 			Dictionary<SourceEnum, bool> sources = new Dictionary<SourceEnum, bool>();
 			foreach(SourceEnum s in SourceEnum.Values)
@@ -163,11 +163,11 @@ namespace Wreck.Controller
 			// FIXME: To check GUI control checkbox and textbox
 			DateTime customDateTime = DateTime.Now;
 			
-			ITask task = Service.Run(fsi, mode, sources, corrections, customDateTime);
+			List<ITask> tasks = Service.Run(paths, mode, sources, corrections, customDateTime);
 			
 			PropertyChangeListener propertyChangeListener = new ProgressPropertyChangeListener(this);
 			
-			GuiWorker pw = new GuiWorker(task, fsi);
+			GuiWorker pw = new GuiWorker(tasks, paths);
 			pw.AddPropertyChangeListener(propertyChangeListener);
 			pw.Execute();
 			Worker = pw; // Need to save to Worker for cleanup later.

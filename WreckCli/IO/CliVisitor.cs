@@ -7,6 +7,7 @@ using Java.NIO.File;
 using log4net;
 using Wreck.Entity;
 using Wreck.IO;
+using Wreck.IO.Task;
 using Wreck.Resources;
 using Wreck.Util.Logging;
 
@@ -21,10 +22,12 @@ namespace Wreck.IO
 		private static readonly StatisticsCollector STATS = StatisticsCollector.Instance;
 		
 		CliWorker progressWorker = null;
+		ITask task = null;
 		
-		public CliVisitor(CliWorker progressWorker) : base()
+		public CliVisitor(CliWorker progressWorker, ITask task) : base()
 		{
 			this.progressWorker = progressWorker;
+			this.task = task;
 		}
 	
 		public override FileVisitResult PreVisitDirectory(DirectoryInfo dir)
@@ -33,7 +36,7 @@ namespace Wreck.IO
 			progressWorker.Publish(visit);
 			
 			base.PreVisitDirectory(dir);
-			progressWorker.Task.PreVisitDirectory(Suggestions, dir);
+			task.PreVisitDirectory(Suggestions, dir);
 			
 			return FileVisitResult.Continue;
 		}
@@ -41,7 +44,7 @@ namespace Wreck.IO
 		public override FileVisitResult PostVisitDirectory(DirectoryInfo dir, IOException exc)
 		{			
 			base.PostVisitDirectory(dir, exc);
-			progressWorker.Task.PostVisitDirectory(Suggestions, dir);
+			task.PostVisitDirectory(Suggestions, dir);
 			
 			return FileVisitResult.Continue;
 		}
@@ -57,7 +60,7 @@ namespace Wreck.IO
 			FileVisit visit = new FileVisit(file);
 			progressWorker.Publish(visit);
 			
-			progressWorker.Task.VisitFile(Suggestions, file);
+			task.VisitFile(Suggestions, file);
 			
 			return FileVisitResult.Continue;
 		}
@@ -65,7 +68,7 @@ namespace Wreck.IO
 		public override FileVisitResult VisitFileFailed(FileSystemInfo file, IOException exc)
 		{			
 			base.VisitFileFailed(file, exc);
-			progressWorker.Task.VisitFileFailed(Suggestions, file, exc);
+			task.VisitFileFailed(Suggestions, file, exc);
 			
 			return FileVisitResult.Continue;
 		}

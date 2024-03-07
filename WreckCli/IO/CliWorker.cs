@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 using Java.Beans;
@@ -28,27 +29,23 @@ namespace Wreck.IO
 		
 		private readonly PropertyChangeSupport propertyChangeSupport;
 		
-		private readonly ITask task;
-		private readonly FileSystemInfo startPath;
-		
-		private readonly CliVisitor visitor;
+		private readonly List<ITask> tasks;
+		private readonly string[] startPaths;
 		
 		private FileVisit visit;
 //		private FileBean fileBean;
 		
-		public CliWorker(ITask task, FileSystemInfo startPath)
+		public CliWorker(List<ITask> tasks, string[] startPaths)
 		{
 			state = StateValue.Pending;
 			propertyChangeSupport = new PropertyChangeSupport(this);
 			
-			this.task = task;
-			this.startPath = startPath;
-			this.visitor = new CliVisitor(this);
+			this.tasks = tasks;
+			this.startPaths = startPaths;
 		}
 		
-		public ITask Task { get { return task; } }
-		private FileSystemInfo StartPath { get { return startPath; } }
-		private AbstractFileVisitor Visitor { get { return visitor; } }
+		public List<ITask> Tasks { get { return tasks; } }
+		private string[] StartPaths { get { return startPaths; } }
 		
 		public void Execute()
 		{
@@ -67,9 +64,28 @@ namespace Wreck.IO
 		
 		protected string DoInBackground()
 		{
-			Files.WalkFileTree(
-				StartPath,
-				Visitor);
+			Debug.Assert(StartPaths.Length == Tasks.Count);
+			
+			int len = Math.Min(StartPaths.Length, Tasks.Count);
+			
+			for(int i = 0; i < len; i++)
+			{
+				string p = StartPaths[i];
+				FileSystemInfo startPath;
+				if(Directory.Exists(p))
+					startPath = new DirectoryInfo(p);
+				else if(File.Exists(p))
+					startPath = new FileInfo(p);
+				else
+					throw new IOException("Unsupported file type: " + p);
+				
+				ITask task = Tasks[i];
+				CliVisitor visitor = new CliVisitor(this, task);
+				
+				Files.WalkFileTree(
+					startPath,
+					visitor);
+			}
 			
 			// Return if background worker is cancelled by user.
 			return IsCancelled()? "Cancelled" : "Done";
@@ -192,7 +208,7 @@ namespace Wreck.IO
 				}
 			);
 		}
-		*/
+		 */
 		
 		public void Publish(params FileVisit[] chunks)
 		{

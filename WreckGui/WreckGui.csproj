@@ -8,7 +8,7 @@
     <AssemblyName>WreckGui</AssemblyName>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <SourceAnalysisOverrideSettingsFile>C:\Users\USER\AppData\Roaming\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
-    <StartArguments>"C:\temp\Public\Pictures"</StartArguments>
+    <StartArguments>"C:\temp\Public\Pictures" "C:\temp\Public\Downloads" "C:\temp\Public\Videos" "C:\temp\Public\Music" "C:\temp\Public\Documents"</StartArguments>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <NoStdLib>False</NoStdLib>
     <WarningLevel>4</WarningLevel>
@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\GuiController.cs" />
-    <Compile Include="IO\FileCountVisitor.cs" />
+    <Compile Include="IO\GuiCountVisitor.cs" />
     <Compile Include="IO\GuiVisitor.cs" />
     <Compile Include="IO\GuiWorker.cs" />
     <Compile Include="MainForm.cs" />
