@@ -111,6 +111,9 @@ namespace Wreck.Controller
 				string member = Model.GetBindingDataMember(c);
 				View.GetMain().Bind(Model, c, member);
 			}
+			
+			string m = Model.GetBindingDataMember();
+			View.GetMain().Bind(Model, m);
 		}
 		
 		public override void Error()
@@ -149,19 +152,16 @@ namespace Wreck.Controller
 			Dictionary<SourceEnum, bool> sources = new Dictionary<SourceEnum, bool>();
 			foreach(SourceEnum s in SourceEnum.Values)
 			{
-				// FIXME: To check GUI control checkbox
-				sources.Add(s, true);
+				sources.Add(s, Model.SourceModel[s]);
 			}
 			
 			Dictionary<CorrectionEnum, bool> corrections = new Dictionary<CorrectionEnum, bool>();
 			foreach(CorrectionEnum c in CorrectionEnum.Values)
 			{
-				// FIXME: To check GUI control checkbox
-				corrections.Add(c, true);
+				corrections.Add(c, Model.CorrectionModel[c]);
 			}
 			
-			// FIXME: To check GUI control checkbox and textbox
-			DateTime customDateTime = DateTime.Now;
+			DateTime customDateTime = Model.CustomDateTimeModel;
 			
 			List<ITask> tasks = Service.Run(paths, mode, sources, corrections, customDateTime);
 			

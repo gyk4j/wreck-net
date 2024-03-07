@@ -65,6 +65,8 @@ namespace Wreck
 			model.PropertyChanged += delegate(object sender, PropertyChangedEventArgs e)
 			{
 				bool? v = new bool?();
+				DateTime? dt = new DateTime?();
+				
 				if(e.PropertyName.Equals("MetadataTags"))
 					v = model.MetadataTags;
 				else if(e.PropertyName.Equals("FileSystemAttributes"))
@@ -77,12 +79,15 @@ namespace Wreck
 					v = model.Modified;
 				else if(e.PropertyName.Equals("Accessed"))
 					v = model.Accessed;
+				else if(e.PropertyName.Equals("CustomDateTimeModel"))
+					dt = model.CustomDateTimeModel;
 				else
 					log.ErrorFormat("Unknown property: {0}", e.PropertyName);
-										
-				log.DebugFormat("{0} = {1}", 
-				                e.PropertyName, 
-				                v.HasValue? v.Value.ToString(): "?");
+
+				if(v.HasValue)
+					log.DebugFormat("{0} = {1}", e.PropertyName, v.Value.ToString());
+				else if(dt.HasValue)
+					log.DebugFormat("{0} = {1}", e.PropertyName, dt.Value.ToString());
 			};
 			
 			Application.Run(view.GetMain());

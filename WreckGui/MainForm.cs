@@ -137,6 +137,20 @@ namespace Wreck
 			control.DataBindings.Add(binding);
 		}
 		
+		public void Bind(object source, string member)
+		{
+			// HACK: must be true if not subsequent correction enum checkboxes would not be bound properly. 
+			//       Maybe date time string parsing between DateTimePicker 
+			//       (string) and model DateTime crashes?
+			Binding binding = new Binding(
+				"Value",
+				source,
+				member,
+				true,
+				DataSourceUpdateMode.OnPropertyChanged);
+			dtpCustom.DataBindings.Add(binding);
+		}
+		
 		void BtnRunClick(object sender, EventArgs e)
 		{
 			Program.Controller.Repair();

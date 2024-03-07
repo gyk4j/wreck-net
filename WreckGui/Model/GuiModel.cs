@@ -81,7 +81,14 @@ namespace Wreck.Model
 		public DateTime CustomDateTimeModel
 		{
 			get { return customDateTimeModel; }
-			set { customDateTimeModel = value; }
+			set
+			{
+				if (value != customDateTimeModel)
+				{
+					customDateTimeModel = value;
+					NotifyPropertyChanged("CustomDateTimeModel");
+				}
+			}
 		}
 		
 		public IDictionary<CorrectionEnum, bool> CorrectionModel
@@ -276,6 +283,11 @@ namespace Wreck.Model
 				member = string.Empty;
 			
 			return member;
+		}
+		
+		public string GetBindingDataMember()
+		{
+			return "CustomDateTimeModel";
 		}
 	}
 }

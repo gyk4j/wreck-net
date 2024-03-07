@@ -47,7 +47,7 @@ namespace Wreck
 			this.cbxMetadataTags = new System.Windows.Forms.CheckBox();
 			this.cbxFileSystemAttributes = new System.Windows.Forms.CheckBox();
 			this.cbxCustom = new System.Windows.Forms.CheckBox();
-			this.customSpinner = new System.Windows.Forms.DateTimePicker();
+			this.dtpCustom = new System.Windows.Forms.DateTimePicker();
 			this.grpCorrectionTargets = new System.Windows.Forms.GroupBox();
 			this.flowTargets = new System.Windows.Forms.FlowLayoutPanel();
 			this.cbxCreation = new System.Windows.Forms.CheckBox();
@@ -184,7 +184,7 @@ namespace Wreck
 			this.flowSources.Controls.Add(this.cbxMetadataTags);
 			this.flowSources.Controls.Add(this.cbxFileSystemAttributes);
 			this.flowSources.Controls.Add(this.cbxCustom);
-			this.flowSources.Controls.Add(this.customSpinner);
+			this.flowSources.Controls.Add(this.dtpCustom);
 			this.flowSources.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.flowSources.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
 			this.flowSources.Location = new System.Drawing.Point(3, 16);
@@ -225,14 +225,14 @@ namespace Wreck
 			this.cbxCustom.Text = "Custom";
 			this.cbxCustom.UseVisualStyleBackColor = true;
 			// 
-			// customSpinner
+			// dtpCustom
 			// 
-			this.customSpinner.CustomFormat = "yyyy-MM-dd HH:mm:ss";
-			this.customSpinner.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-			this.customSpinner.Location = new System.Drawing.Point(3, 72);
-			this.customSpinner.Name = "customSpinner";
-			this.customSpinner.Size = new System.Drawing.Size(319, 20);
-			this.customSpinner.TabIndex = 3;
+			this.dtpCustom.CustomFormat = "yyyy-MM-dd HH:mm:ss";
+			this.dtpCustom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+			this.dtpCustom.Location = new System.Drawing.Point(3, 72);
+			this.dtpCustom.Name = "dtpCustom";
+			this.dtpCustom.Size = new System.Drawing.Size(319, 20);
+			this.dtpCustom.TabIndex = 3;
 			// 
 			// grpCorrectionTargets
 			// 
@@ -318,6 +318,7 @@ namespace Wreck
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.DateTimePicker dtpCustom;
 		private System.Windows.Forms.FlowLayoutPanel flowSettings;
 		private System.Windows.Forms.FlowLayoutPanel flowTargets;
 		private System.Windows.Forms.FlowLayoutPanel flowSources;
@@ -325,7 +326,6 @@ namespace Wreck
 		private System.Windows.Forms.CheckBox cbxLastModified;
 		private System.Windows.Forms.CheckBox cbxLastAccessed;
 		private System.Windows.Forms.GroupBox grpCorrectionTargets;
-		private System.Windows.Forms.DateTimePicker customSpinner;
 		private System.Windows.Forms.GroupBox grpTimestampSources;
 		private System.Windows.Forms.CheckBox cbxMetadataTags;
 		private System.Windows.Forms.CheckBox cbxFileSystemAttributes;
