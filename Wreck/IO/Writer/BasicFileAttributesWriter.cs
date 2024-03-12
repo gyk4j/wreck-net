@@ -24,13 +24,7 @@ namespace Wreck.IO.Writer
 		{
 			// TODO: To be removed after tracing.
 			LOG.DebugFormat("--- {0} ---", file.FullName);
-			foreach(KeyValuePair<CorrectionEnum, DateTime> entry in values)
-			{
-				LOG.DebugFormat(
-					"{0} = {1}",
-					entry.Key.Name,
-					entry.Value.ToString());
-			}
+			Logging.Dumper.Dump(values);
 			// TODO: To be removed after tracing.
 			
 			DateTime? creation = WriteAttribute(

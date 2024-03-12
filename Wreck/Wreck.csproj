@@ -88,6 +88,7 @@
     <Compile Include="IO\Writer\BasicFileAttributesWriter.cs" />
     <Compile Include="IO\Writer\ITimestampWriter.cs" />
     <Compile Include="IO\Writer\WriterFactory.cs" />
+    <Compile Include="Logging\Dumper.cs" />
     <Compile Include="Logging\TextFormatter.cs" />
     <Compile Include="Parser\ExifToolParser.cs" />
     <Compile Include="Parser\IFileDateable.cs" />
