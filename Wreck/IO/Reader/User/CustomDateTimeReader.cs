@@ -24,7 +24,7 @@ namespace Wreck.IO.Reader.User
 		
 		public CustomDateTimeReader() : base()
 		{
-			custom = new DateTime();
+			custom = DateTime.Now;
 		}
 		
 		public override string[] Creation()
