@@ -22,5 +22,13 @@ namespace Wreck.Logging
 					entry.Value.ToString());
 			}
 		}
+		
+		public static void Dump<T>(IList<T> values)
+		{
+			foreach(T v in values)
+			{
+				LOG.DebugFormat("{0}", v.ToString());
+			}
+		}
 	}
 }
