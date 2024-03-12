@@ -57,7 +57,7 @@ namespace Wreck.Model
 				this.SourceModel.Add(s, true);
 			}
 			
-			this.customDateTimeModel = new DateTime();
+			this.customDateTimeModel = DateTime.Now;
 			
 			this.correctionModel = new Dictionary<CorrectionEnum, Boolean>();
 			foreach(CorrectionEnum c in CorrectionEnum.Values)
