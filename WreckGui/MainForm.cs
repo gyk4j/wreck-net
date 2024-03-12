@@ -149,6 +149,8 @@ namespace Wreck
 				true,
 				DataSourceUpdateMode.OnPropertyChanged);
 			dtpCustom.DataBindings.Add(binding);
+			dtpCustom.MinDate = new DateTime(1980, 1, 1);
+			dtpCustom.MaxDate = DateTime.Now;
 		}
 		
 		void BtnRunClick(object sender, EventArgs e)
