@@ -16,9 +16,14 @@ namespace Wreck.Logging
 		{
 			foreach(KeyValuePair<K, V> entry in values)
 			{
+				Type type = entry.Key.GetType();
+				string key = type.IsEnum? 
+					Enum.GetName(type, entry.Key): 
+					entry.Key.ToString();
+				
 				LOG.DebugFormat(
 					"{0} = {1}",
-					entry.Key.ToString(),
+					key,
 					entry.Value.ToString());
 			}
 		}
