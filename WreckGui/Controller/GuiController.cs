@@ -199,20 +199,20 @@ namespace Wreck.Controller
 				else if (R.Strings.PropertyProgress.Equals(evt.PropertyName))
 				{
 					int progress = (int)evt.NewValue;
-					LOG.InfoFormat("Progress: {0}%", progress);
+					LOG.DebugFormat("Progress: {0}%", progress);
 					controller.View.GetMain().SetProgress(progress);
 				}
 				else if (R.Strings.PropertyVisits.Equals(evt.PropertyName))
 				{
 					FileVisit visit = (FileVisit) evt.NewValue;
-					LOG.InfoFormat("Progress: {0}% - Visit: {1}", visit.Progress, visit.File.Name);
+					LOG.DebugFormat("Progress: {0}% - Visit: {1}", visit.Progress, visit.File.Name);
 					controller.View.GetMain().SetProgress(visit.Progress);
 					controller.View.GetMain().SetAction(visit);
 				}
 				else if(R.Strings.PropertyBean.Equals(evt.PropertyName))
 				{
 					FileBean update = (FileBean) evt.NewValue;
-					LOG.InfoFormat("FileBean: {0} {1} {2} {3} {4}",
+					LOG.DebugFormat("FileBean: {0} {1} {2} {3} {4}",
 					               update.Path.Name,
 					               update.Creation.ToString(),
 					               update.Modified.ToString(),
